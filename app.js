@@ -1,117 +1,152 @@
-// Chave e Senha Padrão
-const SENHA_CORRETA = "baki123";
+/* ==========================================================================
+   1. CONFIGURAÇÕES E ESTADO DO SISTEMA
+   ========================================================================== */
+const CHAVE_ACESSO_CORRETA = "1234"; // Defina aqui sua senha de 4 dígitos
 
-// Inicializa a senha no localStorage se não existir
-if (!localStorage.getItem("app_password")) {
-    localStorage.setItem("app_password", SENHA_CORRETA);
+// Carrega o estado do login quando a página inicia
+document.addEventListener("DOMContentLoaded", () => {
+  const loginSalvo = localStorage.getItem("rpg_treino_logado");
+  
+  if (loginSalvo === "true") {
+    mostrarDashboard();
+  }
+  
+  // Carrega as metas do diário que foram salvas anteriormente
+  carregarMetas();
+});
+
+/* ==========================================================================
+   2. SISTEMA DE LOGIN (SPA)
+   ========================================================================== */
+function tentarLogin() {
+  const campoSenha = document.getElementById("login-key");
+  const msgErro = document.getElementById("login-error");
+  
+  if (campoSenha.value === CHAVE_ACESSO_CORRETA) {
+    msgErro.textContent = "";
+    localStorage.setItem("rpg_treino_logado", "true");
+    mostrarDashboard();
+    campoSenha.value = ""; // Limpa o campo
+  } else {
+    msgErro.textContent = "Chave incorreta. Acesso negado.";
+    campoSenha.value = "";
+    campoSenha.focus();
+  }
 }
 
-// ================= TELA DE LOGIN =================
-function realizarLogin() {
-    const inputSenha = document.getElementById("input-senha").value;
-    const senhaSalva = localStorage.getItem("app_password");
-    const erroMsg = document.getElementById("login-erro");
+// Permite dar 'Enter' no campo de senha para logar
+document.getElementById("login-key").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    tentarLogin();
+  }
+});
 
-    if (inputSenha === senhaSalva) {
-        document.getElementById("page-login").classList.remove("active");
-        document.getElementById("page-dashboard").classList.add("active");
-        inicializarBanco();
-    } else {
-        erroMsg.textContent = "Senha incorreta. Acesso negado.";
-    }
+function mostrarDashboard() {
+  document.getElementById("page-login").classList.remove("active");
+  document.getElementById("page-dashboard").classList.add("active");
 }
 
-function realizarLogout() {
-    document.getElementById("page-dashboard").classList.remove("active");
-    document.getElementById("page-login").classList.add("active");
-    document.getElementById("input-senha").value = "";
+function logout() {
+  localStorage.removeItem("rpg_treino_logado");
+  document.getElementById("page-dashboard").classList.remove("active");
+  document.getElementById("page-login").classList.add("active");
 }
 
-// ================= NAVEGAÇÃO DE ABAS =================
-function mudarAba(tabId) {
-    document.querySelectorAll(".tab-pane").forEach(pane => pane.classList.remove("active"));
-    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+/* ==========================================================================
+   3. NAVEGAÇÃO ENTRE ABAS
+   ========================================================================== */
+function mudarAba(tabId, botaoClicado) {
+  // 1. Oculta todas as abas de conteúdo
+  const todasAsAbas = document.querySelectorAll(".tab-pane");
+  todasAsAbas.forEach(aba => {
+    aba.classList.remove("active");
+  });
 
-    document.getElementById(tabId).classList.add("active");
-    event.target.classList.add("active");
+  // 2. Remove o destaque ativo de todos os botões da nav
+  const todosOsBotoes = document.querySelectorAll(".tab-btn");
+  todosOsBotoes.forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  // 3. Mostra a aba selecionada
+  const abaAlvo = document.getElementById(tabId);
+  if (abaAlvo) {
+    abaAlvo.classList.add("active");
+  }
+
+  // 4. Destaca o botão clicado
+  if (botaoClicado) {
+    botaoClicado.classList.add("active");
+  }
 }
 
-// ================= BANCO DE DADOS (LOCAL STORAGE) =================
-let db = [];
+/* ==========================================================================
+   4. PERSISTÊNCIA DO DIÁRIO (LocalStorage)
+   ========================================================================== */
+function salvarMetas() {
+  const checkboxes = document.querySelectorAll("#tab-diario input[type='checkbox']");
+  const estadoMetas = [];
 
-function inicializarBanco() {
-    const dadosSalvos = localStorage.getItem("rpg_history");
-    db = dadosSalvos ? JSON.parse(dadosSalvos) : [];
-    carregarProgressoDia();
-    gerarRelatorios();
+  checkboxes.forEach((checkbox, index) => {
+    estadoMetas.push({
+      id: index,
+      concluido: checkbox.checked
+    });
+  });
+
+  // Salva a lista convertida em texto no LocalStorage
+  localStorage.setItem("rpg_treino_metas", JSON.stringify(estadoMetas));
+  
+  // Atualiza dinamicamente o círculo de progresso do pilar de Foco Diário
+  atualizarProgressoFoco(estadoMetas);
 }
 
-function salvarDadosDia(data, progresso) {
-    // Procura se já existe registro para hoje, se sim, atualiza. Se não, adiciona.
-    const index = db.findIndex(item => item.data === data);
-    if (index !== -1) {
-        db[index].progresso = progresso;
-    } else {
-        db.push({ data, progresso });
-    }
-    localStorage.setItem("rpg_history", JSON.stringify(db));
-    gerarRelatorios();
-}
+function carregarMetas() {
+  const metasSalvas = localStorage.getItem("rpg_treino_metas");
+  const checkboxes = document.querySelectorAll("#tab-diario input[type='checkbox']");
 
-// ================= CÁLCULOS E GAMEPLAY =================
-function atualizarProgresso() {
-    let xp = 0;
-    if (document.getElementById("task-treino").checked) xp += 25;
-    if (document.getElementById("task-agua").checked) xp += 10;
-    if (document.getElementById("task-leitura").checked) xp += 15;
-    if (document.getElementById("task-penitencia").checked) xp += 15;
-
-    // Atualiza o gráfico circular do Pilar Corpo como exemplo de XP de treino
-    let pctCorpo = document.getElementById("task-treino").checked ? 100 : 0;
-    setCircleProgress("ring-corpo", "pct-corpo", pctCorpo);
-
-    // Salva o dia atual no formato AAAA-MM-DD
-    const hoje = new Date().toISOString().split('T')[0];
-    salvarDadosDia(hoje, xp);
-}
-
-function setCircleProgress(circleId, textId, percent) {
-    const circle = document.getElementById(circleId);
-    const text = document.getElementById(textId);
-    const radius = circle.r.baseVal.value;
-    const circumference = radius * 2 * Math.PI;
-
-    circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    const offset = circumference - (percent / 100) * circumference;
-    circle.style.strokeDashoffset = offset;
-    text.textContent = `${percent}%`;
-}
-
-function gerarRelatorios() {
-    if (db.length === 0) return;
+  if (metasSalvas && checkboxes.length > 0) {
+    const estadoMetas = JSON.parse(metasSalvas);
     
-    // Cálculo simples de XP acumulado para simular o relatório
-    const totalXp = db.reduce((sum, item) => sum + item.progresso, 0);
-    const media = Math.round(totalXp / db.length);
-
-    document.getElementById("stat-semana").textContent = `${media}%`;
-    document.getElementById("stat-mes").textContent = `${media}%`;
+    estadoMetas.forEach(meta => {
+      if (checkboxes[meta.id]) {
+        checkboxes[meta.id].checked = meta.concluido;
+      }
+    });
+    
+    atualizarProgressoFoco(estadoMetas);
+  } else {
+    // Se não houver nada salvo, o progresso inicial de foco é 0%
+    atualizarCirculoFoco(0);
+  }
 }
 
-function carregarProgressoDia() {
-    const hoje = new Date().toISOString().split('T')[0];
-    const registroHoje = db.find(item => item.data === hoje);
-    if (registroHoje) {
-        // Carrega o estado das tarefas salvas
-        // (Aqui você associará os checkboxes com as tarefas salvas futuramente)
-    }
+/* ==========================================================================
+   5. CONTROLE DINÂMICO DOS CÍRCULOS DE PROGRESSO (SVG)
+   ========================================================================== */
+function atualizarProgressoFoco(estadoMetas) {
+  if (estadoMetas.length === 0) return;
+  
+  const total = estadoMetas.length;
+  const concluidas = estadoMetas.filter(meta => meta.concluido).length;
+  const porcentagem = Math.round((concluidas / total) * 100);
+  
+  atualizarCirculoFoco(porcentagem);
 }
 
-function limparHistorico() {
-    if (confirm("Deseja realmente apagar todo o seu histórico de evolução?")) {
-        localStorage.removeItem("rpg_history");
-        db = [];
-        gerarRelatorios();
-        alert("Evolução reiniciada.");
-    }
+function atualizarCirculoFoco(porcentagem) {
+  // Acessa o pilar 5 (Foco Diário) no HTML
+  const pilarFoco = document.querySelector(".card-pilar:nth-child(5)");
+  if (!pilarFoco) return;
+
+  const ringBar = pilarFoco.querySelector(".ring-bar");
+  const textDisplay = pilarFoco.querySelector(".progress-text");
+
+  // Circunferência de raio 40 é 2 * PI * 40 ≈ 251.2
+  const circunferencia = 251.2;
+  const offset = circunferencia - (porcentagem / 100) * circunferencia;
+
+  // Aplica os valores no SVG e no texto central
+  ringBar.style.strokeDashoffset = offset;
+  textDisplay.textContent = `${porcentagem}%`;
 }
