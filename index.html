@@ -3,278 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RPG de Disciplina - Workout Tracker</title>
+  <title>RPG de Disciplina</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ==========================================
-       1. TELA DE LOGIN (Inicialmente Ativa)
-       ========================================== -->
+  <!-- TELA DE LOGIN -->
   <div id="page-login" class="page active">
     <div class="login-box">
-      <h2>Acessar Sistema</h2>
-      <p>Digite sua chave de acesso para sincronizar seus dados.</p>
-      
+      <h2>⚔️ RPG DE DISCIPLINA</h2>
+      <p>Digite sua chave de acesso para iniciar a jornada.</p>
       <input type="password" id="login-key" placeholder="••••" maxlength="4">
-      
-      <button onclick="tentarLogin()">Iniciar Treino</button>
+      <button onclick="tentarLogin()">Entrar no Jogo</button>
       <div id="login-error" class="error-msg"></div>
     </div>
   </div>
 
-  <!-- ==========================================
-       2. TELA DO DASHBOARD (Inicialmente Oculta)
-       ========================================== -->
+  <!-- DASHBOARD PRINCIPAL -->
   <div id="page-dashboard" class="page">
     
-    <!-- Cabeçalho do Jogador -->
     <header>
       <div class="user-info">
-        <span class="user-level">NÍVEL 12</span>
+        <span class="user-level">NÍVEL 12 • GUERREIRO</span>
       </div>
       <button class="btn-logout" onclick="logout()">Sair</button>
     </header>
 
-    <!-- Navegação por Abas (SPA) -->
-    <nav class="nav-tabs">
-      <button class="tab-btn active" onclick="mudarAba('tab-status', this)">Status</button>
-      <button class="tab-btn" onclick="mudarAba('tab-diario', this)">Diário</button>
-      <button class="tab-btn" onclick="mudarAba('tab-exercicios', this)">Treino</button>
-    </nav>
-
-    <!-- Conteúdo Dinâmico das Abas -->
-    <main>
-
-      <!-- ==========================================
-           ABA 1: STATUS (Pilares de Evolução)
-           ========================================== -->
-      <div id="tab-status" class="tab-pane active">
-        <h2 class="title-page">Atributos Atuais</h2>
-        
-        <div class="grid-circulos">
-          
-          <!-- Pilar 1: Peito -->
-          <div class="card-pilar">
-            <h3>Peito</h3>
-            <div class="circle-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-                <!-- stroke-dasharray calculado para r=40 (2 * pi * 40 ≈ 251) -->
-                <circle class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                        stroke-dasharray="251.2" stroke-dashoffset="62.8"/> <!-- 75% Completo -->
-              </svg>
-              <div class="progress-text">75%</div>
-            </div>
-          </div>
-
-          <!-- Pilar 2: Costas -->
-          <div class="card-pilar">
-            <h3>Costas</h3>
-            <div class="circle-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-                <circle class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                        stroke-dasharray="251.2" stroke-dashoffset="100.5"/> <!-- 60% Completo -->
-              </svg>
-              <div class="progress-text">60%</div>
-            </div>
-          </div>
-
-          <!-- Pilar 3: Pernas -->
-          <div class="card-pilar">
-            <h3>Pernas</h3>
-            <div class="circle-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-                <circle class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                        stroke-dasharray="251.2" stroke-dashoffset="150.7"/> <!-- 40% Completo -->
-              </svg>
-              <div class="progress-text">40%</div>
-            </div>
-          </div>
-
-          <!-- Pilar 4: Braços -->
-          <div class="card-pilar">
-            <h3>Braços</h3>
-            <div class="circle-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-                <circle class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                        stroke-dasharray="251.2" stroke-dashoffset="50.2"/> <!-- 80% Completo -->
-              </svg>
-              <div class="progress-text">80%</div>
-            </div>
-          </div>
-
-          <!-- Pilar 5: Disciplina Diária (Ocupa as duas colunas) -->
-          <div class="card-pilar">
-            <h3>Foco Diário</h3>
-            <div class="circle-container">
-              <svg class="progress-ring" width="100" height="100">
-                <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-                <circle class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                        stroke-dasharray="251.2" stroke-dashoffset="25.1"/> <!-- 90% Completo -->
-              </svg>
-              <div class="progress-text">90%</div>
-            </div>
-          </div>
-
+    <!-- PROGRESSO DE FOCO GERAL -->
+    <div class="grid-circulos">
+      <div class="card-pilar" style="grid-column: span 2;">
+        <h3>Progresso Diário</h3>
+        <div class="circle-container">
+          <svg class="progress-ring" width="100" height="100">
+            <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
+            <circle id="ring-geral" class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
+                    stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+          </svg>
+          <div id="txt-geral" class="progress-text">0%</div>
         </div>
       </div>
+    </div>
 
-      <!-- ==========================================
-           ABA 2: DIÁRIO (Checklist de Hábitos)
-           ========================================== -->
-      <div id="tab-diario" class="tab-pane">
-        <h2 class="title-page">Metas do Dia</h2>
-        
+    <!-- NAVEGAÇÃO DOS 4 PILARES -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="mudarAba('pilar-corpo', this)">🔴 Corpo</button>
+      <button class="tab-btn" onclick="mudarAba('pilar-alimentacao', this)">🟢 Nutrição</button>
+      <button class="tab-btn" onclick="mudarAba('pilar-mente', this)">🔵 Mente</button>
+      <button class="tab-btn" onclick="mudarAba('pilar-alma', this)">🟣 Alma</button>
+    </nav>
+
+    <main>
+      <!-- PILAR 1: CORPO -->
+      <div id="pilar-corpo" class="tab-pane active">
+        <h2 class="title-page">Atributo: Corpo (Treino)</h2>
         <div class="diario-container">
           <label class="check-item">
             <input type="checkbox" onchange="salvarMetas()">
-            <span>Bater 3L de Água</span>
+            <span>Treino de Musculação Concluído</span>
           </label>
-
           <label class="check-item">
             <input type="checkbox" onchange="salvarMetas()">
-            <span>Treino do Dia Concluído</span>
+            <span>Alongamento / Mobilidade</span>
           </label>
+        </div>
+        
+        <h3 style="color: #00ffcc; margin-top: 20px; font-size: 1rem;">Ficha de Treino:</h3>
+        <ul class="lista-exercicios" style="margin-top: 10px;">
+          <li>
+            <a href="lista-de-exercicios/remada-curvada.html" style="color: #fff; text-decoration: none;">
+              <strong>Remada Curvada ➔</strong>
+            </a>
+            <span class="musculo-alvo">Costas • 4x 10 (50kg)</span>
+          </li>
+          <li>
+            <a href="lista-de-exercicios/puxada-alta.html" style="color: #fff; text-decoration: none;">
+              <strong>Puxada Alta ➔</strong>
+            </a>
+            <span class="musculo-alvo">Costas • 4x 12 (60kg)</span>
+          </li>
+        </ul>
+      </div>
 
+      <!-- PILAR 2: NUTRIÇÃO -->
+      <div id="pilar-alimentacao" class="tab-pane">
+        <h2 class="title-page">Atributo: Alimentação</h2>
+        <div class="diario-container">
           <label class="check-item">
             <input type="checkbox" onchange="salvarMetas()">
-            <span>Bater as Calorias/Macros</span>
+            <span>Bater as Calorias/Macros (160g P | 300g C | 70g G)</span>
           </label>
-
           <label class="check-item">
             <input type="checkbox" onchange="salvarMetas()">
-            <span>Leitura diária de Filosofia/Livro</span>
+            <span>Bater 3.5 Litros de Água</span>
           </label>
+        </div>
+      </div>
 
+      <!-- PILAR 3: MENTE -->
+      <div id="pilar-mente" class="tab-pane">
+        <h2 class="title-page">Atributo: Mente</h2>
+        <div class="diario-container">
+          <label class="check-item">
+            <input type="checkbox" onchange="salvarMetas()">
+            <span>Leitura Diária (Mínimo 10 págs)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" onchange="salvarMetas()">
+            <span>Estudo Focado / Programação</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- PILAR 4: ALMA -->
+      <div id="pilar-alma" class="tab-pane">
+        <h2 class="title-page">Atributo: Alma</h2>
+        <div class="diario-container">
+          <label class="check-item">
+            <input type="checkbox" onchange="salvarMetas()">
+            <span>Seguir Código de Conduta Pessoal</span>
+          </label>
           <label class="check-item">
             <input type="checkbox" onchange="salvarMetas()">
             <span>Dormir antes das 23:30h</span>
           </label>
         </div>
       </div>
-
-      <!-- ==========================================
-           ABA 3: EXERCÍCIOS (Treino com Animação)
-           ========================================== -->
-      <div id="tab-exercicios" class="tab-pane">
-        <h2 class="title-page">Divisão de Treino</h2>
-
-        <!-- Bloco A: Costas e Bíceps -->
-        <div class="dia-treino-box">
-          <div class="dia-header">
-            <h3>Treino A</h3>
-            <span class="badge-foco">Puxada / Costas</span>
-          </div>
-          
-          <div class="dia-conteudo">
-            <div class="card-boneco">
-              <!-- SVG Boneco de Puxada -->
-              <svg class="boneco-svg" viewBox="0 0 100 120">
-                <!-- Barra fixa da polia -->
-                <line x1="20" y1="15" x2="80" y2="15" stroke="#333" stroke-width="3" />
-                <!-- Cabo que estica -->
-                <line class="cabo-polia" x1="50" y1="15" x2="50" y2="40" stroke="#00ffcc" stroke-width="2" />
-                <!-- Corpo Fixo (Cabeça e Tronco) -->
-                <circle cx="50" cy="35" r="8" fill="#fff" />
-                <line x1="50" y1="43" x2="50" y2="75" stroke="#fff" stroke-width="4" />
-                <line x1="40" y1="75" x2="40" y2="110" stroke="#555" stroke-width="3" />
-                <line x1="60" y1="75" x2="60" y2="110" stroke="#555" stroke-width="3" />
-                <!-- Braços em movimento -->
-                <g class="bracos-puxada">
-                  <path d="M 50 45 L 35 30 L 25 15 M 50 45 L 65 30 L 75 15" stroke="#00ffcc" stroke-width="3" fill="none" stroke-linecap="round" />
-                </g>
-              </svg>
-              <span class="animation-label">Ativo</span>
-            </div>
-            
-            <ul class="lista-exercicios">
-              <li><strong>Puxada Alta (Polia)</strong><span class="musculo-alvo">Costas • 4x 8 a 10 (60kg)</span></li>
-              <li><strong>Remada Curvada</strong><span class="musculo-alvo">Costas • 4x 10 (50kg)</span></li>
-              <li><strong>Rosca Direta (Barra)</strong><span class="musculo-alvo">Bíceps • 3x 12 (15kg/lado)</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Bloco B: Peito e Tríceps -->
-        <div class="dia-treino-box">
-          <div class="dia-header">
-            <h3>Treino B</h3>
-            <span class="badge-foco">Empurrar / Peito</span>
-          </div>
-          
-          <div class="dia-conteudo">
-            <div class="card-boneco">
-              <!-- SVG Boneco de Supino -->
-              <svg class="boneco-svg" viewBox="0 0 100 120">
-                <!-- Banco de Supino -->
-                <line x1="15" y1="75" x2="85" y2="75" stroke="#333" stroke-width="4" />
-                <!-- Corpo deitado -->
-                <circle cx="45" cy="65" r="7" fill="#fff" />
-                <line x1="45" y1="72" x2="80" y2="72" stroke="#fff" stroke-width="4" />
-                <!-- Braços flexionando -->
-                <path class="braco-supino" d="M 55 74 L 55 55 M 55 55 L 45 40" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" />
-                <!-- Barra que sobe e desce -->
-                <g class="barra-supino-mov">
-                  <line x1="20" y1="35" x2="70" y2="35" stroke="#00ffcc" stroke-width="3" />
-                  <circle cx="20" cy="35" r="6" fill="#00ffcc" />
-                  <circle cx="70" cy="35" r="6" fill="#00ffcc" />
-                </g>
-              </svg>
-              <span class="animation-label">Ativo</span>
-            </div>
-            
-            <ul class="lista-exercicios">
-              <li><strong>Supino Reto</strong><span class="musculo-alvo">Peito • 4x 8 (30kg/lado)</span></li>
-              <li><strong>Desenvolvimento Halter</strong><span class="musculo-alvo">Ombros • 4x 10 (22kg)</span></li>
-              <li><strong>Tríceps Corda (Polia)</strong><span class="musculo-alvo">Tríceps • 3x 12 (25kg)</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Bloco C: Pernas -->
-        <div class="dia-treino-box">
-          <div class="dia-header">
-            <h3>Treino C</h3>
-            <span class="badge-foco">Membros Inferiores</span>
-          </div>
-          
-          <div class="dia-conteudo">
-            <div class="card-boneco">
-              <!-- SVG Boneco de Agachamento -->
-              <svg class="boneco-svg" viewBox="0 0 100 120">
-                <!-- Suporte da barra (Smith/Gaiola) -->
-                <line x1="25" y1="20" x2="25" y2="115" stroke="#333" stroke-width="2" />
-                <line x1="75" y1="20" x2="75" y2="115" stroke="#333" stroke-width="2" />
-                <!-- Pernas Dinâmicas (Muda o path na animação CSS) -->
-                <path class="pernas-agachamento" d="M 50 75 L 35 90 L 50 115" stroke="#fff" stroke-width="3" fill="none" />
-                <!-- Corpo móvel -->
-                <circle class="cabeca-agachamento" cx="50" cy="42" r="8" fill="#fff" />
-                <line class="tronco-agachamento" x1="50" y1="50" x2="50" y2="75" stroke="#fff" stroke-width="4" />
-                <!-- Barra com peso móvel -->
-                <g class="barra-smith">
-                  <line x1="15" y1="48" x2="85" y2="48" stroke="#00ffcc" stroke-width="4" />
-                  <rect x="12" y="40" width="8" height="16" fill="#00ffcc" />
-                  <rect x="80" y="40" width="8" height="16" fill="#00ffcc" />
-                </g>
-              </svg>
-              <span class="animation-label">Ativo</span>
-            </div>
-            
-            <ul class="lista-exercicios">
-              <li><strong>Agachamento Livre</strong><span class="musculo-alvo">Quadríceps/Glúteos • 4x 8 (40kg/lado)</span></li>
-              <li><strong>Leg Press 45°</strong><span class="musculo-alvo">Pernas Completo • 4x 10 (240kg)</span></li>
-              <li><strong>Cadeira Flexora</strong><span class="musculo-alvo">Posterior de Coxa • 3x 12 (45kg)</span></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
     </main>
+
   </div>
 
   <script src="app.js"></script>
