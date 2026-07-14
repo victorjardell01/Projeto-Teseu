@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baki RPG - Sistema de Status</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= TELA DE LOGIN ================= -->
+  <section id="page-login" class="page active">
+    <div class="login-box">
+      <h2>Mente de Ferro</h2>
+      <p>Insira a chave de acesso para iniciar os treinos</p>
+      <input type="password" id="input-senha" placeholder="Digite sua senha...">
+      <button onclick="realizarLogin()">Acessar Sistema</button>
+      <p id="login-erro" class="error-msg"></p>
+    </div>
+  </section>
+
+  <!-- ================= PAINEL PRINCIPAL (DASHBOARD) ================= -->
+  <section id="page-dashboard" class="page">
+    <header>
+      <span class="user-level">NÍVEL <span id="user-level-val">1</span></span>
+      <button class="btn-logout" onclick="realizarLogout()">Bloquear</button>
+    </header>
+
+    <!-- Menu de Navegação do App -->
+    <nav class="nav-tabs">
+      <button onclick="mudarAba('tab-status')" class="tab-btn active">Status</button>
+      <button onclick="mudarAba('tab-diario')" class="tab-btn">Diário</button>
+      <button onclick="mudarAba('tab-relatorios')" class="tab-btn">Relatórios</button>
+    </nav>
+
+    <main class="tab-content">
+      
+      <!-- SUBPÁGINA 1: STATUS (BARRAS CIRCULARES) -->
+      <div id="tab-status" class="tab-pane active">
+        <h2>Seus Pilares</h2>
+        <div class="grid-circulos">
+          
+          <!-- Exemplo de um Círculo (Pilar Corpo) -->
+          <div class="card-pilar">
+            <h3>Corpo</h3>
+            <div class="circle-container">
+              <svg class="progress-ring" width="100" height="100">
+                <circle class="ring-bg" stroke="#222" stroke-width="6" fill="transparent" r="42" cx="50" cy="50"/>
+                <circle id="ring-corpo" class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="42" cx="50" cy="50"/>
+              </svg>
+              <div class="progress-text" id="pct-corpo">0%</div>
+            </div>
+          </div>
+
+          <!-- (Os outros círculos de Alimentação, Mente, Psicológico e Alma seguem a mesma estrutura no CSS) -->
+
+        </div>
+      </div>
+
+      <!-- SUBPÁGINA 2: DIÁRIO (CONTEÚDO/TAREFAS) -->
+      <div id="tab-diario" class="tab-pane">
+        <h2>Checklist Diário</h2>
+        <div class="diario-container">
+          <label class="check-item">
+            <input type="checkbox" id="task-treino" onchange="atualizarProgresso()">
+            <span>Treino do Dia Concluído (+25 XP)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="task-agua" onchange="atualizarProgresso()">
+            <span>Meta de Água Batida (3.5L+) (+10 XP)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="task-leitura" onchange="atualizarProgresso()">
+            <span>10+ Páginas Lidas (+15 XP)</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="task-penitencia" onchange="atualizarProgresso()">
+            <span>Penitência Concluída (+15 XP)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- SUBPÁGINA 3: RELATÓRIOS (MÉTRICAS DO BANCO) -->
+      <div id="tab-relatorios" class="tab-pane">
+        <h2>Histórico de Evolução</h2>
+        <div class="stats-box">
+          <p>Média de Consistência Semanal: <strong id="stat-semana">0%</strong></p>
+          <p>Média de Consistência Mensal: <strong id="stat-mes">0%</strong></p>
+          <button onclick="limparHistorico()" class="btn-danger">Resetar Dados</button>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
