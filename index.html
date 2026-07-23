@@ -4,16 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Discipline RPG</title>
+  <!-- É ESTA LINHA QUE PUXA O VISUAL CYBERPUNK -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="main-container">
 
-    <!-- ==========================================
-         ETAPA 1: TELA DE ACESSO (LOGIN)
-         Os bonecos NÃO aparecem aqui.
-         ========================================== -->
+    <!-- TELA DE LOGIN -->
     <section id="screen-login" class="screen">
       <div class="card-login">
         <span class="logo-icon">🛡️</span>
@@ -34,10 +32,7 @@
       </div>
     </section>
 
-    <!-- ==========================================
-         ETAPA 2: SELEÇÃO DE AVATAR & CLASSES
-         Só aparece DEPOIS da senha.
-         ========================================== -->
+    <!-- TELA DE SELEÇÃO -->
     <section id="screen-avatars" class="screen hidden">
       <header class="header-selecao">
         <h2>Escolha seu Campeão</h2>
@@ -46,43 +41,41 @@
 
       <div class="grid-avatars">
         
-        <!-- GUERREIRO (TREINO) -->
+        <!-- GUERREIRO -->
         <div class="card-avatar-select" onclick="entrarComoClasse('guerreiro')">
           <div class="badge-level" id="lvl-guerreiro">Lvl 1</div>
           <div class="avatar-frame">
-            <img src="[https://api.dicebear.com/7.x/micah/svg?seed=Guerreiro&backgroundColor=141414](https://api.dicebear.com/7.x/micah/svg?seed=Guerreiro&backgroundColor=141414)" alt="Guerreiro">
+            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Guerreiro&backgroundColor=141414" alt="Guerreiro">
           </div>
           <h3>Guerreiro</h3>
           <span class="foco-tag">💪 Treino</span>
         </div>
 
-        <!-- MAGO (MENTE) - Imagem Atualizada -->
+        <!-- MAGO -->
         <div class="card-avatar-select" onclick="entrarComoClasse('mago')">
           <div class="badge-level" id="lvl-mago">Lvl 1</div>
           <div class="avatar-frame">
-            <!-- Usando a sua imagem R.jpeg -->
-            <img src="[https://api.dicebear.com/7.x/micah/svg?seed=Mago&backgroundColor=141414](https://api.dicebear.com/7.x/micah/svg?seed=Mago&backgroundColor=141414)" alt="Mago">
+            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Mago&backgroundColor=141414" alt="Mago">
           </div>
           <h3>Mago</h3>
           <span class="foco-tag">🧠 Mente</span>
         </div>
 
-        <!-- CLÉRIGO (ALMA) -->
+        <!-- CLÉRIGO -->
         <div class="card-avatar-select" onclick="entrarComoClasse('clerigo')">
           <div class="badge-level" id="lvl-clerigo">Lvl 1</div>
           <div class="avatar-frame">
-            <img src="[https://api.dicebear.com/7.x/micah/svg?seed=Clerigo&backgroundColor=141414](https://api.dicebear.com/7.x/micah/svg?seed=Clerigo&backgroundColor=141414)" alt="Clérigo">
+            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Clerigo&backgroundColor=141414" alt="Clérigo">
           </div>
           <h3>Clérigo</h3>
           <span class="foco-tag">✨ Alma</span>
         </div>
 
-        <!-- DRUIDA (ALIMENTAÇÃO) - Imagem Atualizada -->
+        <!-- DRUIDA -->
         <div class="card-avatar-select" onclick="entrarComoClasse('druida')">
           <div class="badge-level" id="lvl-druida">Lvl 1</div>
           <div class="avatar-frame">
-            <!-- Usando a sua imagem Designer (2).jpeg -->
-            <img src="[https://api.dicebear.com/7.x/micah/svg?seed=Druida&backgroundColor=141414](https://api.dicebear.com/7.x/micah/svg?seed=Druida&backgroundColor=141414)" alt="Druida">
+            <img src="https://api.dicebear.com/7.x/micah/svg?seed=Druida&backgroundColor=141414" alt="Druida">
           </div>
           <h3>Druida</h3>
           <span class="foco-tag">🍃 Alimentação</span>
