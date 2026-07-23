@@ -1,42 +1,83 @@
-// ESTADO DO PERSONAGEM
-let usuario = JSON.parse(localStorage.getItem("rpg_usuario")) || {
-  classe: null,
-  level: 1,
-  xp: 0,
-  xpMax: 100
+// ==========================================
+// 1. ESTADO DO JOGO E DADOS SALVOS
+// ==========================================
+// Como cada área tem seu próprio nível, o estado agora salva os atributos separadamente.
+const estadoInicial = {
+  guerreiro: { level: 1, xp: 0, xpMax: 100 },
+  mago: { level: 1, xp: 0, xpMax: 100 },
+  clerigo: { level: 1, xp: 0, xpMax: 100 },
+  druida: { level: 1, xp: 0, xpMax: 100 }
 };
 
-// CARREGAMENTO INICIAL
-window.addEventListener("load", () => {
-  atualizarInterface();
+let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || estadoInicial;
+
+// Senha de acesso definida para o sistema (você pode alterar aqui)
+const SENHA_SECRETA = "1234";
+
+// ==========================================
+// 2. INICIALIZAÇÃO
+// ==========================================
+window.addEventListener("DOMContentLoaded", () => {
+  // Verifica se o usuário já fez login nesta sessão (opcional, mas melhora a experiência)
+  const logado = sessionStorage.getItem("rpg_logado");
+  
+  if (logado === "true") {
+    mostrarTelaAvatares();
+  }
 });
 
-// ABRIR E FECHAR MODAL
-function abrirSeletorClasses() {
-  const modal = document.getElementById("modal-classes");
-  if (modal) {
-    modal.classList.remove("hidden");
+// ==========================================
+// 3. SISTEMA DE LOGIN / AUTENTICAÇÃO
+// ==========================================
+function autenticarUsuario(event) {
+  // Evita que a página recarregue ao enviar o formulário
+  event.preventDefault();
+  
+  const senhaDigitada = document.getElementById("input-password").value;
+
+  if (senhaDigitada === SENHA_SECRETA) {
+    // Salva na sessão atual para não pedir senha se recarregar a página
+    sessionStorage.setItem("rpg_logado", "true");
+    mostrarTelaAvatares();
   } else {
-    console.error("Elemento 'modal-classes' não foi encontrado no HTML!");
+    alert("Senha incorreta! O reino permanece fechado.");
+    document.getElementById("input-password").value = ""; // Limpa o campo
   }
 }
 
-function fecharSeletorClasses() {
-  const modal = document.getElementById("modal-classes");
-  if (modal) {
-    modal.classList.add("hidden");
-  }
+// ==========================================
+// 4. CONTROLE DE TELAS E INTERFACE
+// ==========================================
+function mostrarTelaAvatares() {
+  const telaLogin = document.getElementById("screen-login");
+  const telaAvatares = document.getElementById("screen-avatars");
+
+  if (telaLogin) telaLogin.classList.add("hidden");
+  if (telaAvatares) telaAvatares.classList.remove("hidden");
+
+  atualizarNiveisNaTela();
 }
 
-// SELECIONAR CLASSE
-function selecionarClasse(classe) {
-  usuario.classe = classe;
-  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
+function atualizarNiveisNaTela() {
+  // Atualiza os badges de nível acima de cada avatar
+  const classes = ["guerreiro", "mago", "clerigo", "druida"];
+  
+  classes.forEach(classe => {
+    const elementoLevel = document.getElementById(`lvl-${classe}`);
+    if (elementoLevel) {
+      elementoLevel.textContent = `Lvl ${dadosRPG[classe].level}`;
+    }
+  });
+}
 
-  fecharSeletorClasses();
-  atualizarInterface();
+// ==========================================
+// 5. NAVEGAÇÃO E ESCOLHA DE CAMINHO
+// ==========================================
+function entrarComoClasse(classe) {
+  // Salva qual classe o usuário está acessando agora, para a página seguinte saber
+  localStorage.setItem("rpg_classe_ativa", classe);
 
-  // Redireciona após escolher
+  // Pequeno delay para efeito visual (opcional)
   setTimeout(() => {
     switch (classe) {
       case "guerreiro":
@@ -52,53 +93,11 @@ function selecionarClasse(classe) {
         window.location.href = "alimentacao.html";
         break;
     }
-  }, 300);
+  }, 200);
 }
 
-// ATUALIZAR INTERFACE
-function atualizarInterface() {
-  while (usuario.xp >= usuario.xpMax) {
-    usuario.level += 1;
-    usuario.xp -= usuario.xpMax;
-    usuario.xpMax = Math.floor(usuario.xpMax * 1.5);
-    alert(`🎉 PARABÉNS! Seu personagem subiu para o Nível ${usuario.level}!`);
-  }
-
-  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
-
-  const elLevel = document.getElementById("char-level");
-  const elXpText = document.getElementById("xp-text");
-  const elXpFill = document.getElementById("xp-fill");
-
-  if (elLevel) elLevel.textContent = `Lvl ${usuario.level}`;
-  if (elXpText) elXpText.textContent = `${usuario.xp} / ${usuario.xpMax} XP`;
-
-  if (elXpFill) {
-    const porcentagem = Math.min((usuario.xp / usuario.xpMax) * 100, 100);
-    elXpFill.style.width = `${porcentagem}%`;
-  }
-
-  const avatares = {
-    padrao: "https://api.dicebear.com/7.x/adventurer/svg?seed=Aventureiro",
-    guerreiro: "https://api.dicebear.com/7.x/adventurer/svg?seed=Guerreiro",
-    mago: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mago",
-    clerigo: "https://api.dicebear.com/7.x/adventurer/svg?seed=Clerigo",
-    druida: "https://api.dicebear.com/7.x/adventurer/svg?seed=Druida"
-  };
-
-  const elTitle = document.getElementById("char-class-title");
-  const elImg = document.getElementById("avatar-img");
-
-  if (usuario.classe) {
-    const nomesClasses = {
-      guerreiro: "Guerreiro (Treino)",
-      mago: "Mago (Mente)",
-      clerigo: "Clérigo (Alma)",
-      druida: "Druida (Alimentação)"
-    };
-    if (elTitle) elTitle.textContent = nomesClasses[usuario.classe];
-    if (elImg) elImg.src = avatares[usuario.classe];
-  } else {
-    if (elImg) elImg.src = avatares.padrao;
-  }
-}
+// ==========================================
+// EXPOR FUNÇÕES PARA O HTML
+// ==========================================
+window.autenticarUsuario = autenticarUsuario;
+window.entrarComoClasse = entrarComoClasse;
