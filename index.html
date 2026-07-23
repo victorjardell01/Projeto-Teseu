@@ -3,135 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RPG de Disciplina</title>
+  <title>Discipline RPG</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- TELA DE LOGIN -->
-  <div id="page-login" class="page active">
-    <div class="login-box">
-      <h2>⚔️ RPG DE DISCIPLINA</h2>
-      <p>Digite sua chave de acesso para iniciar a jornada.</p>
-      <input type="password" id="login-key" placeholder="••••" maxlength="4">
-      <button onclick="tentarLogin()">Entrar no Jogo</button>
-      <div id="login-error" class="error-msg"></div>
-    </div>
-  </div>
-
   <!-- DASHBOARD PRINCIPAL -->
-  <div id="page-dashboard" class="page">
+  <div class="container">
     
-    <header>
-      <div class="user-info">
-        <span class="user-level">NÍVEL 12 • GUERREIRO</span>
+    <!-- CARD DO PERSONAGEM -->
+    <div class="card-personagem">
+      <!-- Clicar na imagem ou no botão abre a seleção de classe -->
+      <div class="avatar-box" onclick="abrirSeletorClasses()">
+        <img id="avatar-img" src="https://via.placeholder.com/120" alt="Seu Personagem">
+        <span class="badge-nivel" id="char-level">Lvl 1</span>
       </div>
-      <button class="btn-logout" onclick="logout()">Sair</button>
-    </header>
+      
+      <h2 id="char-name">Aventureiro</h2>
+      <p id="char-class-title" class="classe-label">Clique no avatar para escolher a classe</p>
+      
+      <!-- BARRA DE XP -->
+      <div class="xp-bar-container">
+        <div class="xp-bar-fill" id="xp-fill" style="width: 0%;"></div>
+      </div>
+      <p class="xp-text" id="xp-text">0 / 100 XP</p>
+    </div>
 
-    <!-- PROGRESSO DE FOCO GERAL -->
-    <div class="grid-circulos">
-      <div class="card-pilar" style="grid-column: span 2;">
-        <h3>Progresso Diário</h3>
-        <div class="circle-container">
-          <svg class="progress-ring" width="100" height="100">
-            <circle class="ring-bg" stroke-width="6" fill="transparent" r="40" cx="50" cy="50"/>
-            <circle id="ring-geral" class="ring-bar" stroke="#00ffcc" stroke-width="6" fill="transparent" r="40" cx="50" cy="50" 
-                    stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
-          </svg>
-          <div id="txt-geral" class="progress-text">0%</div>
+    <!-- MODAL / SELETOR DE CLASSES -->
+    <div id="modal-classes" class="modal hidden">
+      <div class="modal-content">
+        <h3>Escolha seu Caminho:</h3>
+        
+        <div class="grid-classes">
+          <!-- GUERREIRO -> TREINO -->
+          <div class="card-classe guerreiro" onclick="selecionarClasse('guerreiro')">
+            <span class="icone-classe">⚔️</span>
+            <h4>Guerreiro</h4>
+            <p>Foco: Treino e Força</p>
+          </div>
+
+          <!-- MAGO -> MENTE -->
+          <div class="card-classe mago" onclick="selecionarClasse('mago')">
+            <span class="icone-classe">🧙‍♂️</span>
+            <h4>Mago</h4>
+            <p>Foco: Mente e Estudos</p>
+          </div>
+
+          <!-- CLÉRIGO -> ALMA -->
+          <div class="card-classe clerigo" onclick="selecionarClasse('clerigo')">
+            <span class="icone-classe">✨</span>
+            <h4>Clérigo</h4>
+            <p>Foco: Alma e Meditação</p>
+          </div>
+
+          <!-- DRUIDA -> ALIMENTAÇÃO -->
+          <div class="card-classe druida" onclick="selecionarClasse('druida')">
+            <span class="icone-classe">🍃</span>
+            <h4>Druida</h4>
+            <p>Foco: Alimentação e Saúde</p>
+          </div>
         </div>
+
+        <button class="btn-fechar" onclick="fecharSeletorClasses()">Fechar</button>
       </div>
     </div>
 
-    <!-- NAVEGAÇÃO DOS 4 PILARES -->
-    <nav class="nav-tabs">
-      <button class="tab-btn active" onclick="mudarAba('pilar-corpo', this)">🔴 Corpo</button>
-      <button class="tab-btn" onclick="mudarAba('pilar-alimentacao', this)">🟢 Nutrição</button>
-      <button class="tab-btn" onclick="mudarAba('pilar-mente', this)">🔵 Mente</button>
-      <button class="tab-btn" onclick="mudarAba('pilar-alma', this)">🟣 Alma</button>
-    </nav>
-
-    <main>
-      <!-- PILAR 1: CORPO -->
-      <div id="pilar-corpo" class="tab-pane active">
-        <h2 class="title-page">Atributo: Corpo (Treino)</h2>
-        <div class="diario-container">
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Treino de Musculação Concluído</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Alongamento / Mobilidade</span>
-          </label>
-        </div>
-        
-        <h3 style="color: #00ffcc; margin-top: 20px; font-size: 1rem;">Ficha de Treino:</h3>
-        <ul class="lista-exercicios" style="margin-top: 10px;">
-          <li>
-            <a href="lista-de-exercicios/remada-curvada.html" style="color: #fff; text-decoration: none;">
-              <strong>Remada Curvada ➔</strong>
-            </a>
-            <span class="musculo-alvo">Costas • 4x 10 (50kg)</span>
-          </li>
-          <li>
-            <a href="lista-de-exercicios/puxada-alta.html" style="color: #fff; text-decoration: none;">
-              <strong>Puxada Alta ➔</strong>
-            </a>
-            <span class="musculo-alvo">Costas • 4x 12 (60kg)</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- PILAR 2: NUTRIÇÃO -->
-      <div id="pilar-alimentacao" class="tab-pane">
-        <h2 class="title-page">Atributo: Alimentação</h2>
-        <div class="diario-container">
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Bater as Calorias/Macros (160g P | 300g C | 70g G)</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Bater 3.5 Litros de Água</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- PILAR 3: MENTE -->
-      <div id="pilar-mente" class="tab-pane">
-        <h2 class="title-page">Atributo: Mente</h2>
-        <div class="diario-container">
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Leitura Diária (Mínimo 10 págs)</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Estudo Focado / Programação</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- PILAR 4: ALMA -->
-      <div id="pilar-alma" class="tab-pane">
-        <h2 class="title-page">Atributo: Alma</h2>
-        <div class="diario-container">
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Seguir Código de Conduta Pessoal</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" onchange="salvarMetas()">
-            <span>Dormir antes das 23:30h</span>
-          </label>
-        </div>
-      </div>
-    </main>
-
   </div>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
