@@ -242,10 +242,28 @@ function verificarConclusao() {
 }
 
 function finalizarExercicios() {
-  let xpAtual = parseInt(localStorage.getItem("rpg_xp") || "0");
-  xpAtual += exercicioAtual.xp;
-  localStorage.setItem("rpg_xp", xpAtual.toString());
+  // Recupera os dados completos do RPG do localStorage
+  let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
+    guerreiro: { level: 1, xp: 0, xpMax: 100 },
+    mago: { level: 1, xp: 0, xpMax: 100 },
+    clerigo: { level: 1, xp: 0, xpMax: 100 },
+    druida: { level: 1, xp: 0, xpMax: 100 }
+  };
 
-  alert(`⚔️ EXERCÍCIO CONCLUÍDO!\nVocê ganhou +${exercicioAtual.xp} XP!`);
+  let guerreiro = dadosRPG.guerreiro;
+  guerreiro.xp += exercicioAtual.xp;
+
+  // Lógica de Level Up
+  if (guerreiro.xp >= guerreiro.xpMax) {
+    guerreiro.xp -= guerreiro.xpMax;
+    guerreiro.level += 1;
+    guerreiro.xpMax += 50;
+    alert(`🎉 LEVEL UP! O Guerreiro alcançou o Nível ${guerreiro.level}!`);
+  } else {
+    alert(`⚔️ EXERCÍCIO CONCLUÍDO!\nVocê ganhou +${exercicioAtual.xp} XP!`);
+  }
+
+  // Salva de volta no localStorage
+  localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
   window.location.href = "../index.html";
 }
