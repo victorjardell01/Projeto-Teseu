@@ -1,94 +1,81 @@
-const CHAVE_CORRETA = "1234";
+// DADOS DO PERSONAGEM (Carregados do LocalStorage ou iniciados do zero)
+let usuario = JSON.parse(localStorage.getItem("rpg_usuario")) || {
+  classe: null,
+  level: 1,
+  xp: 0,
+  xpMax: 100
+};
 
+// AO CARREGAR A PÁGINA
 document.addEventListener("DOMContentLoaded", () => {
-  // Verifica se o usuário já estava logado
-  if (localStorage.getItem("rpg_logado") === "true") {
-    mostrarDashboard();
-  }
-  carregarMetas();
+  atualizarInterface();
 });
 
-/* SISTEMA DE LOGIN */
-function tentarLogin() {
-  const input = document.getElementById("login-key");
-  const erro = document.getElementById("login-error");
+// ABRIR E FECHAR MODAL
+function abrirSeletorClasses() {
+  document.getElementById("modal-classes").classList.remove("hidden");
+}
 
-  if (input.value === CHAVE_CORRETA) {
-    erro.textContent = "";
-    localStorage.setItem("rpg_logado", "true");
-    mostrarDashboard();
-    input.value = "";
-  } else {
-    erro.textContent = "Chave de acesso incorreta.";
-    input.value = "";
-    input.focus();
+function fecharSeletorClasses() {
+  document.getElementById("modal-classes").classList.add("hidden");
+}
+
+// SELECIONAR CLASSE E REDIRECIONAR
+function selecionarClasse(classe) {
+  usuario.classe = classe;
+  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
+
+  // Redireciona para a página correspondente à classe
+  switch (classe) {
+    case "guerreiro":
+      window.location.href = "lista-de-exercicios/exercicio.html"; // Página de Treino
+      break;
+    case "mago":
+      window.location.href = "mente.html"; // Página da Mente
+      break;
+    case "clerigo":
+      window.location.href = "alma.html"; // Página da Alma
+      break;
+    case "druida":
+      window.location.href = "alimentacao.html"; // Página de Alimentação
+      break;
   }
 }
 
-function mostrarDashboard() {
-  document.getElementById("page-login").classList.remove("active");
-  document.getElementById("page-dashboard").classList.add("active");
-}
-
-function logout() {
-  localStorage.removeItem("rpg_logado");
-  document.getElementById("page-dashboard").classList.remove("active");
-  document.getElementById("page-login").classList.add("active");
-}
-
-/* TROCA DE ABAS */
-function mudarAba(tabId, botao) {
-  const panes = document.querySelectorAll(".tab-pane");
-  panes.forEach(pane => pane.classList.remove("active"));
-
-  const botoes = document.querySelectorAll(".tab-btn");
-  botoes.forEach(btn => btn.classList.remove("active"));
-
-  document.getElementById(tabId).classList.add("active");
-  botao.classList.add("active");
-}
-
-/* SISTEMA DE PROGRESSO DO RPG */
-function salvarMetas() {
-  const checkboxes = document.querySelectorAll("input[type='checkbox']");
-  const progresso = [];
-
-  checkboxes.forEach((cb, index) => {
-    progresso.push({ id: index, checked: cb.checked });
-  });
-
-  localStorage.setItem("rpg_progresso", JSON.stringify(progresso));
-  atualizarProgressoVisual();
-}
-
-function carregarMetas() {
-  const salvo = localStorage.getItem("rpg_progresso");
-  const checkboxes = document.querySelectorAll("input[type='checkbox']");
-
-  if (salvo && checkboxes.length > 0) {
-    const progresso = JSON.parse(salvo);
-    progresso.forEach(item => {
-      if (checkboxes[item.id]) {
-        checkboxes[item.id].checked = item.checked;
-      }
-    });
+// LÓGICA DE EVOLUÇÃO E ATUALIZAÇÃO DE INTERFACE
+function atualizarInterface() {
+  // Verifica se subiu de nível
+  if (usuario.xp >= usuario.xpMax) {
+    usuario.level += 1;
+    usuario.xp -= usuario.xpMax;
+    usuario.xpMax = Math.floor(usuario.xpMax * 1.5); // Aumenta a meta de XP para o próximo nível
+    alert(`🎉 PARABÉNS! Você subiu para o Nível ${usuario.level}!`);
+    localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
   }
-  atualizarProgressoVisual();
+
+  // Atualiza Textos
+  document.getElementById("char-level").textContent = `Lvl ${usuario.level}`;
+  document.getElementById("xp-text").textContent = `${usuario.xp} / ${usuario.xpMax} XP`;
+
+  // Atualiza Classe no Card
+  if (usuario.classe) {
+    const nomesClasses = {
+      guerreiro: "Guerreiro (Treino)",
+      mago: "Mago (Mente)",
+      clerigo: "Clérigo (Alma)",
+      druida: "Druida (Alimentação)"
+    };
+    document.getElementById("char-class-title").textContent = nomesClasses[usuario.classe];
+  }
+
+  // Porcentagem da Barra de XP
+  const porcentagem = (usuario.xp / usuario.xpMax) * 100;
+  document.getElementById("xp-fill").style.width = `${porcentagem}%`;
 }
 
-function atualizarProgressoVisual() {
-  const checkboxes = document.querySelectorAll("input[type='checkbox']");
-  if (checkboxes.length === 0) return;
-
-  const total = checkboxes.length;
-  const marcados = Array.from(checkboxes).filter(cb => cb.checked).length;
-  const porcentagem = Math.round((marcados / total) * 100);
-
-  // Calcula o offset da borda do círculo (Circunferência r=40 é 251.2)
-  const circunferencia = 251.2;
-  const offset = circunferencia - (porcentagem / 100) * circunferencia;
-
-  // Aplica o valor no círculo SVG e no texto
-  document.getElementById("ring-geral").style.strokeDashoffset = offset;
-  document.getElementById("txt-geral").textContent = `${porcentagem}%`;
+// FUNÇÃO PARA ADICIONAR XP (Pode ser chamada ao concluir tarefas diárias)
+function ganharXP(qtd) {
+  usuario.xp += qtd;
+  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
+  atualizarInterface();
 }
