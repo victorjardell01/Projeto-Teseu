@@ -1,254 +1,269 @@
 // ==========================================
-// BANCO DE DADOS UNIFICADO (TREINOS A, B e C COMPLETOS)
+// 1. AGENDA SEMANAL DE TREINOS (QUARTEL DE MISSÕES)
+// ==========================================
+const agendaTreinos = {
+  segunda: [
+    { id: "puxada-alta-aberta", nome: "Puxada Alta (Pegada Aberta Pronada)", grupo: "Costas (Largura) • 4x 8-10 reps", xp: 50 },
+    { id: "puxada-neutra", nome: "Puxada Neutra (Triângulo) / Pulldown Articulado", grupo: "Costas (Alongamento) • 3x 10 reps", xp: 45 },
+    { id: "remada-baixa-supinada", nome: "Remada Baixa no Cabo (Supinada)", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
+    { id: "pulldown-bracos-estendidos", nome: "Pulldown com Barra no Pulley", grupo: "Costas (Isolamento) • 3x 12 reps", xp: 40 },
+    { id: "rosca-martelo", nome: "Rosca Martelo", grupo: "Bíceps / Antebraço • 3x 10-12 reps", xp: 35 },
+    { id: "rosca-scott-concentrada", nome: "Rosca Scott ou Concentrada", grupo: "Bíceps • 3x 10 reps", xp: 35 }
+  ],
+  terca: [
+    { id: "agachamento-livre", nome: "Agachamento (Livre ou Hack)", grupo: "Pernas • 4x 6-8 reps", xp: 60 },
+    { id: "leg-press-45", nome: "Leg Press", grupo: "Pernas • 3x 10-12 reps", xp: 50 },
+    { id: "cadeira-extensora", nome: "Cadeira Extensora", grupo: "Pernas (Falha Metabólica) • 3x 12-15 reps", xp: 45 },
+    { id: "mesa-flexora", nome: "Mesa Flexora ou Cadeira Flexora", grupo: "Posteriores • 4x 10-12 reps", xp: 45 },
+    { id: "gemeos-pe", nome: "Gêmeos Sentado ou Em Pé", grupo: "Panturrilha • 4x 15 reps", xp: 35 }
+  ],
+  quarta: [
+    { id: "descanso", nome: "Descanso Total e Recuperação", grupo: "Recuperação Mental e Física", xp: 0 }
+  ],
+  quinta: [
+    { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas (Força Bruta) • 4x 6-8 reps", xp: 55 },
+    { id: "remada-cavalinho", nome: "Remada Cavalinho ou T na Máquina", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
+    { id: "remada-unilateral", nome: "Remada Unilateral com Halter (Serrote)", grupo: "Costas (Assimetrias) • 3x 10 reps", xp: 45 },
+    { id: "crucifixo-invertido", nome: "Crucifixo Invertido ou Face Pull", grupo: "Posterior de Ombro • 4x 12-15 reps", xp: 40 },
+    { id: "rosca-direta-w", nome: "Rosca Direta (Barra W)", grupo: "Bíceps • 3x 10 reps", xp: 35 }
+  ],
+  sexta: [
+    { id: "supino-inclinado-halteres", nome: "Supino Inclinado (Halteres / Articulado)", grupo: "Peitoral Superior • 4x 8-10 reps", xp: 50 },
+    { id: "supino-reto", nome: "Supino Reto (Barra ou Máquina)", grupo: "Peitoral • 3x 8-10 reps", xp: 45 },
+    { id: "crossover-pec-deck", nome: "Crossover ou Pec Deck (Voador)", grupo: "Peitoral (Esmagamento) • 3x 12 reps", xp: 40 },
+    { id: "desenvolvimento-lateral", nome: "Desenvolvimento com Halteres / Elevação Lateral", grupo: "Ombros (Largura) • 4x 10-12 reps", xp: 40 },
+    { id: "triceps-pulley", nome: "Tríceps Pulley (Corda ou Barra)", grupo: "Tríceps • 3x 10-12 reps", xp: 35 },
+    { id: "triceps-testa-frances", nome: "Tríceps Testa ou Francês", grupo: "Tríceps • 3x 10 reps", xp: 35 }
+  ],
+  sabado: [],
+  domingo: []
+};
+
+// ==========================================
+// 2. BANCO DE DADOS UNIFICADO DE EXERCÍCIOS
 // ==========================================
 const BD_EXERCICIOS = {
-  // --- TREINO A: COSTAS, BÍCEPS E TRAPÉZIO ---
-  "remada-curvada": {
-    nome: "Remada Curvada com Barra",
-    grupo: "Costas",
-    xp: 50,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bent-over-row-1.gif",
-    musculos: {
-      primarios: ["Latíssimo do Dorso", "Trapézio Médio"],
-      secundarios: ["Bíceps Braquial", "Lombares"]
-    },
-    analise: "Mantenha a coluna neutra e puxe a barra em direção ao umbigo enfatizando a adução escapular no final.",
-    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
-  },
-  "puxada-alta": {
-    nome: "Puxada Alta (Polia)",
-    grupo: "Costas",
+  // --- SEGUNDA-FEIRA ---
+  "puxada-alta-aberta": {
+    nome: "Puxada Alta (Pegada Aberta Pronada)",
+    grupo: "Costas (Largura)",
     xp: 50,
     gif: "https://upload.wikimedia.org/wikipedia/commons/8/86/Lat-pulldown-1.gif",
-    musculos: {
-      primarios: ["Latíssimo do Dorso (Grande Dorsal)"],
-      secundarios: ["Bíceps", "Braquiorradial"]
-    },
-    analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente para trás.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
+    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps", "Braquiorradial"] },
+    analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
   },
-  "remada-baixa": {
-    nome: "Remada Baixa (Triângulo)",
-    grupo: "Costas",
-    xp: 40,
+  "puxada-neutra": {
+    nome: "Puxada Neutra (Triângulo)",
+    grupo: "Costas (Alongamento)",
+    xp: 45,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Latíssimo do Dorso", "Romboides"], secundarios: ["Bíceps"] },
+    analise: "Foques no alongamento completo no topo e na contração embaixo.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
+  "remada-baixa-supinada": {
+    nome: "Remada Baixa no Cabo (Supinada)",
+    grupo: "Costas (Miolo)",
+    xp: 45,
     gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Latíssimo do Dorso", "Romboides"],
-      secundarios: ["Bíceps", "Trapézio"]
-    },
-    analise: "Mantenha o peito estufado e puxe o manípulo controlando a volta do peso para máximo alongamento.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    musculos: { primarios: ["Latíssimo", "Miolo das Costas"], secundarios: ["Bíceps"] },
+    analise: "Mantenha os cotovelos colados ao corpo puxando em direção ao abdômen inferior.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
-  "rosca-direta": {
-    nome: "Rosca Direta com Barra",
-    grupo: "Bíceps",
-    xp: 30,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
-    musculos: {
-      primarios: ["Bíceps Braquial"],
-      secundarios: ["Braquial Anterior", "Antebraço"]
-    },
-    analise: "Mantenha os cotovelos fixos ao lado do corpo e evite usar o balanço do quadril.",
+  "pulldown-bracos-estendidos": {
+    nome: "Pulldown com Barra no Pulley",
+    grupo: "Costas (Isolamento)",
+    xp: 40,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Tríceps (Cabeça Longa)"] },
+    analise: "Isole o movimento fazendo um arco com os braços estendidos até as coxas.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "rosca-martelo": {
     nome: "Rosca Martelo com Halteres",
-    grupo: "Bíceps",
-    xp: 30,
-    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Braquiorradial", "Bíceps Braquial"],
-      secundarios: ["Antebraço"]
-    },
-    analise: "Com as palmas das mãos voltadas uma para a outra, execute o movimento focando na espessura do braço.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    grupo: "Bíceps / Antebraço",
+    xp: 35,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
+    musculos: { primarios: ["Braquiorradial", "Bíceps Braquial"], secundarios: ["Antebraço"] },
+    analise: "Palmas voltadas para dentro focando no braquial e na espessura do braço.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
   },
-  "encolhimento": {
-    nome: "Encolhimento com Halteres",
-    grupo: "Trapézio",
-    xp: 30,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Dumbbell-shrug-1.gif",
-    musculos: {
-      primarios: ["Trapézio Superior"],
-      secundarios: ["Levantador da Escápula"]
-    },
-    analise: "Eleve os ombros reto em direção às orelhas. Evite rodar os ombros para proteger a articulação.",
-    series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
+  "rosca-scott-concentrada": {
+    nome: "Rosca Scott ou Concentrada",
+    grupo: "Bíceps",
+    xp: 35,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
+    musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Antebraço"] },
+    analise: "Controle a fase excêntrica (descida) estendendo totalmente o braço.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
 
-  // --- TREINO B: PERNAS ---
-  "agachamento": {
-    nome: "Agachamento Livre",
+  // --- TERÇA-FEIRA ---
+  "agachamento-livre": {
+    nome: "Agachamento (Livre ou Hack)",
     grupo: "Pernas",
     xp: 60,
     gif: "https://upload.wikimedia.org/wikipedia/commons/8/82/Squat-1.gif",
-    musculos: {
-      primarios: ["Quadríceps", "Glúteo Máximo"],
-      secundarios: ["Isquiotibiais", "Eretores da Espinha"]
-    },
-    analise: "Mantenha os joelhos alinhados com as pontas dos pés e desça preservando as curvaturas naturais da coluna.",
-    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
+    musculos: { primarios: ["Quadríceps", "Glúteo Máximo"], secundarios: ["Isquiotibiais", "Core"] },
+    analise: "Mantenha o tronco firme e desça controlando até formar 90 graus ou mais.",
+    series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
   },
-  "leg-press": {
+  "leg-press-45": {
     nome: "Leg Press 45º",
     grupo: "Pernas",
     xp: 50,
     gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Quadríceps", "Glúteos"],
-      secundarios: ["Isquiotibiais"]
-    },
-    analise: "Evite tirar a região lombar e o quadril do encosto do banco durante a descida da plataforma.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
+    musculos: { primarios: ["Quadríceps", "Glúteos"], secundarios: ["Isquiotibiais"] },
+    analise: "Evite tirar a lombar do encosto ao flexionar os joelhos.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
   },
-  "extensora": {
+  "cadeira-extensora": {
     nome: "Cadeira Extensora",
-    grupo: "Pernas",
-    xp: 40,
+    grupo: "Pernas (Falha)",
+    xp: 45,
     gif: "https://upload.wikimedia.org/wikipedia/commons/2/22/Leg-extension-1.gif",
-    musculos: {
-      primarios: ["Quadríceps (Isolamento)"],
-      secundarios: ["Nenhum (Isolado)"]
-    },
-    analise: "Ajuste o encosto para alinhar o joelho com o eixo da máquina. Segure a extensão por 1s no topo.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    musculos: { primarios: ["Quadríceps"], secundarios: [] },
+    analise: "Segure por 1 segundo no topo espremendo o quadríceps.",
+    series: ["Série 1: 15 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
-  "flexora": {
+  "mesa-flexora": {
     nome: "Mesa Flexora",
-    grupo: "Pernas",
-    xp: 40,
+    grupo: "Posteriores",
+    xp: 45,
     gif: "https://upload.wikimedia.org/wikipedia/commons/2/23/Lying-leg-curl-1.gif",
-    musculos: {
-      primarios: ["Isquiotibiais (Posterior de Coxa)"],
-      secundarios: ["Gastrocnêmio"]
-    },
-    analise: "Mantenha o quadril firme contra o banco para não sobrecarregar a região lombar durante a flexão.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    musculos: { primarios: ["Isquiotibiais"], secundarios: ["Gastrocnêmio"] },
+    analise: "Mantenha o quadril pressionado contra o banco durante a flexão.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
-  "stiff": {
-    nome: "Stiff com Barra",
-    grupo: "Pernas",
-    xp: 50,
-    gif: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Isquiotibiais", "Glúteo Máximo"],
-      secundarios: ["Eretores da Espinha"]
-    },
-    analise: "Mantenha os joelhos levemente flexionados (sem travar) e mova o quadril para trás sentindo alongar o posterior.",
-    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
-  },
-  "panturrilha": {
-    nome: "Gêmeos em Pé",
+  "gemeos-pe": {
+    nome: "Gêmeos em Pé ou Sentado",
     grupo: "Panturrilhas",
-    xp: 30,
+    xp: 35,
     gif: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Standing-calf-raise-1.gif",
-    musculos: {
-      primarios: ["Gastrocnêmio"],
-      secundarios: ["Sóleo"]
-    },
-    analise: "Faça uma amplitude completa: desça bem o calcanhar e suba no ponto máximo da ponta do pé.",
+    musculos: { primarios: ["Gastrocnêmio", "Sóleo"], secundarios: [] },
+    analise: "Amplitude máxima: alongue embaixo e suba ao ponto mais alto.",
     series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
   },
 
-  // --- TREINO C: PEITO, OMBRO, TRÍCEPS E ANTEBRAÇO ---
+  // --- QUARTA-FEIRA ---
+  "descanso": {
+    nome: "Descanso Total e Recuperação",
+    grupo: "Recuperação Mental e Física",
+    xp: 0,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Sistema Nervoso Central"], secundarios: ["Foco Acadêmico (Cálculo II)"] },
+    analise: "Dia focado na regeneração muscular e blindagem cognitiva.",
+    series: ["Série Única: Foco nos Estudos 📚"]
+  },
+
+  // --- QUINTA-FEIRA ---
+  "remada-curvada": {
+    nome: "Remada Curvada com Barra",
+    grupo: "Costas (Força Bruta)",
+    xp: 55,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bent-over-row-1.gif",
+    musculos: { primarios: ["Latíssimo do Dorso", "Trapézio Médio"], secundarios: ["Bíceps", "Lombares"] },
+    analise: "Coluna neutra e puxada direcionada ao umbigo para ganho de espessura.",
+    series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
+  },
+  "remada-cavalinho": {
+    nome: "Remada Cavalinho",
+    grupo: "Costas (Miolo)",
+    xp: 45,
+    gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Romboides", "Trapézio"], secundarios: ["Bíceps"] },
+    analise: "Foque na retração escapular forte a cada repetição.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
+  "remada-unilateral": {
+    nome: "Remada Unilateral com Halter (Serrote)",
+    grupo: "Costas (Assimetrias)",
+    xp: 45,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps"] },
+    analise: "Apoie o joelho e a mão no banco, trazendo o cotovelo rente à costela.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
+  "crucifixo-invertido": {
+    nome: "Crucifixo Invertido / Face Pull",
+    grupo: "Posterior de Ombro",
+    xp: 40,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: { primarios: ["Deltoide Posterior"], secundarios: ["Trapézio Superior"] },
+    analise: "Abra os braços para trás com foco na saúde articular e postura tridimensional.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
+  },
+  "rosca-direta-w": {
+    nome: "Rosca Direta (Barra W)",
+    grupo: "Bíceps",
+    xp: 35,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
+    musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Antebraço"] },
+    analise: "Pegada anatômica com cotovelos fixos ao lado do tronco.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
+
+  // --- SEXTA-FEIRA ---
+  "supino-inclinado-halteres": {
+    nome: "Supino Inclinado c/ Halteres",
+    grupo: "Peitoral Superior",
+    xp: 50,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Incline-dumbbell-press-1.gif",
+    musculos: { primarios: ["Peitoral Superior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
+    analise: "Banco a 30°-45° direcionando a carga para a porção clavicular do peito.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
+  },
   "supino-reto": {
     nome: "Supino Reto com Barra",
     grupo: "Peitoral",
-    xp: 50,
+    xp: 45,
     gif: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bench-press-1.gif",
-    musculos: {
-      primarios: ["Peitoral Maior"],
-      secundarios: ["Tríceps Braquial", "Deltoide Anterior"]
-    },
-    analise: "Mantenha os pés firmes no chão, aduza as escápulas e desça a barra até tocar suavemente o peito.",
-    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
+    musculos: { primarios: ["Peitoral Maior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
+    analise: "Aduza as escápulas e toque a barra suavemente no meio do peito.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps"]
   },
-  "supino-inclinado": {
-    nome: "Supino Inclinado c/ Halteres",
-    grupo: "Peitoral",
+  "crossover-pec-deck": {
+    nome: "Crossover ou Pec Deck",
+    grupo: "Peitoral (Esmagamento)",
     xp: 40,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Incline-dumbbell-press-1.gif",
-    musculos: {
-      primarios: ["Peitoral Superior (Clavicular)"],
-      secundarios: ["Deltoide Anterior", "Tríceps"]
-    },
-    analise: "O banco inclinado a 30°/45° direciona a carga com precisão para a porção superior do peitoral.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
-  },
-  "crucifixo": {
-    nome: "Crucifixo Reto com Halteres",
-    grupo: "Peitoral",
-    xp: 30,
     gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Peitoral Maior (Isolamento)"],
-      secundarios: ["Deltoide Anterior"]
-    },
-    analise: "Mantenha uma leve flexão fixa nos cotovelos e abra os braços sentindo o peito esticar no eixo horizontal.",
+    musculos: { primarios: ["Peitoral Maior (Isolamento)"], secundarios: [] },
+    analise: "Feche os braços esmagando o centro do peitoral no ápice.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
-  "desenvolvimento": {
-    nome: "Desenvolvimento c/ Halteres",
-    grupo: "Ombros",
+  "desenvolvimento-lateral": {
+    nome: "Desenvolvimento e Elevação Lateral",
+    grupo: "Ombros (Largura)",
     xp: 40,
     gif: "https://upload.wikimedia.org/wikipedia/commons/5/52/Dumbbell-shoulder-press-1.gif",
-    musculos: {
-      primarios: ["Deltoide Anterior e Lateral"],
-      secundarios: ["Tríceps Braquial", "Trapézio"]
-    },
-    analise: "Empurre os halteres até quase estender totalmente os cotovelos sem bater as cargas no topo.",
-    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
-  },
-  "elevacao-lateral": {
-    nome: "Elevação Lateral",
-    grupo: "Ombros",
-    xp: 30,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/0/01/Dumbbell-lateral-raise-1.gif",
-    musculos: {
-      primarios: ["Deltoide Lateral"],
-      secundarios: ["Trapézio Superior"]
-    },
-    analise: "Suba os cotovelos levemente flexionados até a linha dos ombros evitando o balanço do tronco.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    musculos: { primarios: ["Deltoide Lateral e Anterior"], secundarios: ["Tríceps"] },
+    analise: "Controle a subida dos pesos para expandir a silhueta dos ombros.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
   "triceps-pulley": {
     nome: "Tríceps Pulley (Corda)",
     grupo: "Tríceps",
-    xp: 30,
+    xp: 35,
     gif: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Triceps-pushdown-1.gif",
-    musculos: {
-      primarios: ["Tríceps Braquial"],
-      secundarios: ["Ancôneo"]
-    },
-    analise: "Mantenha o cotovelo totalmente fixo ao lado do corpo, abrindo a corda no final para pico de contração.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+    musculos: { primarios: ["Tríceps Braquial"], secundarios: [] },
+    analise: "Abra a corda no final do movimento para contração máxima.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
   },
-  "triceps-testa": {
-    nome: "Tríceps Testa com Barra W",
+  "triceps-testa-frances": {
+    nome: "Tríceps Testa ou Francês",
     grupo: "Tríceps",
-    xp: 40,
+    xp: 35,
     gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-    musculos: {
-      primarios: ["Tríceps Braquial (Cabeça Longa)"],
-      secundarios: ["Antebraço"]
-    },
-    analise: "Deitado no banco, flexione apenas os cotovelos trazendo a barra em direção à testa ou logo atrás da cabeça.",
-    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
-  },
-  "antebraco": {
-    nome: "Rosca Inversa / Flexão de Punho",
-    grupo: "Antebraço",
-    xp: 30,
-    gif: "https://upload.wikimedia.org/wikipedia/commons/7/70/Reverse-barbell-curl-1.gif",
-    musculos: {
-      primarios: ["Braquiorradial", "Extensores do Punho"],
-      secundarios: ["Bíceps Braquial"]
-    },
-    analise: "Segure a barra com pegada pronada (palmas para baixo) para focar na ativação do antebraço.",
-    series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps"]
+    musculos: { primarios: ["Tríceps (Cabeça Longa)"], secundarios: [] },
+    analise: "Flexione apenas os cotovelos mantendo os braços firmes.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   }
 };
 
+// ==========================================
+// 3. LÓGICA DE CONTROLE E INTERAÇÃO
+// ==========================================
 let exercicioAtual = null;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -283,24 +298,30 @@ function carregarDadosExercicio() {
   const divPrimarios = document.getElementById("musculos-primarios");
   const divSecundarios = document.getElementById("musculos-secundarios");
 
-  divPrimarios.innerHTML = exercicioAtual.musculos.primarios
-    .map(m => `<span class="badge-musculo primario">🔴 ${m}</span>`).join("");
+  if (divPrimarios && exercicioAtual.musculos) {
+    divPrimarios.innerHTML = exercicioAtual.musculos.primarios
+      .map(m => `<span class="badge-musculo primario">🔴 ${m}</span>`).join("");
+  }
 
-  divSecundarios.innerHTML = exercicioAtual.musculos.secundarios
-    .map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("");
+  if (divSecundarios && exercicioAtual.musculos) {
+    divSecundarios.innerHTML = exercicioAtual.musculos.secundarios
+      .map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("");
+  }
 
   const containerSeries = document.getElementById("lista-series");
-  containerSeries.innerHTML = "";
+  if (containerSeries) {
+    containerSeries.innerHTML = "";
 
-  exercicioAtual.series.forEach((textoSerie) => {
-    const label = document.createElement("label");
-    label.className = "serie-item";
-    label.innerHTML = `
-      <span>${textoSerie}</span>
-      <input type="checkbox" class="check-serie" onchange="verificarConclusao()">
-    `;
-    containerSeries.appendChild(label);
-  });
+    exercicioAtual.series.forEach((textoSerie) => {
+      const label = document.createElement("label");
+      label.className = "serie-item";
+      label.innerHTML = `
+        <span>${textoSerie}</span>
+        <input type="checkbox" class="check-serie" onchange="verificarConclusao()">
+      `;
+      containerSeries.appendChild(label);
+    });
+  }
 }
 
 function verificarConclusao() {
