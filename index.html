@@ -8,67 +8,84 @@
 </head>
 <body>
 
-  <!-- DASHBOARD PRINCIPAL -->
-  <div class="container">
-    
-    <!-- CARD DO PERSONAGEM -->
-    <div class="card-personagem">
-      <!-- Clicar no avatar abre o seletor de classe -->
-      <div class="avatar-box" id="btn-avatar" onclick="abrirSeletorClasses()" style="cursor: pointer;">
-        <img id="avatar-img" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Aventureiro" alt="Seu Personagem">
-        <span class="badge-nivel" id="char-level">Lvl 1</span>
-      </div>
-      
-      <h2 id="char-name">Aventureiro</h2>
-      <p id="char-class-title" class="classe-label" onclick="abrirSeletorClasses()" style="cursor: pointer;">
-        Clique no avatar para escolher a classe
-      </p>
-      
-      <!-- BARRA DE XP -->
-      <div class="xp-bar-container">
-        <div class="xp-bar-fill" id="xp-fill" style="width: 0%;"></div>
-      </div>
-      <p class="xp-text" id="xp-text">0 / 100 XP</p>
-    </div>
+  <div class="main-container">
 
-    <!-- MODAL / SELETOR DE CLASSES -->
-    <div id="modal-classes" class="modal hidden">
-      <div class="modal-content">
-        <h3>Escolha seu Caminho:</h3>
+    <!-- ==========================================
+         ETAPA 1: TELA DE ACESSO (LOGIN)
+         ========================================== -->
+    <section id="screen-login" class="screen">
+      <div class="card-login">
+        <span class="logo-icon">🛡️</span>
+        <h1>Discipline RPG</h1>
+        <p>Digite sua senha para acessar sua jornada</p>
         
-        <div class="grid-classes">
-          <!-- GUERREIRO -> TREINO -->
-          <div class="card-classe guerreiro" onclick="selecionarClasse('guerreiro')">
-            <span class="icone-classe">⚔️</span>
-            <h4>Guerreiro</h4>
-            <p>Foco: Treino e Força</p>
+        <form id="form-login" onsubmit="autenticarUsuario(event)">
+          <div class="input-group">
+            <input 
+              type="password" 
+              id="input-password" 
+              placeholder="Sua senha secreta" 
+              required 
+            />
           </div>
+          <button type="submit" class="btn-primary">Entrar no Reino</button>
+        </form>
+      </div>
+    </section>
 
-          <!-- MAGO -> MENTE -->
-          <div class="card-classe mago" onclick="selecionarClasse('mago')">
-            <span class="icone-classe">🧙‍♂️</span>
-            <h4>Mago</h4>
-            <p>Foco: Mente e Estudos</p>
-          </div>
+    <!-- ==========================================
+         ETAPA 2: SELEÇÃO DE AVATAR & CLASSES
+         ========================================== -->
+    <section id="screen-avatars" class="screen hidden">
+      <header class="header-selecao">
+        <h2>Escolha seu Campeão</h2>
+        <p>Selecione a área que deseja evoluir hoje</p>
+      </header>
 
-          <!-- CLÉRIGO -> ALMA -->
-          <div class="card-classe clerigo" onclick="selecionarClasse('clerigo')">
-            <span class="icone-classe">✨</span>
-            <h4>Clérigo</h4>
-            <p>Foco: Alma e Meditação</p>
+      <div class="grid-avatars">
+        
+        <!-- GUERREIRO (TREINO) -->
+        <div class="card-avatar-select" onclick="entrarComoClasse('guerreiro')">
+          <div class="badge-level" id="lvl-guerreiro">Lvl 1</div>
+          <div class="avatar-frame">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Guerreiro" alt="Guerreiro">
           </div>
-
-          <!-- DRUIDA -> ALIMENTAÇÃO -->
-          <div class="card-classe druida" onclick="selecionarClasse('druida')">
-            <span class="icone-classe">🍃</span>
-            <h4>Druida</h4>
-            <p>Foco: Alimentação e Saúde</p>
-          </div>
+          <h3>Guerreiro</h3>
+          <span class="foco-tag">💪 Treino</span>
         </div>
 
-        <button class="btn-fechar" onclick="fecharSeletorClasses()">Fechar</button>
+        <!-- MAGO (MENTE) -->
+        <div class="card-avatar-select" onclick="entrarComoClasse('mago')">
+          <div class="badge-level" id="lvl-mago">Lvl 1</div>
+          <div class="avatar-frame">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Mago" alt="Mago">
+          </div>
+          <h3>Mago</h3>
+          <span class="foco-tag">🧠 Mente</span>
+        </div>
+
+        <!-- CLÉRIGO (ALMA) -->
+        <div class="card-avatar-select" onclick="entrarComoClasse('clerigo')">
+          <div class="badge-level" id="lvl-clerigo">Lvl 1</div>
+          <div class="avatar-frame">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Clerigo" alt="Clérigo">
+          </div>
+          <h3>Clérigo</h3>
+          <span class="foco-tag">✨ Alma</span>
+        </div>
+
+        <!-- DRUIDA (ALIMENTAÇÃO) -->
+        <div class="card-avatar-select" onclick="entrarComoClasse('druida')">
+          <div class="badge-level" id="lvl-druida">Lvl 1</div>
+          <div class="avatar-frame">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Druida" alt="Druida">
+          </div>
+          <h3>Druida</h3>
+          <span class="foco-tag">🍃 Alimentação</span>
+        </div>
+
       </div>
-    </div>
+    </section>
 
   </div>
 
