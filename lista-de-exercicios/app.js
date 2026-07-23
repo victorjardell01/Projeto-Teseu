@@ -1,44 +1,251 @@
-// Pega automaticamente o nome do exercício baseado no título da página HTML
-const nomeExercicio = document.title.replace(" - Detalhes", "").trim();
+// BANCO DE DADOS UNIFICADO (TREINOS A, B e C)
+const BD_EXERCICIOS = {
+  // --- TREINO A: COSTAS, BÍCEPS E TRAPÉZIO ---
+  "remada-curvada": {
+    nome: "Remada Curvada",
+    grupo: "Costas",
+    xp: 50,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bent-over-row-1.gif",
+    musculos: {
+      primarios: ["Latíssimo do Dorso", "Trapézio Médio"],
+      secundarios: ["Bíceps Braquial", "Lombares"]
+    },
+    analise: "Mantenha a coluna neutra e puxe a barra em direção ao umbigo enfatizando a adução escapular no final.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
+  },
+  "puxada-alta": {
+    nome: "Puxada Alta",
+    grupo: "Costas",
+    xp: 50,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/8/86/Lat-pulldown-1.gif",
+    musculos: {
+      primarios: ["Latíssimo do Dorso (Grande Dorsal)"],
+      secundarios: ["Bíceps", "Braquiorradial"]
+    },
+    analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente para trás.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
+  },
+  "rosca-direta": {
+    nome: "Rosca Direta",
+    grupo: "Bíceps",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
+    musculos: {
+      primarios: ["Bíceps Braquial"],
+      secundarios: ["Braquial Anterior", "Antebraço"]
+    },
+    analise: "Mantenha os cotovelos fixos ao lado do corpo e evite usar o balanço do quadril.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "encolhimento": {
+    nome: "Encolhimento com Halteres",
+    grupo: "Trapézio",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Dumbbell-shrug-1.gif",
+    musculos: {
+      primarios: ["Trapézio Superior"],
+      secundarios: ["Levantador da Escápula"]
+    },
+    analise: "Eleve os ombros reto em direção às orelhas. Evite rodar os ombros para proteger a articulação.",
+    series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
+  },
 
+  // --- TREINO B: PERNAS ---
+  "agachamento": {
+    nome: "Agachamento Livre",
+    grupo: "Pernas",
+    xp: 60,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/8/82/Squat-1.gif",
+    musculos: {
+      primarios: ["Quadríceps", "Glúteo Máximo"],
+      secundarios: ["Isquiotibiais", "Eretores da Espinha"]
+    },
+    analise: "Mantenha os joelhos alinhados com as pontas dos pés e desça preservando as curvaturas naturais da coluna.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
+  },
+  "extensora": {
+    nome: "Cadeira Extensora",
+    grupo: "Pernas",
+    xp: 40,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/2/22/Leg-extension-1.gif",
+    musculos: {
+      primarios: ["Quadríceps (Isolamento)"],
+      secundarios: ["Nenhum (Isolado)"]
+    },
+    analise: "Ajuste o encosto para alinhar o joelho com o eixo da máquina. Segure a extensão por 1s no topo.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "flexora": {
+    nome: "Mesa Flexora",
+    grupo: "Pernas",
+    xp: 40,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/2/23/Lying-leg-curl-1.gif",
+    musculos: {
+      primarios: ["Isquiotibiais (Posterior de Coxa)"],
+      secundarios: ["Gastrocnêmio"]
+    },
+    analise: "Mantenha o quadril firme contra o banco para não sobrecarregar a região lombar durante a flexão.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "panturrilha": {
+    nome: "Gêmeos em Pé",
+    grupo: "Panturrilhas",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Standing-calf-raise-1.gif",
+    musculos: {
+      primarios: ["Gastrocnêmio"],
+      secundarios: ["Sóleo"]
+    },
+    analise: "Faça uma amplitude completa: desça bem o calcanhar e suba no ponto máximo da ponta do pé.",
+    series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
+  },
+
+  // --- TREINO C: PEITO, OMBRO, TRÍCEPS E ANTEBRAÇO ---
+  "supino-reto": {
+    nome: "Supino Reto",
+    grupo: "Peitoral",
+    xp: 50,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bench-press-1.gif",
+    musculos: {
+      primarios: ["Peitoral Maior"],
+      secundarios: ["Tríceps Braquial", "Deltoide Anterior"]
+    },
+    analise: "Mantenha os pés firmes no chão, aduza as escápulas e desça a barra até tocar suavemente o peito.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
+  },
+  "supino-inclinado": {
+    nome: "Supino Inclinado c/ Halteres",
+    grupo: "Peitoral",
+    xp: 40,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Incline-dumbbell-press-1.gif",
+    musculos: {
+      primarios: ["Peitoral Superior (Clavicular)"],
+      secundarios: ["Deltoide Anterior", "Tríceps"]
+    },
+    analise: "O banco inclinado a 30°/45° direciona a carga com precisão para a porção superior do peitoral.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "desenvolvimento": {
+    nome: "Desenvolvimento c/ Halteres",
+    grupo: "Ombros",
+    xp: 40,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/5/52/Dumbbell-shoulder-press-1.gif",
+    musculos: {
+      primarios: ["Deltoide Anterior e Lateral"],
+      secundarios: ["Tríceps Braquial", "Trapézio"]
+    },
+    analise: "Empurre os halteres até quase estender totalmente os cotovelos sem bater as cargas no topo.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
+  "elevacao-lateral": {
+    nome: "Elevação Lateral",
+    grupo: "Ombros",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/0/01/Dumbbell-lateral-raise-1.gif",
+    musculos: {
+      primarios: ["Deltoide Lateral"],
+      secundarios: ["Trapézio Superior"]
+    },
+    analise: "Suba os cotovelos levemente flexionados até a linha dos ombros evitando o balanço do tronco.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "triceps-pulley": {
+    nome: "Tríceps Pulley",
+    grupo: "Tríceps",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Triceps-pushdown-1.gif",
+    musculos: {
+      primarios: ["Tríceps Braquial"],
+      secundarios: ["Ancôneo"]
+    },
+    analise: "Mantenha o cotovelo totalmente fixo ao lado do corpo, movimentando apenas o antebraço.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "antebraco": {
+    nome: "Rosca Inversa / Flexão de Punho",
+    grupo: "Antebraço",
+    xp: 30,
+    gif: "https://upload.wikimedia.org/wikipedia/commons/7/70/Reverse-barbell-curl-1.gif",
+    musculos: {
+      primarios: ["Braquiorradial", "Extensores do Punho"],
+      secundarios: ["Bíceps Braquial"]
+    },
+    analise: "Segure a barra com pegada pronada (palmas para baixo) para focar na ativação do antebraço.",
+    series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps"]
+  }
+};
+
+let exercicioAtual = null;
+
+// Lógica de Carregamento Dinâmico
 document.addEventListener("DOMContentLoaded", () => {
-  carregarDadosExercicio();
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+
+  exercicioAtual = BD_EXERCICIOS[id];
+
+  if (exercicioAtual) {
+    carregarDadosExercicio();
+  } else {
+    alert("Exercício não encontrado!");
+    window.location.href = "../index.html";
+  }
 });
 
-// Salva a carga e as repetições no navegador
-function salvarDadosExercicio() {
-  const cargaInput = document.getElementById("input-carga").value;
-  const repsInput = document.getElementById("input-reps").value;
-
-  const dados = {
-    carga: cargaInput,
-    reps: repsInput
-  };
-
-  // Salva usando o nome do exercício como chave única (ex: "Puxada Alta-dados")
-  localStorage.setItem(`${nomeExercicio}-dados`, JSON.stringify(dados));
+function carregarDadosExercicio() {
+  document.getElementById("ex-nome").textContent = exercicioAtual.nome;
+  document.getElementById("ex-grupo").textContent = `Músculo Alvo: ${exercicioAtual.grupo}`;
+  document.getElementById("ex-xp").textContent = `+${exercicioAtual.xp} XP Recompensa`;
   
-  // Feedback visual rápido de salvo
-  const btnSalvar = document.getElementById("btn-salvar");
-  const textoOriginal = btnSalvar.innerHTML;
-  btnSalvar.innerHTML = "💾 Salvo! ✔";
-  btnSalvar.style.background = "#00ffcc";
-  btnSalvar.style.color = "#000";
+  document.getElementById("ex-animacao").src = exercicioAtual.gif || "";
+  document.getElementById("ex-analise-texto").textContent = exercicioAtual.analise || "Execute com boa postura.";
 
-  setTimeout(() => {
-    btnSalvar.innerHTML = textoOriginal;
-    btnSalvar.style.background = "";
-    btnSalvar.style.color = "";
-  }, 1500);
+  // Renderizar Badges de Músculos
+  const divPrimarios = document.getElementById("musculos-primarios");
+  const divSecundarios = document.getElementById("musculos-secundarios");
+
+  divPrimarios.innerHTML = exercicioAtual.musculos.primarios
+    .map(m => `<span class="badge-musculo primario">🔴 ${m}</span>`).join("");
+
+  divSecundarios.innerHTML = exercicioAtual.musculos.secundarios
+    .map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("");
+
+  // Renderizar Checklist de Séries
+  const containerSeries = document.getElementById("lista-series");
+  containerSeries.innerHTML = "";
+
+  exercicioAtual.series.forEach((textoSerie) => {
+    const label = document.createElement("label");
+    label.className = "serie-item";
+    label.innerHTML = `
+      <span>${textoSerie}</span>
+      <input type="checkbox" class="check-serie" onchange="verificarConclusao()">
+    `;
+    containerSeries.appendChild(label);
+  });
 }
 
-// Carrega os dados salvos anteriormente quando a página abre
-function carregarDadosExercicio() {
-  const dadosSalvos = localStorage.getItem(`${nomeExercicio}-dados`);
+function verificarConclusao() {
+  const checkboxes = document.querySelectorAll(".check-serie");
+  const todasConcluidas = Array.from(checkboxes).every(cb => cb.checked);
+  const btnFinalizar = document.getElementById("btn-finalizar");
 
-  if (dadosSalvos) {
-    const dados = JSON.parse(dadosSalvos);
-    document.getElementById("input-carga").value = dados.carga;
-    document.getElementById("input-reps").value = dados.reps;
+  if (todasConcluidas) {
+    btnFinalizar.disabled = false;
+    btnFinalizar.style.opacity = "1";
+    btnFinalizar.style.cursor = "pointer";
+  } else {
+    btnFinalizar.disabled = true;
+    btnFinalizar.style.opacity = "0.5";
+    btnFinalizar.style.cursor = "not-allowed";
   }
+}
+
+function finalizarExercicios() {
+  let xpAtual = parseInt(localStorage.getItem("rpg_xp") || "0");
+  xpAtual += exercicioAtual.xp;
+  localStorage.setItem("rpg_xp", xpAtual.toString());
+
+  alert(`⚔️ EXERCÍCIO CONCLUÍDO!\nVocê ganhou +${exercicioAtual.xp} XP!`);
+  window.location.href = "../index.html";
 }
