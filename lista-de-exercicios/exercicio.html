@@ -18,6 +18,94 @@
       margin: 0 auto;
     }
 
+    /* CARD DE STATUS DO GUERREIRO (RPG) */
+    .status-card {
+      background: linear-gradient(135deg, #14141a, #1f1f2e);
+      border: 1px solid #33334d;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.05);
+    }
+
+    .status-info h3 {
+      margin: 0 0 5px 0;
+      font-size: 1.1rem;
+      color: #00ffcc;
+    }
+
+    .status-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* BARRA DE XP CIRCULAR / PROGRESSO DO DIA */
+    .circular-progress {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: conic-gradient(#00ffcc 0deg, #222 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .circular-progress::before {
+      content: "";
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #14141a;
+    }
+
+    .progress-value {
+      position: relative;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    /* CRONÔMETRO DE DESCANSO TÁTICO */
+    .cronometro-box {
+      background: #121218;
+      border: 1px solid #2a2a3d;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .cronometro-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffc107;
+      font-family: monospace;
+      margin: 5px 0;
+    }
+
+    .btn-timer {
+      background: #2a2a3d;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .btn-timer:hover {
+      background: #3a3a5c;
+    }
+
     /* Seletor dos Dias da Semana */
     .dias-semana-grid {
       display: grid;
@@ -104,9 +192,31 @@
   <div class="container-treino">
     <a href="../index.html" style="color: #888; text-decoration: none; font-size: 0.9rem;">⬅ Voltar ao Dashboard</a>
 
-    <div style="margin-top: 15px;">
+    <div style="margin-top: 15px; margin-bottom: 20px;">
       <h2 style="color: #fff; border-left: 3px solid #00ffcc; padding-left: 10px; margin: 0;">Quartel do Guerreiro</h2>
       <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">Selecione o dia da semana para visualizar suas missões de treino.</p>
+    </div>
+
+    <!-- PAINEL DE STATUS DO HERÓI (Adicionado aqui) -->
+    <div class="status-card">
+      <div class="status-info">
+        <h3 id="rpg-titulo-classe">🛡️ GUERREIRO EM BATALHA</h3>
+        <p id="rpg-texto-status">Carregando dados de XP...</p>
+      </div>
+      <!-- BARRA DE XP CIRCULAR -->
+      <div class="circular-progress" id="circulo-progresso">
+        <div class="progress-value" id="texto-porcentagem">0%</div>
+      </div>
+    </div>
+
+    <!-- CRONÔMETRO DE DESCANSO TÁTICO (Adicionado aqui) -->
+    <div class="cronometro-box">
+      <span style="font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">⏱️ Descanso entre Séries</span>
+      <div class="cronometro-display" id="display-tempo">01:30</div>
+      <div>
+        <button class="btn-timer" onclick="iniciarCronometro()">Iniciar (90s)</button>
+        <button class="btn-timer" onclick="zerarCronometro()">Zerar</button>
+      </div>
     </div>
 
     <!-- DIAS DA SEMANA -->
