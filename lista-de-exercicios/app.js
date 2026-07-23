@@ -251,10 +251,13 @@ const BD_EXERCICIOS = {
 
 let exercicioAtual = null;
 
-// Lógica de Carregamento Dinâmico
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
+
+  if (!id) {
+    return; // Modo agenda semanal (sem ID na URL)
+  }
 
   exercicioAtual = BD_EXERCICIOS[id];
 
@@ -262,19 +265,21 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarDadosExercicio();
   } else {
     alert("Exercício não encontrado!");
-    window.location.href = "../index.html";
+    window.location.href = "exercicio.html";
   }
 });
 
 function carregarDadosExercicio() {
-  document.getElementById("ex-nome").textContent = exercicioAtual.nome;
+  const elNome = document.getElementById("ex-nome");
+  if (!elNome) return;
+
+  elNome.textContent = exercicioAtual.nome;
   document.getElementById("ex-grupo").textContent = `Músculo Alvo: ${exercicioAtual.grupo}`;
   document.getElementById("ex-xp").textContent = `+${exercicioAtual.xp} XP Recompensa`;
   
   document.getElementById("ex-animacao").src = exercicioAtual.gif || "";
   document.getElementById("ex-analise-texto").textContent = exercicioAtual.analise || "Execute com boa postura.";
 
-  // Renderizar Badges de Músculos
   const divPrimarios = document.getElementById("musculos-primarios");
   const divSecundarios = document.getElementById("musculos-secundarios");
 
@@ -284,7 +289,6 @@ function carregarDadosExercicio() {
   divSecundarios.innerHTML = exercicioAtual.musculos.secundarios
     .map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("");
 
-  // Renderizar Checklist de Séries
   const containerSeries = document.getElementById("lista-series");
   containerSeries.innerHTML = "";
 
@@ -301,22 +305,25 @@ function carregarDadosExercicio() {
 
 function verificarConclusao() {
   const checkboxes = document.querySelectorAll(".check-serie");
+  if (checkboxes.length === 0) return;
+  
   const todasConcluidas = Array.from(checkboxes).every(cb => cb.checked);
   const btnFinalizar = document.getElementById("btn-finalizar");
 
-  if (todasConcluidas) {
-    btnFinalizar.disabled = false;
-    btnFinalizar.style.opacity = "1";
-    btnFinalizar.style.cursor = "pointer";
-  } else {
-    btnFinalizar.disabled = true;
-    btnFinalizar.style.opacity = "0.5";
-    btnFinalizar.style.cursor = "not-allowed";
+  if (btnFinalizar) {
+    if (todasConcluidas) {
+      btnFinalizar.disabled = false;
+      btnFinalizar.style.opacity = "1";
+      btnFinalizar.style.cursor = "pointer";
+    } else {
+      btnFinalizar.disabled = true;
+      btnFinalizar.style.opacity = "0.5";
+      btnFinalizar.style.cursor = "not-allowed";
+    }
   }
 }
 
 function finalizarExercicios() {
-  // Recupera os dados completos do RPG do localStorage
   let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
     guerreiro: { level: 1, xp: 0, xpMax: 100 },
     mago: { level: 1, xp: 0, xpMax: 100 },
@@ -327,7 +334,6 @@ function finalizarExercicios() {
   let guerreiro = dadosRPG.guerreiro;
   guerreiro.xp += exercicioAtual.xp;
 
-  // Lógica de Level Up
   if (guerreiro.xp >= guerreiro.xpMax) {
     guerreiro.xp -= guerreiro.xpMax;
     guerreiro.level += 1;
@@ -337,7 +343,6 @@ function finalizarExercicios() {
     alert(`⚔️ EXERCÍCIO CONCLUÍDO!\nVocê ganhou +${exercicioAtual.xp} XP!`);
   }
 
-  // Salva de volta no localStorage
   localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
-  window.location.href = "../index.html";
+  window.location.href = "exercicio.html";
 }
