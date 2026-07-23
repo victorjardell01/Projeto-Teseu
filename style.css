@@ -15,199 +15,186 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 80%);
 }
 
-/* ==========================================
-   2. CONTAINER PRINCIPAL
-   ========================================== */
-.container {
+.main-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   padding: 20px;
 }
 
-/* ==========================================
-   3. CARD DO PERSONAGEM (DASHBOARD)
-   ========================================== */
-.card-personagem {
-  background: #141414;
-  border: 1px solid #222222;
-  border-radius: 16px;
-  padding: 28px 20px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-}
-
-.avatar-box {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  margin-bottom: 12px;
-}
-
-/* Impede que o clique na imagem/badge trave o evento da div pai */
-.avatar-box * {
-  pointer-events: none;
-}
-
-.avatar-box img {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 3px solid #00ffcc;
-  object-fit: cover;
-  background-color: #1f1f1f;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.avatar-box:hover img {
-  transform: scale(1.05);
-  border-color: #00cca3;
-}
-
-.badge-nivel {
-  position: absolute;
-  bottom: 2px;
-  right: -2px;
-  background: #00ffcc;
-  color: #000000;
-  font-weight: bold;
-  font-size: 0.8rem;
-  padding: 3px 9px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-#char-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.classe-label {
-  color: #00ffcc;
-  font-size: 0.85rem;
-  margin-bottom: 18px;
-  transition: opacity 0.2s;
-}
-
-.classe-label:hover {
-  opacity: 0.8;
-}
-
-/* ==========================================
-   4. BARRA DE XP
-   ========================================== */
-.xp-bar-container {
-  width: 100%;
-  height: 12px;
-  background: #222222;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-
-.xp-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #00ffcc, #00b388);
-  transition: width 0.4s ease;
-}
-
-.xp-text {
-  font-size: 0.8rem;
-  color: #888888;
-  margin-top: 8px;
-}
-
-/* ==========================================
-   5. MODAL / SELETOR DE CLASSES
-   ========================================== */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-/* Oculta a modal por padrão */
-.modal.hidden {
+.hidden {
   display: none !important;
 }
 
-.modal-content {
+/* ==========================================
+   2. TELA DE LOGIN
+   ========================================== */
+.card-login {
   background: #141414;
-  border: 1px solid #00ffcc;
+  border: 1px solid #333333;
   border-radius: 16px;
-  padding: 24px 20px;
-  width: 90%;
-  max-width: 380px;
+  padding: 40px 24px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 255, 204, 0.1);
 }
 
-.modal-content h3 {
-  color: #00ffcc;
-  font-size: 1.2rem;
+.logo-icon {
+  font-size: 3rem;
+  display: block;
   margin-bottom: 16px;
 }
 
-.grid-classes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.card-login h1 {
+  font-size: 1.8rem;
+  color: #00ffcc;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.card-login p {
+  color: #888888;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+.input-group {
   margin-bottom: 20px;
 }
 
-.card-classe {
-  background: #1a1a1a;
+#input-password {
+  width: 100%;
+  background: #0a0a0a;
   border: 1px solid #333333;
-  border-radius: 10px;
-  padding: 16px 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  color: #ffffff;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-classe:hover {
+#input-password:focus {
   border-color: #00ffcc;
-  transform: translateY(-3px);
-  background-color: #222222;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
 }
 
-.icone-classe {
-  font-size: 2rem;
-  display: block;
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(90deg, #00ffcc, #00b388);
+  color: #000000;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* ==========================================
+   3. TELA DE SELEÇÃO DE AVATARES
+   ========================================== */
+.header-selecao {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header-selecao h2 {
+  color: #00ffcc;
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header-selecao p {
+  color: #888888;
+  font-size: 0.9rem;
+}
+
+.grid-avatars {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.card-avatar-select {
+  background: #141414;
+  border: 1px solid #222222;
+  border-radius: 16px;
+  padding: 20px 10px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-avatar-select:hover {
+  transform: translateY(-5px);
+  border-color: #00ffcc;
+  box-shadow: 0 5px 20px rgba(0, 255, 204, 0.15);
+  background: #1a1a1a;
+}
+
+.badge-level {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #00ffcc;
+  color: #000000;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.card-avatar-select * {
+  pointer-events: none;
+}
+
+.avatar-frame {
+  margin-bottom: 12px;
+  margin-top: 10px;
+}
+
+.avatar-frame img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #333333;
+  background-color: #1f1f1f;
+  object-fit: cover;
+  transition: border-color 0.3s ease;
+}
+
+.card-avatar-select:hover .avatar-frame img {
+  border-color: #00ffcc;
+}
+
+.card-avatar-select h3 {
+  font-size: 1.1rem;
+  color: #ffffff;
   margin-bottom: 6px;
 }
 
-.card-classe h4 {
-  font-size: 0.95rem;
-  margin-bottom: 4px;
-}
-
-.card-classe p {
-  font-size: 0.75rem;
-  color: #888888;
-}
-
-.btn-fechar {
-  background: transparent;
-  color: #888888;
-  border: 1px solid #444444;
-  padding: 8px 22px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.btn-fechar:hover {
-  color: #ffffff;
-  border-color: #888888;
+.foco-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #aaaaaa;
+  background: #222222;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
