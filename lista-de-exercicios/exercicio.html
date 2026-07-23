@@ -234,61 +234,43 @@
   </div>
 
   <script>
-    // Configuração dos treinos por dia da semana
+    // Configuração atualizada dos treinos por dia da semana baseada no planejamento estratégico
     const agendaTreinos = {
       segunda: [
-        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas", xp: 50 },
-        { id: "puxada-alta", nome: "Puxada Alta (Polia)", grupo: "Costas", xp: 50 },
-        { id: "remada-baixa", nome: "Remada Baixa (Triângulo)", grupo: "Costas", xp: 40 },
-        { id: "rosca-direta", nome: "Rosca Direta com Barra", grupo: "Bíceps", xp: 30 },
-        { id: "rosca-martelo", nome: "Rosca Martelo com Halteres", grupo: "Bíceps", xp: 30 },
-        { id: "encolhimento", nome: "Encolhimento com Halteres", grupo: "Trapézio", xp: 30 }
+        { id: "puxada-alta-aberta", nome: "Puxada Alta (Pegada Aberta Pronada)", grupo: "Costas (Largura) • 4x 8-10 reps", xp: 50 },
+        { id: "puxada-neutra", nome: "Puxada Neutra (Triângulo) / Pulldown Articulado", grupo: "Costas (Alongamento) • 3x 10 reps", xp: 45 },
+        { id: "remada-baixa-supinada", nome: "Remada Baixa no Cabo (Supinada)", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
+        { id: "pulldown-bracos-estendidos", nome: "Pulldown com Barra no Pulley", grupo: "Costas (Isolamento) • 3x 12 reps", xp: 40 },
+        { id: "rosca-martelo", nome: "Rosca Martelo", grupo: "Bíceps / Antebraço • 3x 10-12 reps", xp: 35 },
+        { id: "rosca-scott-concentrada", nome: "Rosca Scott ou Concentrada", grupo: "Bíceps • 3x 10 reps", xp: 35 }
       ],
       terca: [
-        { id: "agachamento", nome: "Agachamento Livre", grupo: "Pernas", xp: 60 },
-        { id: "leg-press", nome: "Leg Press 45º", grupo: "Pernas", xp: 50 },
-        { id: "extensora", nome: "Cadeira Extensora", grupo: "Pernas", xp: 40 },
-        { id: "flexora", nome: "Mesa Flexora", grupo: "Pernas", xp: 40 },
-        { id: "stiff", nome: "Stiff com Barra", grupo: "Pernas", xp: 50 },
-        { id: "panturrilha", nome: "Gêmeos em Pé", grupo: "Panturrilhas", xp: 30 }
+        { id: "agachamento", nome: "Agachamento (Livre ou Hack)", grupo: "Pernas • 4x 6-8 reps", xp: 60 },
+        { id: "leg-press", nome: "Leg Press", grupo: "Pernas • 3x 10-12 reps", xp: 50 },
+        { id: "cadeira-extensora", nome: "Cadeira Extensora", grupo: "Pernas (Falha Metabólica) • 3x 12-15 reps", xp: 45 },
+        { id: "mesa-flexora", nome: "Mesa Flexora ou Cadeira Flexora", grupo: "Posteriores • 4x 10-12 reps", xp: 45 },
+        { id: "gemeos", nome: "Gêmeos Sentado ou Em Pé", grupo: "Panturrilha • 4x 15 reps", xp: 35 }
       ],
       quarta: [
-        { id: "supino-reto", nome: "Supino Reto com Barra", grupo: "Peitoral", xp: 50 },
-        { id: "supino-inclinado", nome: "Supino Inclinado c/ Halteres", grupo: "Peitoral", xp: 40 },
-        { id: "crucifixo", nome: "Crucifixo Reto com Halteres", grupo: "Peitoral", xp: 30 },
-        { id: "desenvolvimento", nome: "Desenvolvimento c/ Halteres", grupo: "Ombros", xp: 40 },
-        { id: "elevacao-lateral", nome: "Elevação Lateral", grupo: "Ombros", xp: 30 },
-        { id: "triceps-pulley", nome: "Tríceps Pulley (Corda)", grupo: "Tríceps", xp: 30 },
-        { id: "triceps-testa", nome: "Tríceps Testa com Barra W", grupo: "Tríceps", xp: 40 },
-        { id: "antebraco", nome: "Rosca Inversa / Flexão de Punho", grupo: "Antebraço", xp: 30 }
+        { id: "descanso", nome: "Descanso Total e Recuperação", grupo: "Recuperação Mental e Física", xp: 0 }
       ],
       quinta: [
-        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas", xp: 50 },
-        { id: "puxada-alta", nome: "Puxada Alta (Polia)", grupo: "Costas", xp: 50 },
-        { id: "remada-baixa", nome: "Remada Baixa (Triângulo)", grupo: "Costas", xp: 40 },
-        { id: "rosca-direta", nome: "Rosca Direta com Barra", grupo: "Bíceps", xp: 30 },
-        { id: "rosca-martelo", nome: "Rosca Martelo com Halteres", grupo: "Bíceps", xp: 30 },
-        { id: "encolhimento", nome: "Encolhimento com Halteres", grupo: "Trapézio", xp: 30 }
+        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas (Força Bruta) • 4x 6-8 reps", xp: 55 },
+        { id: "remada-cavalinho", nome: "Remada Cavalinho ou T na Máquina", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
+        { id: "remada-unilateral", nome: "Remada Unilateral com Halter (Serrote)", grupo: "Costas (Assimetrias) • 3x 10 reps", xp: 45 },
+        { id: "crucifixo-invertido", nome: "Crucifixo Invertido ou Face Pull", grupo: "Posterior de Ombro • 4x 12-15 reps", xp: 40 },
+        { id: "rosca-direta-w", nome: "Rosca Direta (Barra W)", grupo: "Bíceps • 3x 10 reps", xp: 35 }
       ],
       sexta: [
-        { id: "agachamento", nome: "Agachamento Livre", grupo: "Pernas", xp: 60 },
-        { id: "leg-press", nome: "Leg Press 45º", grupo: "Pernas", xp: 50 },
-        { id: "extensora", nome: "Cadeira Extensora", grupo: "Pernas", xp: 40 },
-        { id: "flexora", nome: "Mesa Flexora", grupo: "Pernas", xp: 40 },
-        { id: "stiff", nome: "Stiff com Barra", grupo: "Pernas", xp: 50 },
-        { id: "panturrilha", nome: "Gêmeos em Pé", grupo: "Panturrilhas", xp: 30 }
+        { id: "supino-inclinado", nome: "Supino Inclinado (Halteres / Articulado)", grupo: "Peitoral Superior • 4x 8-10 reps", xp: 50 },
+        { id: "supino-reto", nome: "Supino Reto (Barra ou Máquina)", grupo: "Peitoral • 3x 8-10 reps", xp: 45 },
+        { id: "crossover-pec-deck", nome: "Crossover ou Pec Deck (Voador)", grupo: "Peitoral (Esmagamento) • 3x 12 reps", xp: 40 },
+        { id: "desenvolvimento-elevacao", nome: "Desenvolvimento com Halteres / Elevação Lateral", grupo: "Ombros (Largura) • 4x 10-12 reps", xp: 40 },
+        { id: "triceps-pulley", nome: "Tríceps Pulley (Corda ou Barra)", grupo: "Tríceps • 3x 10-12 reps", xp: 35 },
+        { id: "triceps-testa-frances", nome: "Tríceps Testa ou Francês", grupo: "Tríceps • 3x 10 reps", xp: 35 }
       ],
-      sabado: [
-        { id: "supino-reto", nome: "Supino Reto com Barra", grupo: "Peitoral", xp: 50 },
-        { id: "supino-inclinado", nome: "Supino Inclinado c/ Halteres", grupo: "Peitoral", xp: 40 },
-        { id: "crucifixo", nome: "Crucifixo Reto com Halteres", grupo: "Peitoral", xp: 30 },
-        { id: "desenvolvimento", nome: "Desenvolvimento c/ Halteres", grupo: "Ombros", xp: 40 },
-        { id: "elevacao-lateral", nome: "Elevação Lateral", grupo: "Ombros", xp: 30 },
-        { id: "triceps-pulley", nome: "Tríceps Pulley (Corda)", grupo: "Tríceps", xp: 30 },
-        { id: "triceps-testa", nome: "Tríceps Testa com Barra W", grupo: "Tríceps", xp: 40 },
-        { id: "antebraco", nome: "Rosca Inversa / Flexão de Punho", grupo: "Antebraço", xp: 30 }
-      ],
-      domingo: [] // Descanso
+      sabado: [],
+      domingo: []
     };
 
     // Lógica do Cronômetro Regressivo
