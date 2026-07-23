@@ -3,56 +3,177 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalhes do Exercício - RPG Treino</title>
-  <!-- Volta uma pasta (../) para buscar o estilo CSS principal do seu projeto -->
+  <title>Exercício - Discipline RPG</title>
   <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .exercicio-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    /* Container da Animação/GIF */
+    .animacao-box {
+      width: 100%;
+      height: 220px;
+      background: #000;
+      border: 1px solid #222;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .animacao-box img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    /* Badges de Músculos */
+    .musculos-box {
+      margin-top: 12px;
+    }
+
+    .musculos-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .badge-musculo {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .badge-musculo.primario {
+      background: rgba(255, 51, 51, 0.15);
+      color: #ff4d4d;
+      border: 1px solid #ff4d4d;
+    }
+
+    .badge-musculo.secundario {
+      background: rgba(255, 204, 0, 0.15);
+      color: #ffcc00;
+      border: 1px solid #ffcc00;
+    }
+
+    /* Caixa de Dica / Análise */
+    .analise-box {
+      background: #0d0d0d;
+      border-left: 3px solid #00ffcc;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 15px;
+      line-height: 1.4;
+    }
+
+    /* Lista de Séries */
+    .series-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .serie-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d0d0d;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border: 1px solid #222;
+      cursor: pointer;
+    }
+
+    .serie-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #00ffcc;
+      cursor: pointer;
+    }
+
+    /* Botão Finalizar */
+    .btn-concluir-treino {
+      width: 100%;
+      padding: 14px;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: all 0.2s ease;
+    }
+  </style>
 </head>
-<body style="padding: 20px; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+<body>
 
-  <div class="dia-treino-box" style="max-width: 500px; width: 100%; margin: 0 auto; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);">
-    
-    <!-- Cabeçalho do Exercício -->
-    <div class="dia-header" style="border-bottom: 2px solid #333; padding-bottom: 15px;">
-      <!-- Ajuste o Nome e o Músculo conforme o exercício -->
-      <h3 style="font-size: 1.5rem; color: #fff; margin: 0;">Puxada Alta</h3>
-      <span class="badge-foco" style="background: rgba(0, 255, 204, 0.1); color: #00ffcc; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Costas</span>
+  <div class="page active" style="padding: 20px; max-width: 500px; margin: 0 auto;">
+    <a href="../index.html" style="color: #888; text-decoration: none; font-size: 0.9rem;">⬅ Voltar ao Dashboard</a>
+
+    <!-- Header do Exercício -->
+    <div style="margin-top: 15px;">
+      <div id="ex-xp" style="display: inline-block; background: rgba(0, 255, 204, 0.1); color: #00ffcc; border: 1px solid #00ffcc; padding: 4px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px;">+0 XP</div>
+      <h2 id="ex-nome" style="color: #fff; border-left: 3px solid #00ffcc; padding-left: 10px; margin: 0;">Carregando...</h2>
+      <p id="ex-grupo" style="color: #888; margin-top: 5px; font-size: 0.9rem;"></p>
     </div>
 
-    <div class="dia-conteudo" style="display: flex; flex-direction: column; gap: 20px; padding: 20px 0 10px 0;">
+    <!-- Animação / Demonstração -->
+    <div class="animacao-box">
+      <img id="ex-animacao" src="" alt="Demonstração do exercício">
+    </div>
+
+    <!-- Análise Muscular e Dica Técnica -->
+    <div class="exercicio-card">
+      <h3 style="color: #00ffcc; font-size: 0.95rem; margin-top: 0;">🎯 Análise de Ativação</h3>
       
-      <!-- Bloco de Metas / Cargas -->
-      <div class="card-pilar" style="width: 100%; text-align: left; background: rgba(255,255,255,0.02); border: 1px solid #222;">
-        <h4 style="margin: 0 0 10px 0; color: #00ffcc; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-          🎯 Metas e Carga
-        </h4>
-        <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8; font-size: 0.95rem;">
-          <li>⚡ <strong>Carga Atual:</strong> 60kg</li>
-          <li>🔄 <strong>Séries x Repetições:</strong> 4s x 12reps</li>
-          <li>⏳ <strong>Descanso:</strong> 90 segundos</li>
-        </ul>
+      <div class="musculos-box">
+        <p style="font-size: 0.8rem; color: #888; margin: 0;">Músculos Primários:</p>
+        <div id="musculos-primarios" class="musculos-group"></div>
       </div>
 
-      <!-- Bloco de Execução / Dicas -->
-      <div class="card-pilar" style="width: 100%; text-align: left; background: rgba(255,255,255,0.02); border: 1px solid #222;">
-        <h4 style="margin: 0 0 10px 0; color: #00ffcc; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-          ⚔️ Execução Perfeita
-        </h4>
-        <ol style="padding-left: 18px; margin: 0; line-height: 1.8; font-size: 0.9rem; color: #ccc;">
-          <li>Ajuste o suporte de coxas para ficar bem firme.</li>
-          <li>Segure a barra com uma pegada ligeiramente maior que a largura dos ombros.</li>
-          <li>Puxe a barra em direção ao peito, projetando o tronco levemente para trás.</li>
-          <li>Concentre a força nos cotovelos e contraia as costas ao máximo embaixo.</li>
-        </ol>
+      <div class="musculos-box">
+        <p style="font-size: 0.8rem; color: #888; margin: 8px 0 0 0;">Músculos Secundários:</p>
+        <div id="musculos-secundarios" class="musculos-group"></div>
       </div>
 
-      <!-- Botão Voltar -->
-      <a href="../index.html" class="tab-btn active" style="text-align: center; text-decoration: none; display: block; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 1rem; margin-top: 10px;">
-        ⬅ Voltar para o Dashboard
-      </a>
-
+      <div class="analise-box">
+        <strong>💡 Dica do Mestre:</strong> <span id="ex-analise-texto">...</span>
+      </div>
     </div>
+
+    <!-- Lista de Checkboxes das Séries -->
+    <div class="exercicio-card">
+      <h3 style="color: #00ffcc; font-size: 0.95rem; margin: 0 0 10px 0;">Séries Executadas</h3>
+      
+      <div id="lista-series" class="series-list"></div>
+
+      <button id="btn-finalizar" class="btn-concluir-treino" onclick="finalizarExercicios()" disabled>
+        Concluir Exercício
+      </button>
+    </div>
+
   </div>
 
+  <script src="app.js"></script>
 </body>
 </html>
-
