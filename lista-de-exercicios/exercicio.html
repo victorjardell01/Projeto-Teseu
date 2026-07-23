@@ -184,20 +184,65 @@
       domingo: [] // Descanso
     };
 
+    // Lógica do Cronômetro Regressivo
+    let timerInterval = null;
+    function iniciarCronometro() {
+      clearInterval(timerInterval);
+      let tempoRestante = 90; // 90 segundos de descanso padrão
+      atualizarDisplayTempo(tempoRestante);
+
+      timerInterval = setInterval(() => {
+        tempoRestante--;
+        atualizarDisplayTempo(tempoRestante);
+        if (tempoRestante <= 0) {
+          clearInterval(timerInterval);
+          alert("⚔️ Fim do Descanso! Retorne ao campo de batalha!");
+        }
+      }, 1000);
+    }
+
+    function zerarCronometro() {
+      clearInterval(timerInterval);
+      atualizarDisplayTempo(90);
+    }
+
+    function atualizarDisplayTempo(segundos) {
+      let min = Math.floor(segundos / 60);
+      let seg = segundos % 60;
+      document.getElementById("display-tempo").textContent = 
+        `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
+    }
+
+    // Selecionar Dia e Atualizar Mural + Barra Circular de Progresso
     function selecionarDia(dia, elementoBt) {
-      // Remove a classe ativo de todos os botões
       document.querySelectorAll(".btn-dia").forEach(btn => btn.classList.remove("ativo"));
-      // Adiciona no clicado
       elementoBt.classList.add("ativo");
 
       const container = document.getElementById("container-exercicios-dia");
       const lista = agendaTreinos[dia];
 
+      // Atualiza o Status do Herói no Card Superior com base no LocalStorage
+      let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
+        guerreiro: { level: 1, xp: 0, xpMax: 100 }
+      };
+      let lvl = dadosRPG.guerreiro.level;
+      let xpAtual = dadosRPG.guerreiro.xp;
+      let xpMax = dadosRPG.guerreiro.xpMax;
+      let porcentagem = Math.min(100, Math.round((xpAtual / xpMax) * 100));
+
+      document.getElementById("rpg-titulo-classe").textContent = `🛡️ GUERREIRO (LVL ${lvl})`;
+      document.getElementById("rpg-texto-status").textContent = `Progresso de XP: ${xpAtual} / ${xpMax} (${porcentagem}%)`;
+      
+      // Atualiza visual da barra circular
+      const circulo = document.getElementById("circulo-progresso");
+      circulo.style.background = `conic-gradient(#00ffcc ${porcentagem * 3.6}deg, #222 0deg)`;
+      document.getElementById("texto-porcentagem").textContent = `${porcentagem}%`;
+
       if (!lista || lista.length === 0) {
         container.innerHTML = `
           <div class="descanso-msg">
-            <h3>🛡️ Dia de Descanso (Rest Day)</h3>
-            <p>O Guerreiro descansa para recuperar suas fibras musculares e evoluir.</p>
+            <h3>🛡️ Santuário de Descanso (Rest Day)</h3>
+            <p>O Guerreiro descansa hoje para regenerar sua Vitalidade.</p>
           </div>
         `;
         return;
@@ -209,22 +254,18 @@
           <div class="exercicio-card-lista">
             <div class="exercicio-info">
               <h4>${ex.nome}</h4>
-              <p>Foco: ${ex.grupo} • Recompensa: +${ex.xp} XP</p>
+              <p>Atributo: ${ex.grupo} • Recompensa: +${ex.xp} XP</p>
             </div>
-            <a href="detalhe.html?id=${ex.id}" class="btn-executar">Treinar ⚔️</a>
+            <a href="detalhe.html?id=${ex.id}" class="btn-executar">Atacar ⚔️</a>
           </div>
         `;
       });
     }
 
-    // Inicializa na Segunda-feira por padrão ao abrir
     window.addEventListener("DOMContentLoaded", () => {
       selecionarDia('segunda', document.querySelector('.btn-dia'));
     });
   </script>
 
-</body>
-</html>
-  <script src="BDexercicio.js"></script>
 </body>
 </html>
