@@ -18,7 +18,7 @@
       margin: 0 auto;
     }
 
-    /* CARD DE STATUS DO GUERREIRO (RPG) */
+   /* CARD DE STATUS DO GUERREIRO (RPG) */
     .status-card {
       background: linear-gradient(135deg, #14141a, #1f1f2e);
       border: 1px solid #33334d;
@@ -28,7 +28,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.05);
     }
 
     .status-info h3 {
@@ -43,7 +42,7 @@
       color: #aaa;
     }
 
-    /* BARRA DE XP CIRCULAR / PROGRESSO DO DIA */
+    /* BARRA DE XP CIRCULAR */
     .circular-progress {
       position: relative;
       width: 60px;
@@ -99,7 +98,6 @@
       cursor: pointer;
       font-size: 0.8rem;
       font-weight: bold;
-      transition: 0.2s;
     }
 
     .btn-timer:hover {
@@ -197,13 +195,12 @@
       <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">Selecione o dia da semana para visualizar suas missões de treino.</p>
     </div>
 
-    <!-- PAINEL DE STATUS DO HERÓI -->
+   <!-- PAINEL DE STATUS DO HERÓI -->
     <div class="status-card">
       <div class="status-info">
         <h3 id="rpg-titulo-classe">🛡️ GUERREIRO EM BATALHA</h3>
         <p id="rpg-texto-status">Carregando dados de XP...</p>
       </div>
-      <!-- BARRA DE XP CIRCULAR -->
       <div class="circular-progress" id="circulo-progresso">
         <div class="progress-value" id="texto-porcentagem">0%</div>
       </div>
@@ -211,7 +208,7 @@
 
     <!-- CRONÔMETRO DE DESCANSO TÁTICO -->
     <div class="cronometro-box">
-      <span style="font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">⏱️ Descanso entre Séries</span>
+      <span style="font-size: 0.8rem; color: #aaa; text-transform: uppercase;">⏱️ Descanso entre Séries</span>
       <div class="cronometro-display" id="display-tempo">01:30</div>
       <div>
         <button class="btn-timer" onclick="iniciarCronometro()">Iniciar (90s)</button>
