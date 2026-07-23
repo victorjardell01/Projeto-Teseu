@@ -1,6 +1,4 @@
-// ==========================================
-// 1. ESTADO INICIAL / LOCAL STORAGE
-// ==========================================
+// ESTADO DO PERSONAGEM
 let usuario = JSON.parse(localStorage.getItem("rpg_usuario")) || {
   classe: null,
   level: 1,
@@ -8,26 +6,18 @@ let usuario = JSON.parse(localStorage.getItem("rpg_usuario")) || {
   xpMax: 100
 };
 
-// ==========================================
-// 2. INICIALIZAÇÃO DA PÁGINA
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
+// CARREGAMENTO INICIAL
+window.addEventListener("load", () => {
   atualizarInterface();
-
-  // Escutador direto de clique no avatar
-  const avatarBox = document.getElementById("btn-avatar");
-  if (avatarBox) {
-    avatarBox.addEventListener("click", abrirSeletorClasses);
-  }
 });
 
-// ==========================================
-// 3. CONTROLE DA MODAL DE CLASSES
-// ==========================================
+// ABRIR E FECHAR MODAL
 function abrirSeletorClasses() {
   const modal = document.getElementById("modal-classes");
   if (modal) {
     modal.classList.remove("hidden");
+  } else {
+    console.error("Elemento 'modal-classes' não foi encontrado no HTML!");
   }
 }
 
@@ -38,9 +28,7 @@ function fecharSeletorClasses() {
   }
 }
 
-// ==========================================
-// 4. SELEÇÃO DE CLASSE E NAVEGAÇÃO
-// ==========================================
+// SELECIONAR CLASSE
 function selecionarClasse(classe) {
   usuario.classe = classe;
   localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
@@ -48,30 +36,27 @@ function selecionarClasse(classe) {
   fecharSeletorClasses();
   atualizarInterface();
 
-  // Pequeno delay para o usuário ver o modal fechar antes de redirecionar
+  // Redireciona após escolher
   setTimeout(() => {
     switch (classe) {
       case "guerreiro":
-        window.location.href = "lista-de-exercicios/exercicio.html"; // Treino
+        window.location.href = "lista-de-exercicios/exercicio.html";
         break;
       case "mago":
-        window.location.href = "mente.html"; // Mente
+        window.location.href = "mente.html";
         break;
       case "clerigo":
-        window.location.href = "alma.html"; // Alma
+        window.location.href = "alma.html";
         break;
       case "druida":
-        window.location.href = "alimentacao.html"; // Alimentação
+        window.location.href = "alimentacao.html";
         break;
     }
-  }, 250);
+  }, 300);
 }
 
-// ==========================================
-// 5. LÓGICA DE EVOLUÇÃO E RENDERIZAÇÃO
-// ==========================================
+// ATUALIZAR INTERFACE
 function atualizarInterface() {
-  // Trata a evolução de níveis caso ganhe muito XP de uma vez
   while (usuario.xp >= usuario.xpMax) {
     usuario.level += 1;
     usuario.xp -= usuario.xpMax;
@@ -79,10 +64,8 @@ function atualizarInterface() {
     alert(`🎉 PARABÉNS! Seu personagem subiu para o Nível ${usuario.level}!`);
   }
 
-  // Salva no LocalStorage
   localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
 
-  // Atualiza Nível e XP na tela
   const elLevel = document.getElementById("char-level");
   const elXpText = document.getElementById("xp-text");
   const elXpFill = document.getElementById("xp-fill");
@@ -95,7 +78,6 @@ function atualizarInterface() {
     elXpFill.style.width = `${porcentagem}%`;
   }
 
-  // Mapeamento de Avatares estilo RPG
   const avatares = {
     padrao: "https://api.dicebear.com/7.x/adventurer/svg?seed=Aventureiro",
     guerreiro: "https://api.dicebear.com/7.x/adventurer/svg?seed=Guerreiro",
@@ -119,12 +101,4 @@ function atualizarInterface() {
   } else {
     if (elImg) elImg.src = avatares.padrao;
   }
-}
-
-// ==========================================
-// 6. FUNÇÃO PÚBLICA PARA RECOMPENSAS
-// ==========================================
-function ganharXP(quantidade) {
-  usuario.xp += quantidade;
-  atualizarInterface();
 }
