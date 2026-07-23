@@ -13,51 +13,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ABRIR E FECHAR MODAL
 function abrirSeletorClasses() {
-  document.getElementById("modal-classes").classList.remove("hidden");
+  const modal = document.getElementById("modal-classes");
+  if (modal) modal.classList.remove("hidden");
 }
 
 function fecharSeletorClasses() {
-  document.getElementById("modal-classes").classList.add("hidden");
+  const modal = document.getElementById("modal-classes");
+  if (modal) modal.classList.add("hidden");
 }
 
-// SELECIONAR CLASSE E REDIRECIONAR
+// SELECIONAR CLASSE E NAVEGAR
 function selecionarClasse(classe) {
   usuario.classe = classe;
   localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
 
-  // Redireciona para a página correspondente à classe
+  // Atualiza a interface da página principal
+  atualizarInterface();
+  fecharSeletorClasses();
+
+  // Redireciona para a página da classe correspondente
   switch (classe) {
     case "guerreiro":
-      window.location.href = "lista-de-exercicios/exercicio.html"; // Página de Treino
+      window.location.href = "lista-de-exercicios/exercicio.html"; // Treino
       break;
     case "mago":
-      window.location.href = "mente.html"; // Página da Mente
+      window.location.href = "mente.html"; // Mente
       break;
     case "clerigo":
-      window.location.href = "alma.html"; // Página da Alma
+      window.location.href = "alma.html"; // Alma
       break;
     case "druida":
-      window.location.href = "alimentacao.html"; // Página de Alimentação
+      window.location.href = "alimentacao.html"; // Alimentação
       break;
   }
 }
 
 // LÓGICA DE EVOLUÇÃO E ATUALIZAÇÃO DE INTERFACE
 function atualizarInterface() {
-  // Verifica se subiu de nível
-  if (usuario.xp >= usuario.xpMax) {
+  // Loop para tratar subida de múltiplos níveis se ganhar muito XP de uma vez
+  while (usuario.xp >= usuario.xpMax) {
     usuario.level += 1;
     usuario.xp -= usuario.xpMax;
-    usuario.xpMax = Math.floor(usuario.xpMax * 1.5); // Aumenta a meta de XP para o próximo nível
-    alert(`🎉 PARABÉNS! Você subiu para o Nível ${usuario.level}!`);
-    localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
+    usuario.xpMax = Math.floor(usuario.xpMax * 1.5); // Aumenta a meta do próximo nível
+    alert(`🎉 PARABÉNS! Seu personagem subiu para o Nível ${usuario.level}!`);
   }
 
-  // Atualiza Textos
-  document.getElementById("char-level").textContent = `Lvl ${usuario.level}`;
-  document.getElementById("xp-text").textContent = `${usuario.xp} / ${usuario.xpMax} XP`;
+  // Salva o progresso
+  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
 
-  // Atualiza Classe no Card
+  // Atualiza Nível e XP
+  const elLevel = document.getElementById("char-level");
+  const elXpText = document.getElementById("xp-text");
+  const elXpFill = document.getElementById("xp-fill");
+
+  if (elLevel) elLevel.textContent = `Lvl ${usuario.level}`;
+  if (elXpText) elXpText.textContent = `${usuario.xp} / ${usuario.xpMax} XP`;
+
+  // Barra de XP
+  if (elXpFill) {
+    const porcentagem = Math.min((usuario.xp / usuario.xpMax) * 100, 100);
+    elXpFill.style.width = `${porcentagem}%`;
+  }
+
+  // Atualiza Nome, Classe e Avatar do Personagem
   if (usuario.classe) {
     const nomesClasses = {
       guerreiro: "Guerreiro (Treino)",
@@ -65,17 +83,25 @@ function atualizarInterface() {
       clerigo: "Clérigo (Alma)",
       druida: "Druida (Alimentação)"
     };
-    document.getElementById("char-class-title").textContent = nomesClasses[usuario.classe];
-  }
 
-  // Porcentagem da Barra de XP
-  const porcentagem = (usuario.xp / usuario.xpMax) * 100;
-  document.getElementById("xp-fill").style.width = `${porcentagem}%`;
+    // Imagens personalizadas para cada classe (usando a API DiceBear)
+    const avataresClasses = {
+      guerreiro: "https://api.dicebear.com/7.x/bottts/svg?seed=Guerreiro",
+      mago: "https://api.dicebear.com/7.x/bottts/svg?seed=Mago",
+      clerigo: "https://api.dicebear.com/7.x/bottts/svg?seed=Clerigo",
+      druida: "https://api.dicebear.com/7.x/bottts/svg?seed=Druida"
+    };
+
+    const elTitle = document.getElementById("char-class-title");
+    const elImg = document.getElementById("avatar-img");
+
+    if (elTitle) elTitle.textContent = nomesClasses[usuario.classe];
+    if (elImg) elImg.src = avataresClasses[usuario.classe];
+  }
 }
 
-// FUNÇÃO PARA ADICIONAR XP (Pode ser chamada ao concluir tarefas diárias)
+// FUNÇÃO GLOBAL PARA GANHAR XP
 function ganharXP(qtd) {
   usuario.xp += qtd;
-  localStorage.setItem("rpg_usuario", JSON.stringify(usuario));
   atualizarInterface();
 }
