@@ -1,8 +1,10 @@
-// BANCO DE DADOS UNIFICADO (TREINOS A, B e C)
+// ==========================================
+// BANCO DE DADOS UNIFICADO (TREINOS A, B e C COMPLETOS)
+// ==========================================
 const BD_EXERCICIOS = {
   // --- TREINO A: COSTAS, BÍCEPS E TRAPÉZIO ---
   "remada-curvada": {
-    nome: "Remada Curvada",
+    nome: "Remada Curvada com Barra",
     grupo: "Costas",
     xp: 50,
     gif: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bent-over-row-1.gif",
@@ -14,7 +16,7 @@ const BD_EXERCICIOS = {
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
   "puxada-alta": {
-    nome: "Puxada Alta",
+    nome: "Puxada Alta (Polia)",
     grupo: "Costas",
     xp: 50,
     gif: "https://upload.wikimedia.org/wikipedia/commons/8/86/Lat-pulldown-1.gif",
@@ -25,8 +27,20 @@ const BD_EXERCICIOS = {
     analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente para trás.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
   },
+  "remada-baixa": {
+    nome: "Remada Baixa (Triângulo)",
+    grupo: "Costas",
+    xp: 40,
+    gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Latíssimo do Dorso", "Romboides"],
+      secundarios: ["Bíceps", "Trapézio"]
+    },
+    analise: "Mantenha o peito estufado e puxe o manípulo controlando a volta do peso para máximo alongamento.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
   "rosca-direta": {
-    nome: "Rosca Direta",
+    nome: "Rosca Direta com Barra",
     grupo: "Bíceps",
     xp: 30,
     gif: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Biceps-curl-1.gif",
@@ -35,6 +49,18 @@ const BD_EXERCICIOS = {
       secundarios: ["Braquial Anterior", "Antebraço"]
     },
     analise: "Mantenha os cotovelos fixos ao lado do corpo e evite usar o balanço do quadril.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "rosca-martelo": {
+    nome: "Rosca Martelo com Halteres",
+    grupo: "Bíceps",
+    xp: 30,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Braquiorradial", "Bíceps Braquial"],
+      secundarios: ["Antebraço"]
+    },
+    analise: "Com as palmas das mãos voltadas uma para a outra, execute o movimento focando na espessura do braço.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "encolhimento": {
@@ -63,6 +89,18 @@ const BD_EXERCICIOS = {
     analise: "Mantenha os joelhos alinhados com as pontas dos pés e desça preservando as curvaturas naturais da coluna.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
+  "leg-press": {
+    nome: "Leg Press 45º",
+    grupo: "Pernas",
+    xp: 50,
+    gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Quadríceps", "Glúteos"],
+      secundarios: ["Isquiotibiais"]
+    },
+    analise: "Evite tirar a região lombar e o quadril do encosto do banco durante a descida da plataforma.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
+  },
   "extensora": {
     nome: "Cadeira Extensora",
     grupo: "Pernas",
@@ -87,6 +125,18 @@ const BD_EXERCICIOS = {
     analise: "Mantenha o quadril firme contra o banco para não sobrecarregar a região lombar durante a flexão.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
+  "stiff": {
+    nome: "Stiff com Barra",
+    grupo: "Pernas",
+    xp: 50,
+    gif: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Isquiotibiais", "Glúteo Máximo"],
+      secundarios: ["Eretores da Espinha"]
+    },
+    analise: "Mantenha os joelhos levemente flexionados (sem travar) e mova o quadril para trás sentindo alongar o posterior.",
+    series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
+  },
   "panturrilha": {
     nome: "Gêmeos em Pé",
     grupo: "Panturrilhas",
@@ -102,7 +152,7 @@ const BD_EXERCICIOS = {
 
   // --- TREINO C: PEITO, OMBRO, TRÍCEPS E ANTEBRAÇO ---
   "supino-reto": {
-    nome: "Supino Reto",
+    nome: "Supino Reto com Barra",
     grupo: "Peitoral",
     xp: 50,
     gif: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bench-press-1.gif",
@@ -123,6 +173,18 @@ const BD_EXERCICIOS = {
       secundarios: ["Deltoide Anterior", "Tríceps"]
     },
     analise: "O banco inclinado a 30°/45° direciona a carga com precisão para a porção superior do peitoral.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "crucifixo": {
+    nome: "Crucifixo Reto com Halteres",
+    grupo: "Peitoral",
+    xp: 30,
+    gif: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Peitoral Maior (Isolamento)"],
+      secundarios: ["Deltoide Anterior"]
+    },
+    analise: "Mantenha uma leve flexão fixa nos cotovelos e abra os braços sentindo o peito esticar no eixo horizontal.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "desenvolvimento": {
@@ -150,7 +212,7 @@ const BD_EXERCICIOS = {
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "triceps-pulley": {
-    nome: "Tríceps Pulley",
+    nome: "Tríceps Pulley (Corda)",
     grupo: "Tríceps",
     xp: 30,
     gif: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Triceps-pushdown-1.gif",
@@ -158,7 +220,19 @@ const BD_EXERCICIOS = {
       primarios: ["Tríceps Braquial"],
       secundarios: ["Ancôneo"]
     },
-    analise: "Mantenha o cotovelo totalmente fixo ao lado do corpo, movimentando apenas o antebraço.",
+    analise: "Mantenha o cotovelo totalmente fixo ao lado do corpo, abrindo a corda no final para pico de contração.",
+    series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
+  },
+  "triceps-testa": {
+    nome: "Tríceps Testa com Barra W",
+    grupo: "Tríceps",
+    xp: 40,
+    gif: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+    musculos: {
+      primarios: ["Tríceps Braquial (Cabeça Longa)"],
+      secundarios: ["Antebraço"]
+    },
+    analise: "Deitado no banco, flexione apenas os cotovelos trazendo a barra em direção à testa ou logo atrás da cabeça.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "antebraco": {
