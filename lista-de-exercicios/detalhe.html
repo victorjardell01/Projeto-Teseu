@@ -1,181 +1,554 @@
+<!-- ==========================================
+     ESTRUTURA HTML COMPLETA (detalhes.html)
+     ========================================== -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Missão de Treino - Discipline RPG</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Quartel de Missões • Detalhes da Missão</title>
   <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
     body {
-      background-color: #0a0a0a;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .container-detalhe {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
       padding: 20px;
-      max-width: 600px;
-      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .card-missao {
-      background: #141414;
-      border: 1px solid #222;
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* CARD DE STATUS DO GUERREIRO */
+    .status-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 20px;
-      margin-top: 15px;
-    }
-
-    .gif-container {
-      width: 100%;
-      height: 250px;
-      background: #1f1f1f;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
       margin-bottom: 20px;
-      border: 1px solid #333;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    .gif-container img {
-      max-height: 100%;
-      object-fit: contain;
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
-    .badge-grupo {
-      display: inline-block;
-      background: rgba(0, 255, 204, 0.15);
-      color: #00ffcc;
+    .status-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .status-level {
+      background-color: var(--accent-color);
+      color: white;
       padding: 4px 10px;
-      border-radius: 6px;
+      border-radius: 20px;
       font-size: 0.85rem;
       font-weight: bold;
-      margin-bottom: 10px;
     }
 
-    .secao-musculos {
-      margin: 15px 0;
+    .xp-bar-container {
+      width: 100%;
+      background-color: var(--border);
+      border-radius: 8px;
+      height: 12px;
+      overflow: hidden;
+      margin-top: 8px;
     }
 
-    .secao-musculos h4 {
-      font-size: 0.95rem;
-      color: #aaa;
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .xp-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    /* CRONÔMETRO TÁTICO */
+    .timer-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .timer-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      font-family: monospace;
+      color: var(--success);
+    }
+
+    .btn-timer {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-timer:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* CONTEÚDO DE DETALHAMENTO DO EXERCÍCIO */
+    .content-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .exercise-header {
+      margin-bottom: 16px;
+    }
+
+    .exercise-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .exercise-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* GRID VISUAL: GIF DE EXECUÇÃO + MAPA MUSCULAR DO BONECO */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .visual-card {
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .visual-card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
       margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .exercise-media {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-main);
     }
 
     .badges-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
+      margin-bottom: 16px;
     }
 
     .badge-musculo {
-      padding: 5px 10px;
-      border-radius: 6px;
       font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
       font-weight: 500;
     }
 
     .badge-musculo.primario {
-      background: rgba(255, 75, 75, 0.2);
-      border: 1px solid rgba(255, 75, 75, 0.4);
-      color: #ff6b6b;
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
     }
 
     .badge-musculo.secundario {
-      background: rgba(255, 193, 7, 0.15);
-      border: 1px solid rgba(255, 193, 7, 0.3);
-      color: #ffc107;
+      background-color: rgba(234, 179, 8, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(234, 179, 8, 0.4);
     }
 
-    .lista-series {
-      margin: 20px 0;
+    .analysis-text {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    /* LISTA DE SÉRIES */
+    .series-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 20px;
     }
 
     .serie-item {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      padding: 12px 15px;
-      border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
       cursor: pointer;
+    }
+
+    .serie-item span {
+      font-size: 0.95rem;
     }
 
     .check-serie {
       width: 20px;
       height: 20px;
-      accent-color: #00ffcc;
       cursor: pointer;
     }
 
+    /* BOTÃO FINALIZAR */
     .btn-finalizar {
       width: 100%;
-      background: #00ffcc;
-      color: #000;
+      background-color: var(--success);
+      color: white;
       border: none;
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
-      font-weight: bold;
       font-size: 1rem;
-      cursor: not-allowed;
+      font-weight: bold;
       opacity: 0.5;
-      transition: all 0.3s ease;
-      margin-top: 10px;
+      cursor: not-allowed;
+      transition: opacity 0.2s;
     }
   </style>
 </head>
 <body>
 
-  <div class="container-detalhe">
-    <a href="exercicio.html" style="color: #888; text-decoration: none; font-size: 0.9rem;">⬅ Voltar ao Quartel</a>
-
-    <div class="card-missao">
-      <span id="ex-grupo" class="badge-grupo">Carregando...</span>
-      <h2 id="ex-nome" style="color: #fff; margin: 0 0 5px 0;">Carregando Exercício...</h2>
-      <p id="ex-xp" style="color: #00ffcc; font-weight: bold; font-size: 0.9rem; margin-bottom: 15px;">+0 XP Recompensa</p>
-
-      <!-- Animação do Boneco / Exercício -->
-      <div class="gif-container">
-        <img id="ex-animacao" src="" alt="Animação do Exercício">
+  <div class="container">
+    
+    <!-- CARD DE STATUS DO GUERREIRO -->
+    <div class="status-card">
+      <div class="status-header">
+        <span class="status-title">⚔️ Status do Guerreiro</span>
+        <span id="ui-level" class="status-level">Nível 1</span>
       </div>
-
-      <!-- Análise e Postura -->
-      <div style="background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #00ffcc;">
-        <h4 style="margin: 0 0 5px 0; font-size: 0.9rem; color: #fff;">💡 Dica de Execução</h4>
-        <p id="ex-analise-texto" style="margin: 0; font-size: 0.85rem; color: #bbb;"></p>
+      <div class="xp-bar-container">
+        <div id="ui-xp-fill" class="xp-bar-fill"></div>
       </div>
-
-      <!-- Músculos Afetados -->
-      <div class="secao-musculos">
-        <h4>🔴 Músculos Primários (Foco Principal)</h4>
-        <div id="musculos-primarios" class="badges-container"></div>
-      </div>
-
-      <div class="secao-musculos">
-        <h4>🟡 Músculos Secundários (Estabilizadores e Apoio)</h4>
-        <div id="musculos-secundarios" class="badges-container"></div>
-      </div>
-
-      <!-- Séries -->
-      <h4 style="color: #aaa; font-size: 0.95rem; margin-top: 20px;">Checklist de Séries</h4>
-      <div id="lista-series" class="lista-series">
-        <!-- Preenchido via JS -->
-      </div>
-
-      <!-- Botão de Conclusão -->
-      <button id="btn-finalizar" class="btn-finalizar" disabled onclick="finalizarExercicios()">Completar Missão ⚔️</button>
+      <div id="ui-xp-text" class="xp-text">0 / 100 XP</div>
     </div>
+
+    <!-- CRONÔMETRO DE DESCANSO TÁTICO (90s) -->
+    <div class="timer-card">
+      <div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Descanso Tático</div>
+        <div id="timer-display" class="timer-display">01:30</div>
+      </div>
+      <button id="btn-timer-toggle" class="btn-timer" onclick="toggleTimer()">Iniciar Descanso</button>
+    </div>
+
+    <!-- CONTEÚDO DE DETALHES -->
+    <div id="app-container" class="content-box">
+      <!-- Inserido dinamicamente via JS -->
+    </div>
+
   </div>
 
-  <!-- Scripts: Carrega o Banco de Dados primeiro e depois a lógica -->
-  <script src="BDexercicio.js"></script>
-  <script src="app.js"></script>
+  <script>
+    // BANCO DE DADOS COMPLETO COM EXECUÇÃO E MAPA MUSCULAR (ANATOMIA DO BONECO)
+    const BD_EXERCICIOS = {
+      "puxada-alta-aberta": {
+        nome: "Puxada Alta (Pegada Aberta Pronada)",
+        grupo: "Costas (Largura)",
+        xp: 50,
+        gif: "https://upload.wikimedia.org/wikipedia/commons/8/86/Lat-pulldown-1.gif",
+        mapaMuscular: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+        musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps", "Braquiorradial"] },
+        analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente.",
+        series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
+      },
+      "supino-reto": {
+        nome: "Supino Reto com Barra",
+        grupo: "Peitoral",
+        xp: 45,
+        gif: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bench-press-1.gif",
+        mapaMuscular: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+        musculos: { primarios: ["Peitoral Maior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
+        analise: "Aduza as escápulas e toque a barra suavemente no meio do peito.",
+        series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps"]
+      },
+      "agachamento-livre": {
+        nome: "Agachamento (Livre ou Hack)",
+        grupo: "Pernas",
+        xp: 60,
+        gif: "https://upload.wikimedia.org/wikipedia/commons/8/82/Squat-1.gif",
+        mapaMuscular: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+        musculos: { primarios: ["Quadríceps", "Glúteo Máximo"], secundarios: ["Isquiotibiais", "Core"] },
+        analise: "Mantenha o tronco firme e desça controlando até formar 90 graus ou mais.",
+        series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
+      },
+      "remada-curvada": {
+        nome: "Remada Curvada com Barra",
+        grupo: "Costas (Força Bruta)",
+        xp: 55,
+        gif: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bent-over-row-1.gif",
+        mapaMuscular: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+        musculos: { primarios: ["Latíssimo do Dorso", "Trapézio Médio"], secundarios: ["Bíceps", "Lombares"] },
+        analise: "Coluna neutra e puxada direcionada ao umbigo para ganho de espessura.",
+        series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
+      },
+      "supino-inclinado-halteres": {
+        nome: "Supino Inclinado c/ Halteres",
+        grupo: "Peitoral Superior",
+        xp: 50,
+        gif: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Incline-dumbbell-press-1.gif",
+        mapaMuscular: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+        musculos: { primarios: ["Peitoral Superior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
+        analise: "Banco a 30°-45° direcionando a carga para a porção clavicular do peito.",
+        series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
+      }
+    };
+
+    let exercicioAtual = null;
+    let timerInterval = null;
+    let tempoRestante = 90;
+    let timerRodando = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      atualizarStatusUI();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id") || "puxada-alta-aberta";
+      const container = document.getElementById("app-container");
+
+      exercicioAtual = BD_EXERCICIOS[id];
+      if (exercicioAtual) {
+        renderizarDetalhesExercicio(container);
+      } else {
+        container.innerHTML = `<p style="color: var(--danger); text-align:center;">Exercício não encontrado!</p>`;
+      }
+    });
+
+    function atualizarStatusUI() {
+      let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
+        guerreiro: { level: 1, xp: 0, xpMax: 100 }
+      };
+      let guerreiro = dadosRPG.guerreiro;
+
+      document.getElementById("ui-level").textContent = `Nível ${guerreiro.level}`;
+      const porcentagemXP = (guerreiro.xp / guerreiro.xpMax) * 100;
+      document.getElementById("ui-xp-fill").style.width = `${Math.min(porcentagemXP, 100)}%`;
+      document.getElementById("ui-xp-text").textContent = `${guerreiro.xp} / ${guerreiro.xpMax} XP`;
+    }
+
+    function renderizarDetalhesExercicio(container) {
+      container.innerHTML = `
+        <div class="exercise-header">
+          <h2 class="exercise-title">${exercicioAtual.nome}</h2>
+          <p class="exercise-meta">Músculo Alvo: ${exercicioAtual.grupo}</p>
+          <p style="font-size: 0.85rem; color: var(--success); font-weight: bold; margin-top: 4px;">+${exercicioAtual.xp} XP Recompensa</p>
+        </div>
+
+        <!-- DUPLO VISUAL: EXECUÇÃO (GIF) + MAPA DE REGIÕES MUSCULARES (BONECO) -->
+        <div class="visual-grid">
+          <div class="visual-card">
+            <span class="visual-card-title">🎬 Execução</span>
+            <img src="${exercicioAtual.gif}" class="exercise-media" alt="Execução do Exercício">
+          </div>
+          <div class="visual-card">
+            <span class="visual-card-title">👤 Regiões Musculares</span>
+            <img src="${exercicioAtual.mapaMuscular}" class="exercise-media" alt="Mapa Corporal e Regiões Alvo">
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">Músculos Envolvidos</h3>
+        <div class="badges-container">
+          ${exercicioAtual.musculos.primarios.map(m => `<span class="badge-musculo primario">🔴 ${m}</span>`).join("")}
+        </div>
+        <div class="badges-container">
+          ${exercicioAtual.musculos.secundarios.map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("")}
+        </div>
+
+        <h3 class="section-subtitle">Análise Técnica</h3>
+        <div class="analysis-text">${exercicioAtual.analise}</div>
+
+        <h3 class="section-subtitle">Controle de Séries</h3>
+        <div class="series-list">
+          ${exercicioAtual.series.map(textoSerie => `
+            <label class="serie-item">
+              <span>${textoSerie}</span>
+              <input type="checkbox" class="check-serie" onchange="verificarConclusao()">
+            </label>
+          `).join("")}
+        </div>
+
+        <button id="btn-finalizar" class="btn-finalizar" onclick="finalizarExercicio()" disabled>Concluir Missão</button>
+        
+        <div style="margin-top: 15px; text-align: center;">
+          <a href="index.html" style="color: var(--accent-color); text-decoration: none; font-size: 0.9rem;">← Voltar para o Quartel (Agenda)</a>
+        </div>
+      `;
+    }
+
+    function verificarConclusao() {
+      const checkboxes = document.querySelectorAll(".check-serie");
+      if (checkboxes.length === 0) return;
+      
+      const todasConcluidas = Array.from(checkboxes).every(cb => cb.checked);
+      const btnFinalizar = document.getElementById("btn-finalizar");
+
+      if (btnFinalizar) {
+        if (todasConcluidas) {
+          btnFinalizar.disabled = false;
+          btnFinalizar.style.opacity = "1";
+          btnFinalizar.style.cursor = "pointer";
+        } else {
+          btnFinalizar.disabled = true;
+          btnFinalizar.style.opacity = "0.5";
+          btnFinalizar.style.cursor = "not-allowed";
+        }
+      }
+    }
+
+    function finalizarExercicio() {
+      let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
+        guerreiro: { level: 1, xp: 0, xpMax: 100 }
+      };
+
+      let guerreiro = dadosRPG.guerreiro;
+      guerreiro.xp += exercicioAtual.xp;
+
+      if (guerreiro.xp >= guerreiro.xpMax) {
+        guerreiro.xp -= guerreiro.xpMax;
+        guerreiro.level += 1;
+        guerreiro.xpMax += 50;
+        alert(`🎉 LEVEL UP! O Guerreiro alcançou o Nível ${guerreiro.level}!`);
+      } else {
+        alert(`⚔️ EXERCÍCIO CONCLUÍDO!\nVocê ganhou +${exercicioAtual.xp} XP!`);
+      }
+
+      localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+      window.location.href = "index.html";
+    }
+
+    // CRONÔMETRO DE DESCANSO TÁTICO (90s)
+    function toggleTimer() {
+      if (timerRodando) {
+        pararTimer();
+      } else {
+        iniciarTimer();
+      }
+    }
+
+    function iniciarTimer() {
+      if (timerRodando) return;
+      timerRodando = true;
+      const btn = document.getElementById("btn-timer-toggle");
+      btn.textContent = "Pausar";
+      btn.style.backgroundColor = "var(--danger)";
+
+      timerInterval = setInterval(() => {
+        if (tempoRestante > 0) {
+          tempoRestante--;
+          atualizarDisplayTimer();
+        } else {
+          pararTimer();
+          alert("⏱️ Fim do Descanso Tático! Próxima série na mira, Guerreiro!");
+          resetarTimer();
+        }
+      }, 1000);
+    }
+
+    function pararTimer() {
+      timerRodando = false;
+      clearInterval(timerInterval);
+      const btn = document.getElementById("btn-timer-toggle");
+      if (btn) {
+        btn.textContent = "Retomar";
+        btn.style.backgroundColor = "var(--accent-color)";
+      }
+    }
+
+    function resetarTimer() {
+      pararTimer();
+      tempoRestante = 90;
+      atualizarDisplayTimer();
+      const btn = document.getElementById("btn-timer-toggle");
+      if (btn) {
+        btn.textContent = "Iniciar Descanso";
+      }
+    }
+
+    function atualizarDisplayTimer() {
+      const minutos = Math.floor(tempoRestante / 60);
+      const segundos = tempoRestante % 60;
+      const display = document.getElementById("timer-display");
+      if (display) {
+        display.textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+      }
+    }
+  </script>
 </body>
 </html>
