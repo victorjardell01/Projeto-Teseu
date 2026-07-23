@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exercício - Discipline RPG</title>
+  <title>Quartel de Treino - Discipline RPG</title>
   <link rel="stylesheet" href="../style.css">
   <style>
     body {
@@ -12,168 +12,219 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .exercicio-card {
+    .container-treino {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Seletor dos Dias da Semana */
+    .dias-semana-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .btn-dia {
+      background: #141414;
+      border: 1px solid #222;
+      color: #888;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-dia:hover {
+      border-color: #00ffcc;
+      color: #fff;
+    }
+
+    .btn-dia.ativo {
+      background: rgba(0, 255, 204, 0.15);
+      border-color: #00ffcc;
+      color: #00ffcc;
+    }
+
+    /* Cards de Exercícios da Lista */
+    .exercicio-card-lista {
       background: #141414;
       border: 1px solid #222;
       border-radius: 8px;
-      padding: 20px;
-      margin-top: 15px;
-    }
-
-    /* Container da Animação/GIF */
-    .animacao-box {
-      width: 100%;
-      height: 220px;
-      background: #000;
-      border: 1px solid #222;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      margin-top: 15px;
-    }
-
-    .animacao-box img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-    }
-
-    /* Badges de Músculos */
-    .musculos-box {
-      margin-top: 12px;
-    }
-
-    .musculos-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 5px;
-    }
-
-    .badge-musculo {
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-
-    .badge-musculo.primario {
-      background: rgba(255, 51, 51, 0.15);
-      color: #ff4d4d;
-      border: 1px solid #ff4d4d;
-    }
-
-    .badge-musculo.secundario {
-      background: rgba(255, 204, 0, 0.15);
-      color: #ffcc00;
-      border: 1px solid #ffcc00;
-    }
-
-    /* Caixa de Dica / Análise */
-    .analise-box {
-      background: #0d0d0d;
-      border-left: 3px solid #00ffcc;
-      padding: 12px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      color: #ccc;
-      margin-top: 15px;
-      line-height: 1.4;
-    }
-
-    /* Lista de Séries */
-    .series-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    .serie-item {
+      padding: 15px;
+      margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0d0d0d;
-      padding: 12px 15px;
-      border-radius: 6px;
-      border: 1px solid #222;
-      cursor: pointer;
     }
 
-    .serie-item input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #00ffcc;
-      cursor: pointer;
+    .exercicio-info h4 {
+      color: #fff;
+      margin: 0 0 5px 0;
+      font-size: 1rem;
     }
 
-    /* Botão Finalizar */
-    .btn-concluir-treino {
-      width: 100%;
-      padding: 14px;
+    .exercicio-info p {
+      color: #888;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    .btn-executar {
       background: #00ffcc;
       color: #000;
       border: none;
-      font-weight: bold;
-      font-size: 1rem;
+      padding: 8px 14px;
       border-radius: 6px;
-      cursor: not-allowed;
-      opacity: 0.5;
-      transition: all 0.2s ease;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .btn-executar:hover {
+      background: #00cca3;
+    }
+
+    .descanso-msg {
+      text-align: center;
+      padding: 40px;
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 8px;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <div class="page active" style="padding: 20px; max-width: 500px; margin: 0 auto;">
+  <div class="container-treino">
     <a href="../index.html" style="color: #888; text-decoration: none; font-size: 0.9rem;">⬅ Voltar ao Dashboard</a>
 
-    <!-- Header do Exercício -->
     <div style="margin-top: 15px;">
-      <div id="ex-xp" style="display: inline-block; background: rgba(0, 255, 204, 0.1); color: #00ffcc; border: 1px solid #00ffcc; padding: 4px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px;">+0 XP</div>
-      <h2 id="ex-nome" style="color: #fff; border-left: 3px solid #00ffcc; padding-left: 10px; margin: 0;">Carregando...</h2>
-      <p id="ex-grupo" style="color: #888; margin-top: 5px; font-size: 0.9rem;"></p>
+      <h2 style="color: #fff; border-left: 3px solid #00ffcc; padding-left: 10px; margin: 0;">Quartel do Guerreiro</h2>
+      <p style="color: #888; margin-top: 5px; font-size: 0.9rem;">Selecione o dia da semana para visualizar suas missões de treino.</p>
     </div>
 
-    <!-- Animação / Demonstração -->
-    <div class="animacao-box">
-      <img id="ex-animacao" src="" alt="Demonstração do exercício">
+    <!-- DIAS DA SEMANA -->
+    <div class="dias-semana-grid">
+      <div class="btn-dia ativo" onclick="selecionarDia('segunda', this)">Segunda (A)</div>
+      <div class="btn-dia" onclick="selecionarDia('terca', this)">Terça (B)</div>
+      <div class="btn-dia" onclick="selecionarDia('quarta', this)">Quarta (C)</div>
+      <div class="btn-dia" onclick="selecionarDia('quinta', this)">Quinta (A)</div>
+      <div class="btn-dia" onclick="selecionarDia('sexta', this)">Sexta (B)</div>
+      <div class="btn-dia" onclick="selecionarDia('sabado', this)">Sábado (C)</div>
+      <div class="btn-dia" onclick="selecionarDia('domingo', this)">Domingo</div>
     </div>
 
-    <!-- Análise Muscular e Dica Técnica -->
-    <div class="exercicio-card">
-      <h3 style="color: #00ffcc; font-size: 0.95rem; margin-top: 0;">🎯 Análise de Ativação</h3>
-      
-      <div class="musculos-box">
-        <p style="font-size: 0.8rem; color: #888; margin: 0;">Músculos Primários:</p>
-        <div id="musculos-primarios" class="musculos-group"></div>
-      </div>
-
-      <div class="musculos-box">
-        <p style="font-size: 0.8rem; color: #888; margin: 8px 0 0 0;">Músculos Secundários:</p>
-        <div id="musculos-secundarios" class="musculos-group"></div>
-      </div>
-
-      <div class="analise-box">
-        <strong>💡 Dica do Mestre:</strong> <span id="ex-analise-texto">...</span>
-      </div>
+    <!-- LISTA DE EXERCÍCIOS DO DIA -->
+    <div id="container-exercicios-dia">
+      <!-- Preenchido via JavaScript -->
     </div>
-
-    <!-- Lista de Checkboxes das Séries -->
-    <div class="exercicio-card">
-      <h3 style="color: #00ffcc; font-size: 0.95rem; margin: 0 0 10px 0;">Séries Executadas</h3>
-      
-      <div id="lista-series" class="series-list"></div>
-
-      <button id="btn-finalizar" class="btn-concluir-treino" onclick="finalizarExercicios()" disabled>
-        Concluir Exercício
-      </button>
-    </div>
-
   </div>
 
+  <script>
+    // Configuração dos treinos por dia da semana
+    const agendaTreinos = {
+      segunda: [
+        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas", xp: 50 },
+        { id: "puxada-alta", nome: "Puxada Alta (Polia)", grupo: "Costas", xp: 50 },
+        { id: "remada-baixa", nome: "Remada Baixa (Triângulo)", grupo: "Costas", xp: 40 },
+        { id: "rosca-direta", nome: "Rosca Direta com Barra", grupo: "Bíceps", xp: 30 },
+        { id: "rosca-martelo", nome: "Rosca Martelo com Halteres", grupo: "Bíceps", xp: 30 },
+        { id: "encolhimento", nome: "Encolhimento com Halteres", grupo: "Trapézio", xp: 30 }
+      ],
+      terca: [
+        { id: "agachamento", nome: "Agachamento Livre", grupo: "Pernas", xp: 60 },
+        { id: "leg-press", nome: "Leg Press 45º", grupo: "Pernas", xp: 50 },
+        { id: "extensora", nome: "Cadeira Extensora", grupo: "Pernas", xp: 40 },
+        { id: "flexora", nome: "Mesa Flexora", grupo: "Pernas", xp: 40 },
+        { id: "stiff", nome: "Stiff com Barra", grupo: "Pernas", xp: 50 },
+        { id: "panturrilha", nome: "Gêmeos em Pé", grupo: "Panturrilhas", xp: 30 }
+      ],
+      quarta: [
+        { id: "supino-reto", nome: "Supino Reto com Barra", grupo: "Peitoral", xp: 50 },
+        { id: "supino-inclinado", nome: "Supino Inclinado c/ Halteres", grupo: "Peitoral", xp: 40 },
+        { id: "crucifixo", nome: "Crucifixo Reto com Halteres", grupo: "Peitoral", xp: 30 },
+        { id: "desenvolvimento", nome: "Desenvolvimento c/ Halteres", grupo: "Ombros", xp: 40 },
+        { id: "elevacao-lateral", nome: "Elevação Lateral", grupo: "Ombros", xp: 30 },
+        { id: "triceps-pulley", nome: "Tríceps Pulley (Corda)", grupo: "Tríceps", xp: 30 },
+        { id: "triceps-testa", nome: "Tríceps Testa com Barra W", grupo: "Tríceps", xp: 40 },
+        { id: "antebraco", nome: "Rosca Inversa / Flexão de Punho", grupo: "Antebraço", xp: 30 }
+      ],
+      quinta: [
+        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas", xp: 50 },
+        { id: "puxada-alta", nome: "Puxada Alta (Polia)", grupo: "Costas", xp: 50 },
+        { id: "remada-baixa", nome: "Remada Baixa (Triângulo)", grupo: "Costas", xp: 40 },
+        { id: "rosca-direta", nome: "Rosca Direta com Barra", grupo: "Bíceps", xp: 30 },
+        { id: "rosca-martelo", nome: "Rosca Martelo com Halteres", grupo: "Bíceps", xp: 30 },
+        { id: "encolhimento", nome: "Encolhimento com Halteres", grupo: "Trapézio", xp: 30 }
+      ],
+      sexta: [
+        { id: "agachamento", nome: "Agachamento Livre", grupo: "Pernas", xp: 60 },
+        { id: "leg-press", nome: "Leg Press 45º", grupo: "Pernas", xp: 50 },
+        { id: "extensora", nome: "Cadeira Extensora", grupo: "Pernas", xp: 40 },
+        { id: "flexora", nome: "Mesa Flexora", grupo: "Pernas", xp: 40 },
+        { id: "stiff", nome: "Stiff com Barra", grupo: "Pernas", xp: 50 },
+        { id: "panturrilha", nome: "Gêmeos em Pé", grupo: "Panturrilhas", xp: 30 }
+      ],
+      sabado: [
+        { id: "supino-reto", nome: "Supino Reto com Barra", grupo: "Peitoral", xp: 50 },
+        { id: "supino-inclinado", nome: "Supino Inclinado c/ Halteres", grupo: "Peitoral", xp: 40 },
+        { id: "crucifixo", nome: "Crucifixo Reto com Halteres", grupo: "Peitoral", xp: 30 },
+        { id: "desenvolvimento", nome: "Desenvolvimento c/ Halteres", grupo: "Ombros", xp: 40 },
+        { id: "elevacao-lateral", nome: "Elevação Lateral", grupo: "Ombros", xp: 30 },
+        { id: "triceps-pulley", nome: "Tríceps Pulley (Corda)", grupo: "Tríceps", xp: 30 },
+        { id: "triceps-testa", nome: "Tríceps Testa com Barra W", grupo: "Tríceps", xp: 40 },
+        { id: "antebraco", nome: "Rosca Inversa / Flexão de Punho", grupo: "Antebraço", xp: 30 }
+      ],
+      domingo: [] // Descanso
+    };
+
+    function selecionarDia(dia, elementoBt) {
+      // Remove a classe ativo de todos os botões
+      document.querySelectorAll(".btn-dia").forEach(btn => btn.classList.remove("ativo"));
+      // Adiciona no clicado
+      elementoBt.classList.add("ativo");
+
+      const container = document.getElementById("container-exercicios-dia");
+      const lista = agendaTreinos[dia];
+
+      if (!lista || lista.length === 0) {
+        container.innerHTML = `
+          <div class="descanso-msg">
+            <h3>🛡️ Dia de Descanso (Rest Day)</h3>
+            <p>O Guerreiro descansa para recuperar suas fibras musculares e evoluir.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = "";
+      lista.forEach(ex => {
+        container.innerHTML += `
+          <div class="exercicio-card-lista">
+            <div class="exercicio-info">
+              <h4>${ex.nome}</h4>
+              <p>Foco: ${ex.grupo} • Recompensa: +${ex.xp} XP</p>
+            </div>
+            <a href="detalhe.html?id=${ex.id}" class="btn-executar">Treinar ⚔️</a>
+          </div>
+        `;
+      });
+    }
+
+    // Inicializa na Segunda-feira por padrão ao abrir
+    window.addEventListener("DOMContentLoaded", () => {
+      selecionarDia('segunda', document.querySelector('.btn-dia'));
+    });
+  </script>
+
+</body>
+</html>
   <script src="app.js"></script>
 </body>
 </html>
