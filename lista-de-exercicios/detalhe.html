@@ -55,15 +55,23 @@
     .exercise-meta { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; }
 
     .visual-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
-    .visual-card { background-color: rgba(0, 0, 0, 0.2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .visual-card-title { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
+    
+    /* Fundo escuro do GIF ajustado */
+    .visual-card { background-color: #0f172a; border: 1px solid var(--border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .visual-card-title { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
     .exercise-media { width: 100%; max-height: 250px; object-fit: contain; border-radius: 6px; background-color: rgba(255, 255, 255, 0.02); }
 
     .section-subtitle { font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
     .badges-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-    .badge-musculo { font-size: 0.8rem; padding: 4px 10px; border-radius: 6px; font-weight: 500; }
-    .badge-musculo.primario { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
-    .badge-musculo.secundario { background-color: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4); }
+    
+    /* Estrutura das tags dos músculos */
+    .badge-musculo { font-size: 0.85rem; padding: 6px 10px; border-radius: 6px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .badge-musculo.primario { background-color: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-musculo.secundario { background-color: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+
+    /* CSS das Bolinhas Brilhantes */
+    .dot-red { display: inline-block; width: 10px; height: 10px; background-color: #ef4444; border-radius: 50%; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+    .dot-yellow { display: inline-block; width: 10px; height: 10px; background-color: #eab308; border-radius: 50%; box-shadow: 0 0 6px rgba(234, 179, 8, 0.6); }
 
     .analysis-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; background-color: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; }
 
@@ -142,14 +150,13 @@
       const urlParams = new URLSearchParams(window.location.search);
       let id = urlParams.get("id");
 
-      // Valida se BD_EXERCICIOS existe e se o ID foi encontrado
       if (typeof BD_EXERCICIOS === 'undefined') {
         console.error("Erro: O banco de dados BD_EXERCICIOS não foi carregado. Verifique o caminho do script.");
         return;
       }
 
       if (!id || !BD_EXERCICIOS[id]) {
-        id = "puxada-alta-aberta"; // Fallback seguro
+        id = "puxada-alta-aberta";
       }
 
       exercicioAtual = BD_EXERCICIOS[id];
@@ -186,14 +193,15 @@
       const divPrimarios = document.getElementById("musculos-primarios");
       const divSecundarios = document.getElementById("musculos-secundarios");
 
+      // Correção: Trocando os emojis 🔴 e 🟡 pelas divs de bolinha com CSS
       if (divPrimarios && exercicioAtual.musculos) {
         divPrimarios.innerHTML = exercicioAtual.musculos.primarios
-          .map(m => `<span class="badge-musculo primario">🔴 ${m}</span>`).join("");
+          .map(m => `<span class="badge-musculo primario"><span class="dot-red"></span> ${m}</span>`).join("");
       }
 
       if (divSecundarios && exercicioAtual.musculos) {
         divSecundarios.innerHTML = exercicioAtual.musculos.secundarios
-          .map(m => `<span class="badge-musculo secundario">🟡 ${m}</span>`).join("");
+          .map(m => `<span class="badge-musculo secundario"><span class="dot-yellow"></span> ${m}</span>`).join("");
       }
 
       const containerSeries = document.getElementById("lista-series");
