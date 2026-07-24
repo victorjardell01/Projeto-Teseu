@@ -217,7 +217,7 @@
     </div>
 
     <!-- DIAS DA SEMANA -->
-<div class="dias-semana-grid">
+    <div class="dias-semana-grid">
       <div class="btn-dia ativo" onclick="selecionarDia('segunda', this)">Segunda</div>
       <div class="btn-dia" onclick="selecionarDia('terca', this)">Terça</div>
       <div class="btn-dia" onclick="selecionarDia('quarta', this)">Quarta</div>
@@ -234,15 +234,17 @@
   </div>
 
   <script>
-    // Configuração atualizada dos treinos por dia da semana baseada no planejamento estratégico
+    // Configuração atualizada dos treinos por dia da semana baseada no planejamento estratégico (foco em largura, densidade e braços)
     const agendaTreinos = {
       segunda: [
-        { id: "puxada-alta-aberta", nome: "Puxada Alta (Pegada Aberta Pronada)", grupo: "Costas (Largura) • 4x 8-10 reps", xp: 50 },
-        { id: "puxada-neutra", nome: "Puxada Neutra (Triângulo) / Pulldown Articulado", grupo: "Costas (Alongamento) • 3x 10 reps", xp: 45 },
-        { id: "remada-baixa-supinada", nome: "Remada Baixa no Cabo (Supinada)", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
-        { id: "pulldown-bracos-estendidos", nome: "Pulldown com Barra no Pulley", grupo: "Costas (Isolamento) • 3x 12 reps", xp: 40 },
-        { id: "rosca-martelo", nome: "Rosca Martelo", grupo: "Bíceps / Antebraço • 3x 10-12 reps", xp: 35 },
-        { id: "rosca-scott-concentrada", nome: "Rosca Scott ou Concentrada", grupo: "Bíceps • 3x 10 reps", xp: 35 }
+        { id: "puxada-alta-aberta", nome: "Barra fixa ou Puxada alta aberta", grupo: "Costas (Foco em Largura - Asas) • 4 séries", xp: 50 },
+        { id: "puxada-neutra", nome: "Puxada neutra (triângulo)", grupo: "Costas • 3 séries", xp: 45 },
+        { id: "pulldown-bracos-estendidos", nome: "Pulldown na polia alta", grupo: "Costas (Amplitude máxima) • 3 séries", xp: 40 },
+        { id: "rosca-martelo", nome: "Rosca martelo", grupo: "Bíceps & Antebraço • 3 séries", xp: 35 },
+        { id: "rosca-scott", nome: "Rosca Scott", grupo: "Bíceps & Antebraço • 3 séries", xp: 35 },
+        { id: "rosca-direta", nome: "Rosca direta", grupo: "Bíceps & Antebraço • 3 séries", xp: 35 },
+        { id: "rosca-inversa", nome: "Rosca inversa", grupo: "Antebraço • 3 séries", xp: 30 },
+        { id: "encolhimento-halteres", nome: "Encolhimento com halteres", grupo: "Trapézio • 4 séries", xp: 40 }
       ],
       terca: [
         { id: "agachamento", nome: "Agachamento (Livre ou Hack)", grupo: "Pernas • 4x 6-8 reps", xp: 60 },
@@ -255,11 +257,13 @@
         { id: "descanso", nome: "Descanso Total e Recuperação", grupo: "Recuperação Mental e Física", xp: 0 }
       ],
       quinta: [
-        { id: "remada-curvada", nome: "Remada Curvada com Barra", grupo: "Costas (Força Bruta) • 4x 6-8 reps", xp: 55 },
-        { id: "remada-cavalinho", nome: "Remada Cavalinho ou T na Máquina", grupo: "Costas (Miolo) • 3x 10 reps", xp: 45 },
-        { id: "remada-unilateral", nome: "Remada Unilateral com Halter (Serrote)", grupo: "Costas (Assimetrias) • 3x 10 reps", xp: 45 },
-        { id: "crucifixo-invertido", nome: "Crucifixo Invertido ou Face Pull", grupo: "Posterior de Ombro • 4x 12-15 reps", xp: 40 },
-        { id: "rosca-direta-w", nome: "Rosca Direta (Barra W)", grupo: "Bíceps • 3x 10 reps", xp: 35 }
+        { id: "remada-curvada", nome: "Remada curvada com barra", grupo: "Costas (Foco em Espessura) • 4 séries", xp: 55 },
+        { id: "remada-cavalinho", nome: "Remada cavalinho ou Remada baixa com pegada neutra", grupo: "Costas • 4 séries", xp: 50 },
+        { id: "remada-unilateral", nome: "Remada unilateral com halter (Serrote)", grupo: "Costas • 3 séries", xp: 45 },
+        { id: "rosca-inclinada-45", nome: "Rosca inclinada 45° com halteres", grupo: "Bíceps & Antebraço • 3 séries", xp: 35 },
+        { id: "rosca-concentrada", nome: "Rosca concentrada", grupo: "Bíceps & Antebraço • 3 séries", xp: 35 },
+        { id: "rosca-de-punho", nome: "Rosca de punho", grupo: "Bíceps & Antebraço • 3 séries", xp: 30 },
+        { id: "encolhimento-barra", nome: "Encolhimento na barra por trás ou na polia", grupo: "Trapézio • 4 séries", xp: 40 }
       ],
       sexta: [
         { id: "supino-inclinado", nome: "Supino Inclinado (Halteres / Articulado)", grupo: "Peitoral Superior • 4x 8-10 reps", xp: 50 },
