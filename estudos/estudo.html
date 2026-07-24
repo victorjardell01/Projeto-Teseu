@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧙‍♂️ Torre do Mago - Controle & Rotina de Estudos</title>
+    <link rel="stylesheet" href="estudo.css">
+</head>
+<body>
+    <!-- CANVAS: Fórmulas e Funções Matemáticas Flutuantes -->
+    <canvas id="canvas-fundo"></canvas>
+
+    <div class="container">
+        <!-- BOTÃO DE VOLTAR PARA SELEÇÃO DE CLASSE (RAIZ) -->
+        <div style="text-align: center; margin-bottom: 20px; width: 100%;">
+            <a href="index.html" style="color: #00ffff; text-decoration: none; font-weight: bold; border: 1px solid #00ffff; padding: 8px 16px; border-radius: 6px; background: rgba(10, 25, 35, 0.9); font-size: 0.9rem; display: inline-block; box-shadow: 0 0 10px rgba(0,255,255,0.2);">
+                🔮 Voltar para Seleção de Classe
+            </a>
+        </div>
+
+        <h1>🧙‍♂️ Torre do Mago</h1>
+        <h2>Controle & Rotina de Estudos</h2>
+        
+        <div class="rotina-semanal">
+            <h2>🗓️ Escala Semanal de Magia</h2>
+            <div class="grid-semana">
+                <div class="dia-box"><span>SEG</span><textarea id="seg" oninput="salvarRotina('seg')"></textarea></div>
+                <div class="dia-box"><span>TER</span><textarea id="ter" oninput="salvarRotina('ter')"></textarea></div>
+                <div class="dia-box"><span>QUA</span><textarea id="qua" oninput="salvarRotina('qua')"></textarea></div>
+                <div class="dia-box"><span>QUI</span><textarea id="qui" oninput="salvarRotina('qui')"></textarea></div>
+                <div class="dia-box"><span>SEX</span><textarea id="sex" oninput="salvarRotina('sex')"></textarea></div>
+                <div class="dia-box"><span>SAB</span><textarea id="sab" oninput="salvarRotina('sab')"></textarea></div>
+                <div class="dia-box"><span>DOM</span><textarea id="dom" oninput="salvarRotina('dom')"></textarea></div>
+            </div>
+        </div>
+
+        <hr style="border-color: rgba(0,255,255,0.2); margin: 20px 0;">
+
+        <div class="materias-menu">
+            <button onclick="mostrarAssuntos('portugues')">Português</button>
+            <button onclick="mostrarAssuntos('matematica')">Matemática</button>
+            <button onclick="mostrarAssuntos('fisica')">Física</button>
+            <button onclick="mostrarAssuntos('quimica')">Química</button>
+            <button onclick="mostrarAssuntos('legislação')">Legislação</button>
+        </div>
+
+        <div id="progresso-geral" style="display:none; margin: 20px 0;">
+            <div class="barra-fundo">
+                <div id="barra-preenchimento"></div>
+            </div>
+            <p id="status-porcentagem">0% concluído</p>
+        </div>
+        
+        <div id="lista-assuntos" class="lista-assuntos"></div>
+    </div>
+
+    <script src="estudo.js"></script>
+</body>
+</html>
