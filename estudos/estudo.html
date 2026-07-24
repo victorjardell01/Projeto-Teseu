@@ -44,15 +44,18 @@
             <button onclick="mostrarAssuntos('legislação')">Legislação</button>
         </div>
 
-        <div id="progresso-geral" style="display:none; margin: 20px 0;">
+        <!-- PAINEL DE XP E NÍVEL (CORRIGIDO) -->
+        <div id="progresso-geral" style="display: block; margin: 20px 0; background: rgba(16, 24, 38, 0.92); border: 1px solid rgba(0, 255, 255, 0.3); padding: 15px; border-radius: 8px; width: 100%;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: bold;">
+                <span id="texto-nivel" style="color: #00ffff;">Nível 1 (Mago)</span>
+                <span id="texto-xp" style="color: #39ff14;">0 / 100 XP (Total: 0 XP)</span>
+            </div>
             <div class="barra-fundo">
                 <div id="barra-preenchimento"></div>
             </div>
-            <p id="status-porcentagem">0% concluído</p>
         </div>
         
         <div id="lista-assuntos" class="lista-assuntos"></div>
-    </div>
 
     <script src="estudo.js"></script>
 </body>
