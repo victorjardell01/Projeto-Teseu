@@ -58,37 +58,6 @@
       margin-bottom: 15px;
     }
 
-    .media-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .visual-card {
-      background: #121218;
-      border: 1px solid #2a2a3d;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .visual-card-title {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .exercise-media {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 6px;
-      background: #000;
-    }
-
     .musculos-box {
       display: flex;
       flex-wrap: wrap;
@@ -173,17 +142,6 @@
         <span id="ex-grupo">Músculo Alvo: --</span> • <span id="ex-xp" style="color: var(--accent-color); font-weight: bold;">-- XP</span>
       </div>
 
-      <div class="media-container">
-        <div class="visual-card">
-          <span class="visual-card-title">🎥 Execução Tática</span>
-          <video id="ex-animacao" class="exercise-media" autoplay loop muted playsinline></video>
-        </div>
-        <div class="visual-card">
-          <span class="visual-card-title">🗺️ Mapa Muscular</span>
-          <img id="ex-mapa" class="exercise-media" alt="Mapa Muscular" />
-        </div>
-      </div>
-
       <div class="analise-box" id="ex-analise-texto">
         Carregando diretrizes de combate...
       </div>
@@ -198,7 +156,6 @@
     </div>
   </div>
 
-  <!-- A ordem dos scripts importa: primeiro o banco, depois a lógica -->
   <script src="BDexercicio.js"></script>
   <script src="exercicio.js"></script>
 </body>
