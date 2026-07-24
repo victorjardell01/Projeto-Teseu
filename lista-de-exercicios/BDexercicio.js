@@ -44,15 +44,23 @@ const agendaTreinos = {
 // ==========================================
 const BD_EXERCICIOS = {
   // --- SEGUNDA-FEIRA ---
+  const BD_EXERCICIOS = {
   "puxada-alta-aberta": {
     nome: "Puxada Alta (Pegada Aberta Pronada)",
     grupo: "Costas (Largura)",
     xp: 50,
-    gif: "imagens/puxada-alta-aberta.mp4",
-    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps", "Braquiorradial"] },
+    // GIF da execução do movimento
+    gifExecucao: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/latpulldown-1458253139.gif",
+    // Imagem do mapa de músculos (frente/costas do MuscleWiki)
+    mapaMuscular: "https://musclewiki.com/media/uploads/male-back-latissimus.png", 
+    musculos: { 
+      primarios: ["Latíssimo do Dorso"], 
+      secundarios: ["Bíceps", "Braquiorradial"] 
+    },
     analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
-  },
+  }
+};
   "puxada-neutra": {
     nome: "Puxada Neutra (Triângulo)",
     grupo: "Costas (Alongamento)",
