@@ -1,15 +1,16 @@
 /* ==========================================
-   TORRE DO MAGO - TEMA ESCURO RPG (MOBILE)
+   TORRE DO MAGO - CORREÇÃO MOBILE & CANVAS
    ========================================== */
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body { 
-    background-color: #0b0f19 !important; 
-    margin: 0; 
-    padding: 15px; 
+    background-color: #0b0f19; 
+    padding: 10px; 
     color: #00ffff; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     min-height: 100vh; 
@@ -18,27 +19,28 @@ body {
     align-items: center;
     justify-content: flex-start;
     overflow-x: hidden;
+    position: relative;
 } 
 
-/* CANVAS FIXO DE FUNDO ESCURO */ 
+/* CANVAS FIXO DE FUNDO (JOGADO PARA TRÁS E SEM BLOQUEAR CLIQUES) */ 
 #canvas-fundo { 
     position: fixed; 
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh; 
-    z-index: -1; 
+    z-index: 0; /* Fica no fundo absoluto */
     background-color: #0b0f19;
-    pointer-events: none; 
+    pointer-events: none; /* Garante que os cliques passem direto por ele */
 } 
 
-/* CONTAINER PRINCIPAL CENTRALIZADO (ESTILO APP CELULAR) */ 
+/* CONTAINER PRINCIPAL CENTRALIZADO E ACIMA DO CANVAS */ 
 .container { 
     width: 100%;
     max-width: 460px; 
     margin: 0 auto; 
     position: relative; 
-    z-index: 1; 
+    z-index: 2; /* Garante que todo o conteúdo fique visível acima do fundo */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,14 +54,14 @@ h1, h2 {
     width: 100%;
 }
 
-h1 { font-size: 1.5rem !important; margin-bottom: 5px; }
-h2 { font-size: 1.1rem !important; margin-top: 10px; margin-bottom: 15px; }
+h1 { font-size: 1.4rem !important; margin-bottom: 5px; }
+h2 { font-size: 1rem !important; margin-top: 8px; margin-bottom: 12px; }
 
 /* BOTÃO DE VOLTAR */
 .btn-voltar-container {
     width: 100%;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .btn-voltar {
@@ -67,19 +69,12 @@ h2 { font-size: 1.1rem !important; margin-top: 10px; margin-bottom: 15px; }
     text-decoration: none; 
     font-weight: bold; 
     border: 1px solid #00ffff; 
-    padding: 10px 16px; 
+    padding: 8px 14px; 
     border-radius: 8px; 
     background: rgba(15, 25, 35, 0.95); 
-    font-size: 0.85rem; 
+    font-size: 0.8rem; 
     display: inline-block; 
     box-shadow: 0 0 10px rgba(0,255,255,0.25);
-    transition: 0.3s;
-}
-
-.btn-voltar:hover {
-    background: #00ffff;
-    color: #0b0f19;
-    box-shadow: 0 0 15px #00ffff;
 }
 
 /* ESCALA SEMANAL */ 
@@ -90,82 +85,80 @@ h2 { font-size: 1.1rem !important; margin-top: 10px; margin-bottom: 15px; }
 .grid-semana { 
     display: flex;
     flex-direction: column;
-    gap: 10px; 
+    gap: 8px; 
     width: 100%;
     margin-bottom: 15px;
 } 
 
 .dia-box { 
-    background: rgba(16, 24, 38, 0.9); 
+    background: rgba(16, 24, 38, 0.95); 
     border: 1px solid rgba(0, 255, 255, 0.3); 
     border-radius: 8px; 
-    padding: 10px 12px; 
-    backdrop-filter: blur(4px); 
+    padding: 8px 10px; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     width: 100%;
 } 
 
 .dia-box span { 
-    font-size: 0.75rem; 
+    font-size: 0.7rem; 
     font-weight: bold; 
     display: block; 
-    margin-bottom: 4px; 
+    margin-bottom: 3px; 
     color: #ffc107;
     letter-spacing: 1px;
 } 
 
 textarea { 
     width: 100%; 
-    height: 45px; 
-    background: rgba(8, 12, 18, 0.6); 
-    border: 1px solid rgba(0, 255, 255, 0.15);
+    height: 40px; 
+    background: rgba(8, 12, 18, 0.8); 
+    border: 1px solid rgba(0, 255, 255, 0.2);
     border-radius: 4px;
     color: #fff; 
     resize: none; 
     outline: none; 
-    font-size: 0.85rem; 
-    padding: 6px;
+    font-size: 0.8rem; 
+    padding: 5px;
 } 
 
 textarea:focus {
     border-color: #00ffff;
 }
 
-/* MENU DE MATÉRIAS (BOTÕES) */ 
+/* MENU DE MATÉRIAS */ 
 .materias-menu { 
     display: flex; 
     justify-content: center; 
-    gap: 6px; 
+    gap: 5px; 
     flex-wrap: wrap; 
     width: 100%;
-    margin: 15px 0; 
+    margin: 10px 0; 
 } 
 
 button:not(.quadrado) { 
     background: rgba(16, 24, 38, 0.95); 
     color: #00ffff; 
     border: 1px solid #00ffff; 
-    padding: 8px 12px; 
+    padding: 7px 10px; 
     border-radius: 6px; 
     font-weight: bold; 
     cursor: pointer; 
     text-transform: uppercase; 
-    transition: 0.3s; 
-    font-size: 0.7rem;
+    font-size: 0.65rem;
 } 
 
 button:not(.quadrado):hover { 
     background: #00ffff; 
     color: #0b0f19; 
-    box-shadow: 0 0 12px #00ffff; 
+    box-shadow: 0 0 10px #00ffff; 
 } 
 
-/* BARRA DE PROGRESSO */ 
+/* BARRA DE PROGRESSO E XP */ 
 .barra-fundo { 
     width: 100%; 
     background: #080c14; 
-    height: 14px; 
-    border-radius: 7px; 
+    height: 12px; 
+    border-radius: 6px; 
     overflow: hidden; 
     border: 1px solid rgba(0, 255, 255, 0.3);
 }
@@ -173,40 +166,30 @@ button:not(.quadrado):hover {
 #barra-preenchimento { 
     transition: width 0.4s ease; 
     background: linear-gradient(90deg, #00bfff, #39ff14); 
-    box-shadow: 0 0 10px #39ff14; 
+    box-shadow: 0 0 8px #39ff14; 
     height: 100%; 
 } 
-
-#status-porcentagem {
-    text-align: center;
-    font-size: 0.8rem;
-    margin-top: 5px;
-    font-weight: bold;
-    color: #39ff14;
-}
 
 /* LISTA DE ASSUNTOS */ 
 .lista-assuntos {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .item-assunto { 
-    background: rgba(16, 24, 38, 0.92); 
-    margin-bottom: 12px; 
-    padding: 14px; 
+    background: rgba(16, 24, 38, 0.95); 
+    margin-bottom: 10px; 
+    padding: 12px; 
     border-radius: 8px; 
     border-left: 4px solid #00ffff; 
-    border-top: 1px solid rgba(0, 255, 255, 0.15);
-    border-right: 1px solid rgba(0, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(0, 255, 255, 0.15);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6); 
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6); 
     width: 100%;
 } 
 
 .item-assunto h3 {
-    margin: 0 0 4px 0;
-    font-size: 0.95rem;
+    margin: 0 0 2px 0;
+    font-size: 0.9rem;
     color: #00ffff;
     text-align: left;
 }
@@ -214,28 +197,22 @@ button:not(.quadrado):hover {
 .quadrados-container { 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 6px; 
-    margin-top: 8px; 
+    gap: 5px; 
+    margin-top: 6px; 
     justify-content: flex-start;
 } 
 
 .quadrado { 
-    width: 24px; 
-    height: 24px; 
+    width: 22px; 
+    height: 22px; 
     border: 1px solid rgba(0, 255, 255, 0.3); 
     background: rgba(0, 255, 255, 0.02);
     border-radius: 4px; 
     cursor: pointer; 
-    transition: 0.2s; 
 } 
-
-.quadrado:hover {
-    border-color: #00ffff;
-    background: rgba(0, 255, 255, 0.1);
-}
 
 .quadrado.check { 
     background: #39ff14; 
-    box-shadow: 0 0 8px #39ff14; 
+    box-shadow: 0 0 6px #39ff14; 
     border-color: #fff; 
 }
