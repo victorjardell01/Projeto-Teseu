@@ -292,7 +292,11 @@ function carregarDadosExercicio() {
   document.getElementById("ex-grupo").textContent = `Músculo Alvo: ${exercicioAtual.grupo}`;
   document.getElementById("ex-xp").textContent = `+${exercicioAtual.xp} XP Recompensa`;
   
-  document.getElementById("ex-animacao").src = exercicioAtual.gif || "";
+const videoEl = document.getElementById("ex-animacao");
+if (videoEl) {
+  videoEl.src = exercicioAtual.gif || "";
+  videoEl.load(); // Garante que o navegador carregue o novo vídeo do MuscleWiki
+}
   document.getElementById("ex-analise-texto").textContent = exercicioAtual.analise || "Execute com boa postura.";
 
   const divPrimarios = document.getElementById("musculos-primarios");
