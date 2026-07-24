@@ -10,10 +10,8 @@ const dadosEstudos = {
 // --- LOGICA DE MATÉRIAS ---
 function mostrarAssuntos(materia) {
     const container = document.getElementById('lista-assuntos');
-    const progressoDiv = document.getElementById('progresso-geral');
-    if (!container || !progressoDiv) return;
+    if (!container) return;
 
-    progressoDiv.style.display = 'block';
     container.innerHTML = `<h2>Estudando: ${materia.toUpperCase()}</h2>`;
 
     dadosEstudos[materia].forEach(assunto => {
@@ -36,7 +34,6 @@ function mostrarAssuntos(materia) {
         `;
         container.appendChild(divAssunto);
     });
-    atualizarProgresso();
 }
 
 function gerarQuadrados(materia, assunto) {
@@ -53,29 +50,39 @@ function toggleCheck(id, elemento, materia, assunto) {
     const estaMarcado = elemento.classList.toggle('check');
     localStorage.setItem(id, estaMarcado);
     
-    // Atualiza a data da última revisão ao clicar em qualquer quadrado
     const idAssunto = `${materia}-${assunto.replace(/\s+/g, '')}`;
     localStorage.setItem(`data-${idAssunto}`, new Date().toISOString());
     
-    // Atualiza o texto da data na tela sem precisar recarregar
     const spanData = elemento.closest('.item-assunto').querySelector('.data-revisao');
     if (spanData) {
         spanData.innerText = `Última marcação: ${new Date().toLocaleDateString()}`;
     }
     
-    atualizarProgresso();
+    atualizarXP();
 }
 
-function atualizarProgresso() {
-    const quadrados = document.querySelectorAll('.quadrado');
-    const marcados = document.querySelectorAll('.quadrado.check');
-    const porcentagem = quadrados.length > 0 ? Math.round((marcados.length / quadrados.length) * 100) : 0;
-    
+// --- SISTEMA DE XP E NÍVEIS DO MAGO ---
+function atualizarXP() {
+    let totalMarcados = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+        const chave = localStorage.key(i);
+        if (chave && !chave.startsWith('rotina-') && !chave.startsWith('data-') && localStorage.getItem(chave) === 'true') {
+            totalMarcados++;
+        }
+    }
+    const xpTotal = totalMarcados * 10;
+    const xpPorNivel = 100;
+    const nivelAtual = Math.floor(xpTotal / xpPorNivel) + 1;
+    const xpNoNivelAtual = xpTotal % xpPorNivel;
+    const porcentagemBarra = (xpNoNivelAtual / xpPorNivel) * 100;
+
     const barra = document.getElementById('barra-preenchimento');
-    const status = document.getElementById('status-porcentagem');
-    
-    if (barra) barra.style.width = porcentagem + '%';
-    if (status) status.innerText = `${porcentagem}% concluído`;
+    const textoNivel = document.getElementById('texto-nivel');
+    const textoXp = document.getElementById('texto-xp');
+
+    if (barra) barra.style.width = porcentagemBarra + '%';
+    if (textoNivel) textoNivel.innerText = `Nível ${nivelAtual} (Mago)`;
+    if (textoXp) textoXp.innerText = `${xpNoNivelAtual} / ${xpPorNivel} XP (Total: ${xpTotal} XP)`;
 }
 
 // --- ROTINA SEMANAL ---
@@ -94,6 +101,9 @@ function carregarDados() {
             if (campo) campo.value = salvo;
         }
     });
+
+    mostrarAssuntos('portugues');
+    atualizarXP();
 }
 
 // --- FUNDO MÁGICO: FÓRMULAS E FUNÇÕES FLUTUANTES ---
@@ -113,22 +123,23 @@ function ajustarCanvas() {
     canvas.height = window.innerHeight;
     
     formulasFlutuantes = [];
-    const quantidade = Math.floor(canvas.width / 45);
+    const quantidade = Math.floor(canvas.width / 50);
     for (let i = 0; i < quantidade; i++) {
         formulasFlutuantes.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            velocidade: 0.2 + Math.random() * 0.6,
+            velocidade: 0.15 + Math.random() * 0.4,
             texto: formulas[Math.floor(Math.random() * formulas.length)],
-            tamanho: 11 + Math.random() * 5,
-            opacidade: 0.2 + Math.random() * 0.5
+            tamanho: 11 + Math.random() * 4,
+            opacidade: 0.15 + Math.random() * 0.35
         });
     }
 }
 
 function desenharMagiaMatematica() {
     if (!ctx || !canvas) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0b0f19";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     formulasFlutuantes.forEach(p => {
         ctx.fillStyle = `rgba(0, 255, 255, ${p.opacidade})`;
@@ -147,7 +158,7 @@ function desenharMagiaMatematica() {
 
 if (canvas) {
     ajustarCanvas();
-    setInterval(desenharMagiaMatematica, 30);
+    setInterval(desenharMagiaMatematica, 35);
     window.addEventListener('resize', ajustarCanvas);
 }
 
