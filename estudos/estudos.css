@@ -1,0 +1,190 @@
+/* ==========================================
+   TEMA DE MAGO: TORRE DE CONHECIMENTO & RUNAS (MOBILE)
+   ========================================== */
+
+body { 
+    background-color: #080c10; 
+    margin: 0; 
+    padding: 10px; 
+    color: #00ffff; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    min-height: 100vh; 
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+} 
+
+/* 2. CANVAS MÁGICO (FÓRMULAS E FUNÇÕES VOANDO) */ 
+#canvas-fundo { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    z-index: -1; 
+    opacity: 0.22; 
+    pointer-events: none; 
+} 
+
+/* 3. CONTAINER PRINCIPAL CENTRALIZADO (MOBILE) */ 
+.container { 
+    width: 100% !important;
+    max-width: 500px !important; 
+    margin: 0 auto !important; 
+    position: relative; 
+    z-index: 1; 
+    box-sizing: border-box;
+} 
+
+h1, h2 {
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    font-size: 1.3rem !important;
+}
+
+/* 4. ESCALA SEMANAL (GLASSMORPHISM MÍSTICO) */ 
+.grid-semana { 
+    display: grid; 
+    grid-template-columns: repeat(1, 1fr) !important; 
+    gap: 10px; 
+    margin: 15px 0; 
+} 
+
+.dia-box { 
+    background: rgba(10, 25, 35, 0.85); 
+    border: 1px solid #00ffff; 
+    border-radius: 10px; 
+    padding: 12px; 
+    backdrop-filter: blur(4px); 
+    transition: 0.3s; 
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.15);
+} 
+
+.dia-box:hover { 
+    border-color: #39ff14; 
+    box-shadow: 0 0 12px rgba(57, 255, 20, 0.3);
+} 
+
+.dia-box span { 
+    font-size: 0.85rem; 
+    font-weight: bold; 
+    display: block; 
+    margin-bottom: 5px; 
+    text-align: center; 
+    color: #ffc107;
+} 
+
+textarea { 
+    width: 100%; 
+    height: 50px; 
+    background: transparent; 
+    border: none; 
+    color: #fff; 
+    resize: none; 
+    outline: none; 
+    font-size: 0.9rem; 
+    box-sizing: border-box;
+} 
+
+/* 5. BOTÕES DE MAGIA (MATÉRIAS) */ 
+.materias-menu { 
+    display: flex; 
+    justify-content: center; 
+    gap: 8px; 
+    flex-wrap: wrap; 
+    margin: 20px 0; 
+} 
+
+button { 
+    background: rgba(10, 25, 35, 0.9); 
+    color: #00ffff; 
+    border: 1px solid #00ffff; 
+    padding: 10px 14px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    transition: 0.3s; 
+    font-size: 0.75rem;
+} 
+
+button:hover { 
+    background: #00ffff; 
+    color: #080c10; 
+    box-shadow: 0 0 15px #00ffff; 
+} 
+
+/* 6. BARRA DE EXPERIÊNCIA / PROGRESSO */ 
+.barra-fundo { 
+    width: 100%; 
+    background: #111; 
+    height: 16px; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    border: 1px solid #00ffff55;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+}
+
+#barra-preenchimento { 
+    transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    background: linear-gradient(90deg, #00bfff, #39ff14); 
+    box-shadow: 0 0 12px #39ff14; 
+    height: 100%; 
+} 
+
+#status-porcentagem {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-weight: bold;
+    color: #39ff14;
+}
+
+/* 7. ITENS DA LISTA DE MAGIAS / ASSUNTOS */ 
+.item-assunto { 
+    background: rgba(12, 22, 30, 0.9); 
+    margin-bottom: 12px; 
+    padding: 15px; 
+    border-radius: 10px; 
+    border-left: 5px solid #00ffff; 
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    border-right: 1px solid rgba(0, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+} 
+
+.item-assunto h3 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    color: #00ffff;
+}
+
+.quadrados-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 6px; 
+    margin-top: 10px; 
+    justify-content: center;
+} 
+
+.quadrado { 
+    width: 26px; 
+    height: 26px; 
+    border: 1px solid #00ffff44; 
+    background: rgba(0, 255, 255, 0.03);
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+} 
+
+.quadrado:hover {
+    border-color: #00ffff;
+}
+
+.quadrado.check { 
+    background: #39ff14; 
+    box-shadow: 0 0 10px #39ff14; 
+    border-color: #fff; 
+}
