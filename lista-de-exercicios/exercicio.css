@@ -175,3 +175,58 @@ input[type="checkbox"] {
   cursor: pointer;
   box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
 }
+
+/* ==========================================
+   AJUSTE DE CENTRALIZAÇÃO E SÉRIES (MOBILE)
+   ========================================== */
+
+/* Centraliza o container principal da página de detalhes */
+body, .container, .detalhe-container, main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+/* Faz o conteúdo da página de detalhes ocupar uma largura centralizada e confortável */
+body > *, .container-treino, .card {
+  width: 100%;
+  max-width: 480px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Centraliza os textos e alinha os elementos da missão */
+h2#ex-nome, .exercicio-info, .analise-box, p, .meta-info {
+  text-align: center;
+}
+
+/* Força as bolinhas de músculos a ficarem alinhadas e centralizadas */
+div[style*="display: flex"], .musculos-container {
+  justify-content: center !important;
+}
+
+/* ORGANIZA AS SÉRIES EM COLUNA (UMA ABAIXO DA OUTRA) */
+.serie-item, div[style*="serie"], li, input[type="checkbox"] {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 450px !important;
+  margin: 6px auto !important;
+  background: #160e0c !important;
+  border: 1px solid #3b140c !important;
+  padding: 12px 15px !important;
+  border-radius: 8px !important;
+}
+
+/* Garante que o botão de concluir missão fique centralizado e largo */
+.btn-atacar, button[type="submit"], .btn-concluir {
+  display: block !important;
+  width: 100% !important;
+  max-width: 450px !important;
+  margin: 15px auto !important;
+  text-align: center !important;
+}
