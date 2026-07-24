@@ -61,15 +61,21 @@ function toggleCheck(id, elemento, materia, assunto) {
     atualizarXP();
 }
 
-// --- SISTEMA DE XP E NÍVEIS DO MAGO ---
+// --- SISTEMA DE XP E NÍVEIS DO MAGO (ISOLADO E PRECISO) ---
 function atualizarXP() {
     let totalMarcados = 0;
+    
+    // Varre exclusivamente as chaves que pertencem aos quadrados das matérias
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
-        if (chave && !chave.startsWith('rotina-') && !chave.startsWith('data-') && localStorage.getItem(chave) === 'true') {
-            totalMarcados++;
+        // Filtra para pegar apenas IDs de marcação de quadrados (que contêm os hífens das matérias e número final)
+        if (chave && (chave.includes('portugues-') || chave.includes('matematica-') || chave.includes('fisica-') || chave.includes('quimica-') || chave.includes('legislação-'))) {
+            if (localStorage.getItem(chave) === 'true') {
+                totalMarcados++;
+            }
         }
     }
+
     const xpTotal = totalMarcados * 10;
     const xpPorNivel = 100;
     const nivelAtual = Math.floor(xpTotal / xpPorNivel) + 1;
