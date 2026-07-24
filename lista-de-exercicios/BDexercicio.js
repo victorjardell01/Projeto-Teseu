@@ -44,30 +44,27 @@ const agendaTreinos = {
 // ==========================================
 const BD_EXERCICIOS = {
   // --- SEGUNDA-FEIRA ---
-  const BD_EXERCICIOS = {
   "puxada-alta-aberta": {
     nome: "Puxada Alta (Pegada Aberta Pronada)",
     grupo: "Costas (Largura)",
     xp: 50,
-    // GIF da execução do movimento
-    gifExecucao: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/latpulldown-1458253139.gif",
-    // Imagem do mapa de músculos (frente/costas do MuscleWiki)
-    mapaMuscular: "https://musclewiki.com/media/uploads/male-back-latissimus.png", 
+    gif: "https://hips.hearstapps.com/hmg-prod/images/workouts/2016/03/latpulldown-1458253139.gif",
+    mapaMuscular: "https://musclewiki.com/media/uploads/male-back-latissimus.png",
     musculos: { 
       primarios: ["Latíssimo do Dorso"], 
       secundarios: ["Bíceps", "Braquiorradial"] 
     },
     analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
-  }
-};
+  },
   "puxada-neutra": {
     nome: "Puxada Neutra (Triângulo)",
     grupo: "Costas (Alongamento)",
     xp: 45,
     gif: "imagens/puxada-neutra.mp4",
+    mapaMuscular: "imagens/mapa-costas-neutra.png",
     musculos: { primarios: ["Latíssimo do Dorso", "Romboides"], secundarios: ["Bíceps"] },
-    analise: "Foques no alongamento completo no topo e na contração embaixo.",
+    analise: "Foque no alongamento completo no topo e na contração embaixo.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "remada-baixa-supinada": {
@@ -75,6 +72,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas (Miolo)",
     xp: 45,
     gif: "imagens/remada-baixa-supinada.mp4",
+    mapaMuscular: "imagens/mapa-costas-miolo.png",
     musculos: { primarios: ["Latíssimo", "Miolo das Costas"], secundarios: ["Bíceps"] },
     analise: "Mantenha os cotovelos colados ao corpo puxando em direção ao abdômen inferior.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -84,6 +82,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas (Isolamento)",
     xp: 40,
     gif: "imagens/pulldown-bracos-estendidos.mp4",
+    mapaMuscular: "imagens/mapa-costas-pulldown.png",
     musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Tríceps (Cabeça Longa)"] },
     analise: "Isole o movimento fazendo um arco com os braços estendidos até as coxas.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
@@ -93,6 +92,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps / Antebraço",
     xp: 35,
     gif: "imagens/rosca-martelo.mp4",
+    mapaMuscular: "imagens/mapa-biceps-antebraco.png",
     musculos: { primarios: ["Braquiorradial", "Bíceps Braquial"], secundarios: ["Antebraço"] },
     analise: "Palmas voltadas para dentro focando no braquial e na espessura do braço.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
@@ -102,6 +102,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps",
     xp: 35,
     gif: "imagens/rosca-scott-concentrada.mp4",
+    mapaMuscular: "imagens/mapa-biceps.png",
     musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Antebraço"] },
     analise: "Controle a fase excêntrica (descida) estendendo totalmente o braço.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -113,6 +114,7 @@ const BD_EXERCICIOS = {
     grupo: "Pernas",
     xp: 60,
     gif: "imagens/agachamento-livre.mp4",
+    mapaMuscular: "imagens/mapa-pernas-frente.png",
     musculos: { primarios: ["Quadríceps", "Glúteo Máximo"], secundarios: ["Isquiotibiais", "Core"] },
     analise: "Mantenha o tronco firme e desça controlando até formar 90 graus ou mais.",
     series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
@@ -122,6 +124,7 @@ const BD_EXERCICIOS = {
     grupo: "Pernas",
     xp: 50,
     gif: "imagens/leg-press-45.mp4",
+    mapaMuscular: "imagens/mapa-pernas-frente.png",
     musculos: { primarios: ["Quadríceps", "Glúteos"], secundarios: ["Isquiotibiais"] },
     analise: "Evite tirar a lombar do encosto ao flexionar os joelhos.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
@@ -131,6 +134,7 @@ const BD_EXERCICIOS = {
     grupo: "Pernas (Falha)",
     xp: 45,
     gif: "imagens/cadeira-extensora.mp4",
+    mapaMuscular: "imagens/mapa-quadriceps.png",
     musculos: { primarios: ["Quadríceps"], secundarios: [] },
     analise: "Segure por 1 segundo no topo espremendo o quadríceps.",
     series: ["Série 1: 15 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
@@ -140,6 +144,7 @@ const BD_EXERCICIOS = {
     grupo: "Posteriores",
     xp: 45,
     gif: "imagens/mesa-flexora.mp4",
+    mapaMuscular: "imagens/mapa-posteriores.png",
     musculos: { primarios: ["Isquiotibiais"], secundarios: ["Gastrocnêmio"] },
     analise: "Mantenha o quadril pressionado contra o banco durante a flexão.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
@@ -149,6 +154,7 @@ const BD_EXERCICIOS = {
     grupo: "Panturrilhas",
     xp: 35,
     gif: "imagens/gemeos-pe.mp4",
+    mapaMuscular: "imagens/mapa-panturrilha.png",
     musculos: { primarios: ["Gastrocnêmio", "Sóleo"], secundarios: [] },
     analise: "Amplitude máxima: alongue embaixo e suba ao ponto mais alto.",
     series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
@@ -159,7 +165,8 @@ const BD_EXERCICIOS = {
     nome: "Descanso Total e Recuperação",
     grupo: "Recuperação Mental e Física",
     xp: 0,
-    gif: "imagens/descanso.mp4", // Pode colocar um vídeo de relaxamento aqui, ou manter vazio se preferir.
+    gif: "imagens/descanso.mp4",
+    mapaMuscular: "imagens/mapa-descanso.png",
     musculos: { primarios: ["Sistema Nervoso Central"], secundarios: ["Foco Acadêmico"] },
     analise: "Dia focado na regeneração muscular e blindagem cognitiva.",
     series: ["Série Única: Foco nos Estudos 📚"]
@@ -171,6 +178,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas (Força Bruta)",
     xp: 55,
     gif: "imagens/remada-curvada.mp4",
+    mapaMuscular: "imagens/mapa-costas-espessura.png",
     musculos: { primarios: ["Latíssimo do Dorso", "Trapézio Médio"], secundarios: ["Bíceps", "Lombares"] },
     analise: "Coluna neutra e puxada direcionada ao umbigo para ganho de espessura.",
     series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
@@ -180,6 +188,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas (Miolo)",
     xp: 45,
     gif: "imagens/remada-cavalinho.mp4",
+    mapaMuscular: "imagens/mapa-costas-miolo.png",
     musculos: { primarios: ["Romboides", "Trapézio"], secundarios: ["Bíceps"] },
     analise: "Foque na retração escapular forte a cada repetição.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -189,6 +198,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas (Assimetrias)",
     xp: 45,
     gif: "imagens/remada-unilateral.mp4",
+    mapaMuscular: "imagens/mapa-costas-serrote.png",
     musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps"] },
     analise: "Apoie o joelho e a mão no banco, trazendo o cotovelo rente à costela.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -198,6 +208,7 @@ const BD_EXERCICIOS = {
     grupo: "Posterior de Ombro",
     xp: 40,
     gif: "imagens/crucifixo-invertido.mp4",
+    mapaMuscular: "imagens/mapa-ombro-posterior.png",
     musculos: { primarios: ["Deltoide Posterior"], secundarios: ["Trapézio Superior"] },
     analise: "Abra os braços para trás com foco na saúde articular e postura tridimensional.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 12 reps"]
@@ -207,6 +218,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps",
     xp: 35,
     gif: "imagens/rosca-direta-w.mp4",
+    mapaMuscular: "imagens/mapa-biceps.png",
     musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Antebraço"] },
     analise: "Pegada anatômica com cotovelos fixos ao lado do tronco.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -218,6 +230,7 @@ const BD_EXERCICIOS = {
     grupo: "Peitoral Superior",
     xp: 50,
     gif: "imagens/supino-inclinado-halteres.mp4",
+    mapaMuscular: "imagens/mapa-peito-superior.png",
     musculos: { primarios: ["Peitoral Superior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
     analise: "Banco a 30°-45° direcionando a carga para a porção clavicular do peito.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
@@ -227,6 +240,7 @@ const BD_EXERCICIOS = {
     grupo: "Peitoral",
     xp: 45,
     gif: "imagens/supino-reto.mp4",
+    mapaMuscular: "imagens/mapa-peito.png",
     musculos: { primarios: ["Peitoral Maior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
     analise: "Aduza as escápulas e toque a barra suavemente no meio do peito.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps"]
@@ -236,6 +250,7 @@ const BD_EXERCICIOS = {
     grupo: "Peitoral (Esmagamento)",
     xp: 40,
     gif: "imagens/crossover-pec-deck.mp4",
+    mapaMuscular: "imagens/mapa-peito.png",
     musculos: { primarios: ["Peitoral Maior (Isolamento)"], secundarios: [] },
     analise: "Feche os braços esmagando o centro do peitoral no ápice.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
@@ -245,6 +260,7 @@ const BD_EXERCICIOS = {
     grupo: "Ombros (Largura)",
     xp: 40,
     gif: "imagens/desenvolvimento-lateral.mp4",
+    mapaMuscular: "imagens/mapa-ombros.png",
     musculos: { primarios: ["Deltoide Lateral e Anterior"], secundarios: ["Tríceps"] },
     analise: "Controle a subida dos pesos para expandir a silhueta dos ombros.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
@@ -254,6 +270,7 @@ const BD_EXERCICIOS = {
     grupo: "Tríceps",
     xp: 35,
     gif: "imagens/triceps-pulley.mp4",
+    mapaMuscular: "imagens/mapa-triceps.png",
     musculos: { primarios: ["Tríceps Braquial"], secundarios: [] },
     analise: "Abra a corda no final do movimento para contração máxima.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
@@ -263,6 +280,7 @@ const BD_EXERCICIOS = {
     grupo: "Tríceps",
     xp: 35,
     gif: "imagens/triceps-testa-frances.mp4",
+    mapaMuscular: "imagens/mapa-triceps.png",
     musculos: { primarios: ["Tríceps (Cabeça Longa)"], secundarios: [] },
     analise: "Flexione apenas os cotovelos mantendo os braços firmes.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
@@ -300,11 +318,18 @@ function carregarDadosExercicio() {
   document.getElementById("ex-grupo").textContent = `Músculo Alvo: ${exercicioAtual.grupo}`;
   document.getElementById("ex-xp").textContent = `+${exercicioAtual.xp} XP Recompensa`;
   
-const videoEl = document.getElementById("ex-animacao");
-if (videoEl) {
-  videoEl.src = exercicioAtual.gif || "";
-  videoEl.load(); // Garante que o navegador carregue o novo vídeo do MuscleWiki
-}
+  const videoEl = document.getElementById("ex-animacao");
+  if (videoEl) {
+    videoEl.src = exercicioAtual.gif || "";
+    videoEl.load();
+  }
+
+  // Carrega a imagem do Mapa Muscular no elemento correspondente do HTML
+  const mapaEl = document.getElementById("ex-mapa");
+  if (mapaEl) {
+    mapaEl.src = exercicioAtual.mapaMuscular || "";
+  }
+
   document.getElementById("ex-analise-texto").textContent = exercicioAtual.analise || "Execute com boa postura.";
 
   const divPrimarios = document.getElementById("musculos-primarios");
