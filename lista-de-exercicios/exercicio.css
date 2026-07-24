@@ -1,0 +1,172 @@
+/* ==========================================
+   TEMA DE GUERREIRO: FOGO, AÇO E BATALHA (RPG)
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
+
+:root {
+  --bg-color: #0b0706;
+  --card-bg: #160e0c;
+  --border-fogo: #ff4500;
+  --accent-fogo: #ff5722;
+  --accent-gold: #ffc107;
+  --text-main: #f5f5f5;
+  --text-muted: #b0a8a8;
+}
+
+body {
+  background-color: var(--bg-color) !important;
+  background-image: 
+    linear-gradient(rgba(11, 7, 6, 0.85), rgba(11, 7, 6, 0.95)), 
+    url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop'); /* Textura de brasas/fogo sombrio */
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--text-main) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+}
+
+/* Títulos com Estilo Épico / Medieval-Futurista */
+h2, h3, h4, .status-info h3, .container-treino h2 {
+  font-family: 'Cinzel Decorative', serif !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.6);
+}
+
+/* Voltar ao Dashboard */
+.container-treino > a, .voltar-link {
+  color: var(--accent-gold) !important;
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(255, 193, 7, 0.4);
+}
+.container-treino > a:hover, .voltar-link:hover {
+  color: #fff !important;
+}
+
+/* CABEÇALHO DO QUARTEL */
+.container-treino h2 {
+  border-left: 4px solid var(--accent-fogo) !important;
+  padding-left: 12px;
+  color: #ffcc00 !important;
+}
+
+/* CARD DE STATUS DO GUERREIRO (Fogo & Aço) */
+.status-card {
+  background: linear-gradient(135deg, #1c0c08, #2b110a) !important;
+  border: 1px solid var(--border-fogo) !important;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.2), inset 0 0 15px rgba(255, 69, 0, 0.1);
+  border-radius: 10px !important;
+}
+
+.status-info h3 {
+  color: #ff7700 !important;
+}
+
+/* BARRA DE XP CIRCULAR COM BRILHO DE LAVA */
+.circular-progress {
+  background: conic-gradient(var(--accent-fogo) 0deg, #220805 0deg) !important;
+  box-shadow: 0 0 10px var(--accent-fogo);
+}
+
+.circular-progress::before {
+  background: #160e0c !important;
+}
+
+.progress-value {
+  color: var(--accent-gold) !important;
+}
+
+/* CRONÔMETRO DE DESCANSO TÁTICO (FORJA) */
+.cronometro-box {
+  background: #140907 !important;
+  border: 1px solid #5a180c !important;
+  box-shadow: 0 0 10px rgba(90, 24, 12, 0.5);
+}
+
+.cronometro-display {
+  color: var(--accent-gold) !important;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+}
+
+.btn-timer {
+  background: #3b140c !important;
+  color: var(--accent-gold) !important;
+  border: 1px solid #7d2312 !important;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: bold;
+}
+
+.btn-timer:hover {
+  background: #5a180c !important;
+  box-shadow: 0 0 8px var(--accent-fogo);
+}
+
+/* DIAS DA SEMANA (BOTÕES DE ARENA) */
+.btn-dia {
+  background: #120907 !important;
+  border: 1px solid #3b140c !important;
+  color: #998888 !important;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.btn-dia:hover {
+  border-color: var(--accent-fogo) !important;
+  color: #fff !important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+}
+
+.btn-dia.ativo {
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.3), rgba(255, 152, 0, 0.2)) !important;
+  border-color: var(--accent-fogo) !important;
+  color: var(--accent-gold) !important;
+  box-shadow: 0 0 12px rgba(255, 69, 0, 0.6);
+  font-weight: bold;
+}
+
+/* CARDS DE EXERCÍCIOS DA LISTA (ARMADURA) */
+.exercicio-card-lista {
+  background: #160e0c !important;
+  border: 1px solid #3b140c !important;
+  border-left: 3px solid var(--accent-fogo) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.exercicio-card-lista:hover {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 12px rgba(255, 193, 7, 0.2);
+  transform: translateX(4px);
+}
+
+.exercicio-info h4 {
+  color: #fff !important;
+}
+
+.exercicio-info p {
+  color: #c5b5b0 !important;
+}
+
+/* BOTÃO DE ATAQUE (ESPADA / AÇÃO) */
+.btn-executar {
+  background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+  color: #000 !important;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  border: none;
+}
+
+.btn-executar:hover {
+  background: linear-gradient(135deg, #ff5722, #ffa726) !important;
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+  color: #fff !important;
+}
+
+/* MENSAGEM DE DESCANSO */
+.descanso-msg {
+  background: #160e0c !important;
+  border: 1px solid #3b140c !important;
+  color: var(--text-muted) !important;
+}
