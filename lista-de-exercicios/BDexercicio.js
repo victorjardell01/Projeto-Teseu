@@ -47,16 +47,13 @@ const agendaTreinos = {
 // 2. BANCO DE DADOS UNIFICADO DE EXERCÍCIOS
 // ==========================================
 const BD_EXERCICIOS = {
-  // --- SEGUNDA-FEIRA (Costas / Bíceps / Antebraço / Trapézio) ---
+  // --- SEGUNDA-FEIRA ---
   "puxada-alta-aberta": {
     nome: "Barra fixa ou Puxada alta aberta",
     grupo: "Costas (Foco em Largura - Asas)",
     xp: 50,
-    musculos: { 
-      primarios: ["Latíssimo do Dorso"], 
-      secundarios: ["Bíceps", "Braquiorradial"] 
-    },
-    analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente. Mantenha as escápulas deprimidas.",
+    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Bíceps", "Braquiorradial"] },
+    analise: "Puxe a barra em direção ao peitoral superior sem inclinar o tronco excessivamente.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
   },
   "puxada-neutra": {
@@ -64,15 +61,15 @@ const BD_EXERCICIOS = {
     grupo: "Costas",
     xp: 45,
     musculos: { primarios: ["Latíssimo do Dorso", "Romboides"], secundarios: ["Bíceps"] },
-    analise: "Foque no alongamento completo no topo e na contração embaixo, mantendo o peito estufado.",
+    analise: "Foque no alongamento completo no topo e na contração embaixo.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "pulldown-bracos-estendidos": {
     nome: "Pulldown na polia alta",
     grupo: "Costas (Amplitude máxima)",
     xp: 40,
-    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Tríceps (Cabeça Longa)", "Redondo Maior"] },
-    analise: "Isole o movimento fazendo um arco com os braços estendidos até as coxas, contraindo forte as dorsais.",
+    musculos: { primarios: ["Latíssimo do Dorso"], secundarios: ["Tríceps", "Redondo Maior"] },
+    analise: "Isole o movimento fazendo um arco com os braços estendidos até as coxas.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "rosca-martelo": {
@@ -88,7 +85,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps & Antebraço",
     xp: 35,
     musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Braquial"] },
-    analise: "Apoie bem os braços no coxim e controle a descida (fase excêntrica) sem tirar o cotovelo do apoio.",
+    analise: "Apoie bem os braços no coxim e controle a descida sem tirar o cotovelo.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "rosca-direta": {
@@ -96,7 +93,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps & Antebraço",
     xp: 35,
     musculos: { primarios: ["Bíceps Braquial"], secundarios: ["Antebraço"] },
-    analise: "Mantenha os cotovelos colados ao lado do corpo e evite balançar o tronco (roubar).",
+    analise: "Mantenha os cotovelos colados ao lado do corpo e evite balançar o tronco.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "rosca-inversa": {
@@ -104,7 +101,7 @@ const BD_EXERCICIOS = {
     grupo: "Antebraço",
     xp: 30,
     musculos: { primarios: ["Braquiorradial", "Extensores do Antebraço"], secundarios: ["Bíceps"] },
-    analise: "Pegada pronada (palmas para baixo) para focar no desenvolvimento do antebraço.",
+    analise: "Pegada pronada para focar no desenvolvimento do antebraço.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "encolhimento-halteres": {
@@ -112,17 +109,17 @@ const BD_EXERCICIOS = {
     grupo: "Trapézio",
     xp: 40,
     musculos: { primarios: ["Trapézio Superior"], secundarios: ["Elevador da Escápula"] },
-    analise: "Eleve os ombros em direção às orelhas em linha reta, segurando 1 segundo no topo.",
+    analise: "Eleve os ombros em direção às orelhas em linha reta.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps", "Série 4: 10 reps"]
   },
 
-  // --- TERÇA-FEIRA (Pernas / Panturrilha) ---
+  // --- TERÇA-FEIRA ---
   "agachamento": {
     nome: "Agachamento (Livre ou Hack)",
     grupo: "Pernas",
     xp: 60,
     musculos: { primarios: ["Quadríceps", "Glúteo Máximo"], secundarios: ["Isquiotibiais", "Core"] },
-    analise: "Mantenha o tronco firme e desça controlando até formar 90 graus ou mais, empurrando o chão com os calcanhares.",
+    analise: "Mantenha o tronco firme e desça controlando até formar 90 graus ou mais.",
     series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
   },
   "leg-press": {
@@ -130,7 +127,7 @@ const BD_EXERCICIOS = {
     grupo: "Pernas",
     xp: 50,
     musculos: { primarios: ["Quadríceps", "Glúteos"], secundarios: ["Isquiotibiais"] },
-    analise: "Evite tirar a lombar do encosto ao flexionar os joelhos. Posicione os pés na largura dos ombros.",
+    analise: "Evite tirar a lombar do encosto ao flexionar os joelhos.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
   },
   "cadeira-extensora": {
@@ -146,7 +143,7 @@ const BD_EXERCICIOS = {
     grupo: "Posteriores",
     xp: 45,
     musculos: { primarios: ["Isquiotibiais"], secundarios: ["Gastrocnêmio"] },
-    analise: "Mantenha o quadril firmemente pressionado contra o banco durante a flexão.",
+    analise: "Mantenha o quadril firmemente pressionado contra o banco.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
   "gemeos": {
@@ -154,27 +151,27 @@ const BD_EXERCICIOS = {
     grupo: "Panturrilha",
     xp: 35,
     musculos: { primarios: ["Gastrocnêmio", "Sóleo"], secundarios: [] },
-    analise: "Amplitude máxima: alongue bem embaixo e suba ao ponto mais alto da ponta dos pés.",
+    analise: "Amplitude máxima: alongue bem embaixo e suba ao ponto mais alto.",
     series: ["Série 1: 15 reps", "Série 2: 15 reps", "Série 3: 15 reps", "Série 4: 15 reps"]
   },
 
-  // --- QUARTA-FEIRA (Descanso) ---
+  // --- QUARTA-FEIRA ---
   "descanso": {
     nome: "Descanso Total e Recuperação",
     grupo: "Recuperação Mental e Física",
     xp: 0,
-    musculos: { primarios: ["Sistema Nervoso Central"], secundarios: ["Foco Acadêmico"] },
-    analise: "Dia focado na regeneração muscular completa, nutrição e descanso mental.",
+    musculos: { primarios: ["Sistema Nervoso Central"], secundarios: [] },
+    analise: "Dia focado na regeneração muscular completa, nutrição e descanso.",
     series: ["Série Única: Descanso Estratégico 🛡️"]
   },
 
-  // --- QUINTA-FEIRA (Costas / Bíceps / Antebraço / Trapézio) ---
+  // --- QUINTA-FEIRA ---
   "remada-curvada": {
     nome: "Remada curvada com barra",
     grupo: "Costas (Foco em Espessura)",
     xp: 55,
     musculos: { primarios: ["Latíssimo do Dorso", "Trapézio Médio", "Romboides"], secundarios: ["Bíceps", "Lombares"] },
-    analise: "Coluna neutra e tronco inclinado à frente, puxando a barra em direção ao umbigo.",
+    analise: "Coluna neutra e tronco inclinado à frente, puxando a barra no umbigo.",
     series: ["Série 1: 8 reps", "Série 2: 8 reps", "Série 3: 6 reps", "Série 4: 6 reps"]
   },
   "remada-cavalinho": {
@@ -182,7 +179,7 @@ const BD_EXERCICIOS = {
     grupo: "Costas",
     xp: 50,
     musculos: { primarios: ["Romboides", "Trapézio", "Latíssimo"], secundarios: ["Bíceps"] },
-    analise: "Foque na retração escapular forte a cada repetição para adensar o miolo das costas.",
+    analise: "Foque na retração escapular forte para adensar o miolo das costas.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
   "remada-unilateral": {
@@ -198,7 +195,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps & Antebraço",
     xp: 35,
     musculos: { primarios: ["Bíceps Braquial (Cabeça Longa)"], secundarios: ["Antebraço"] },
-    analise: "Deixe os braços caírem para trás do eixo do corpo para maximizar o alongamento do bíceps.",
+    analise: "Deixe os braços caírem para trás do eixo para maximizar o alongamento.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "rosca-concentrada": {
@@ -206,7 +203,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps & Antebraço",
     xp: 35,
     musculos: { primarios: ["Bíceps Braquial (Pico)"], secundarios: [] },
-    analise: "Apoie o cotovelo na parte interna da coxa e isole o movimento do pico do bíceps.",
+    analise: "Apoie o cotovelo na parte interna da coxa e isole o movimento.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   },
   "rosca-de-punho": {
@@ -214,7 +211,7 @@ const BD_EXERCICIOS = {
     grupo: "Bíceps & Antebraço",
     xp: 30,
     musculos: { primarios: ["Flexores do Antebraço"], secundarios: [] },
-    analise: "Apoie os antebraços nas coxas ou em um banco e faça flexão completa dos punhos.",
+    analise: "Apoie os antebraços nas coxas e faça flexão completa dos punhos.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "encolhimento-barra": {
@@ -222,17 +219,17 @@ const BD_EXERCICIOS = {
     grupo: "Trapézio",
     xp: 40,
     musculos: { primarios: ["Trapézio Superior e Médio"], secundarios: ["Antebraço"] },
-    analise: "Mantenha o corpo ereto e levante os ombros verticalmente com foco total na contração superior.",
+    analise: "Mantenha o corpo ereto e levante os ombros verticalmente.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
 
-  // --- SEXTA-FEIRA (Peito / Ombros / Tríceps) ---
+  // --- SEXTA-FEIRA ---
   "supino-inclinado": {
     nome: "Supino Inclinado (Halteres / Articulado)",
     grupo: "Peitoral Superior",
     xp: 50,
     musculos: { primarios: ["Peitoral Superior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
-    analise: "Banco regulado entre 30º e 45º focando na porção clavicular do peito.",
+    analise: "Banco regulado entre 30º e 45º focando na porção superior do peito.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps", "Série 4: 8 reps"]
   },
   "supino-reto": {
@@ -240,7 +237,7 @@ const BD_EXERCICIOS = {
     grupo: "Peitoral",
     xp: 45,
     musculos: { primarios: ["Peitoral Maior"], secundarios: ["Tríceps", "Deltoide Anterior"] },
-    analise: "Retraia as escápulas, mantenha os pés firmes no chão e desça a barra controladamente.",
+    analise: "Retraia as escápulas, mantenha os pés firmes e desça a barra controladamente.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 8 reps"]
   },
   "crossover-pec-deck": {
@@ -248,7 +245,7 @@ const BD_EXERCICIOS = {
     grupo: "Peitoral (Esmagamento)",
     xp: 40,
     musculos: { primarios: ["Peitoral Maior (Isolamento)"], secundarios: ["Deltoide Anterior"] },
-    analise: "Mantenha uma leve flexão nos cotovelos e concentre-se em juntar os braços espremendo o peito.",
+    analise: "Mantenha leve flexão nos cotovelos e junte os braços espremendo o peito.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 12 reps"]
   },
   "desenvolvimento-elevacao": {
@@ -256,15 +253,15 @@ const BD_EXERCICIOS = {
     grupo: "Ombros (Largura)",
     xp: 40,
     musculos: { primarios: ["Deltoide Lateral e Anterior"], secundarios: ["Tríceps", "Trapézio"] },
-    analise: "Execute o movimento de forma fluida, controlando tanto a subida quanto a descida.",
+    analise: "Execute o movimento de forma fluida, controlando a subida e descida.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps", "Série 4: 10 reps"]
   },
   "triceps-pulley": {
     nome: "Tríceps Pulley (Corda ou Barra)",
     grupo: "Tríceps",
     xp: 35,
-    musculos: { primarios: ["Tríceps Braquial"], secundarios: ["Core"] },
-    analise: "Mantenha os cotovelos fixos ao lado do tronco, estendendo totalmente os braços embaixo.",
+    musculos: { primarios: ["Tríceps Braquial"], secundarios: [] },
+    analise: "Mantenha os cotovelos fixos ao lado do tronco, estendendo os braços embaixo.",
     series: ["Série 1: 12 reps", "Série 2: 12 reps", "Série 3: 10 reps"]
   },
   "triceps-testa-frances": {
@@ -272,7 +269,7 @@ const BD_EXERCICIOS = {
     grupo: "Tríceps",
     xp: 35,
     musculos: { primarios: ["Tríceps (Cabeça Longa)"], secundarios: [] },
-    analise: "Estabilize os braços e movimente apenas os antebraços para alongar ao máximo a cabeça longa.",
+    analise: "Estabilize os braços e movimente apenas os antebraços.",
     series: ["Série 1: 10 reps", "Série 2: 10 reps", "Série 3: 10 reps"]
   }
 };
