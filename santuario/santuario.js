@@ -1,101 +1,144 @@
-// Estado inicial do Clérigo salvo no navegador
-let clerigoData = JSON.parse(localStorage.getItem('clerigoData')) || {
-    xp: 0,
+// Chave usada para salvar os dados do Clérigo no localStorage global do RPG
+const STORAGE_KEY = 'rpg_dados_completos';
+
+// Estrutura de dados inicial do Clérigo
+let dadosClerigo = {
     nivel: 1,
+    xp: 0,
     xpProximoNivel: 100,
-    titulo: "Aspirante",
     oracaoConcluidaHoje: false,
-    aventurancasConcluidas: {}
+    tarefasConcluidas: {} // Armazena o estado das checkboxes (bem-aventuranças e penitências)
 };
 
-// Títulos progressivos baseados na jornada espiritual
-const titulosClerigo = [
-    { nivel: 1, nome: "Aspirante" },
-    { nivel: 2, nome: "Iniciado na Palavra" },
-    { nivel: 3, nome: "Servo Fiel" },
-    { nivel: 4, nome: "Guardião da Fé" },
-    { nivel: 5, nome: "Clérigo Consagrado" }
-];
-
-function adicionarXP(quantidade) {
-    clerigoData.xp += quantidade;
-    
-    // Sistema de Level Up
-    if (clerigoData.xp >= clerigoData.xpProximoNivel) {
-        clerigoData.nivel++;
-        clerigoData.xp -= clerigoData.xpProximoNivel;
-        clerigoData.xpProximoNivel = Math.floor(clerigoData.xpProximoNivel * 1.3); // Aumenta a dificuldade do próximo nível
-        
-        // Atualiza o título se houver correspondente
-        let novoTitulo = titulosClerigo.find(t => t.nivel === clerigoData.nivel);
-        if (novoTitulo) {
-            clerigoData.titulo = novoTitulo.nome;
+// Carrega os dados salvos ao iniciar a página
+function carregarProgresso() {
+    const dadosSalvos = localStorage.getItem(STORAGE_KEY);
+    if (dadosSalvos) {
+        try {
+            const dadosGlobais = JSON.parse(dadosSalvos);
+            // Se já houver dados específicos do clérigo salvos, mesclamos
+            if (dadosGlobais.clerigo) {
+                dadosClerigo = { ...dadosClerigo, ...dadosGlobais.clerigo };
+            }
+        } catch (e) {
+            console.error("Erro ao carregar os dados do RPG:", e);
         }
-        
-        alert(`Glória! Seu Clérigo alcançou o Nível ${clerigoData.nivel}: ${clerigoData.titulo}! ✝`);
     }
-
-    salvarEAtualizarInterface();
+    atualizarInterface();
+    restaurarCheckboxes();
 }
 
+// Salva os dados no localStorage mantendo a estrutura global
+function salvarProgresso() {
+    let dadosGlobais = {};
+    const dadosSalvos = localStorage.getItem(STORAGE_KEY);
+    if (dadosSalvos) {
+        try {
+            dadosGlobais = JSON.parse(dadosSalvos);
+        } catch (e) {
+            console.error("Erro ao ler dados globais para salvar:", e);
+        }
+    }
+    
+    dadosGlobais.clerigo = dadosClerigo;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosGlobais));
+}
+
+// Adiciona XP e gerencia subidas de nível
+function adicionarXp(quantidade) {
+    dadosClerigo.xp += quantidade;
+    
+    // Sistema simples de level up
+    while (dadosClerigo.xp >= dadosClerigo.xpProximoNivel) {
+        dadosClerigo.xp -= dadosClerigo.xpProximoNivel;
+        dadosClerigo.nivel += 1;
+        dadosClerigo.xpProximoNivel = Math.floor(dadosClerigo.xpProximoNivel * 1.2); // Aumenta a exigência por nível
+        alert(`Parabéns! Seu Clérigo subiu para o Nível ${dadosClerigo.nivel}!`);
+    }
+    
+    salvarProgresso();
+    atualizarInterface();
+}
+
+// Ação de concluir a Prece Diária (30 XP)
 function concluirOracao() {
-    if (!clerigoData.oracaoConcluidaHoje) {
-        clerigoData.oracaoConcluidaHoje = true;
-        adicionarXP(30); // 30 de XP por concluir a prece diária
-        atualizarBotaoOracao();
+    if (dadosClerigo.oracaoConcluidaHoje) {
+        alert("Você já concluiu sua prece diária hoje!");
+        return;
     }
-}
 
-function meditarAventuranca(checkbox) {
-    let id = checkbox.id;
+    dadosClerigo.oracaoConcluidaHoje = true;
     
-    if (checkbox.checked) {
-        if (!clerigoData.aventurancasConcluidas[id]) {
-            clerigoData.aventurancasConcluidas[id] = true;
-            adicionarXP(15); // 15 de XP por cada bem-aventurança refletida
-        }
-    } else {
-        // Se desmarcar, remove o registro (opcional, mas mantém o estado consistente)
-        clerigoData.aventurancasConcluidas[id] = false;
-    }
-}
-
-function salvarEAtualizarInterface() {
-    localStorage.setItem('clerigoData', JSON.stringify(clerigoData));
-    
-    // Atualiza os elementos visuais de XP e Nível
-    document.getElementById('nivel-display').innerText = `Nível ${clerigoData.nivel}: ${clerigoData.titulo}`;
-    document.getElementById('xp-display').innerText = `XP: ${clerigoData.xp} / ${clerigoData.xpProximoNivel}`;
-    
-    let porcentagem = Math.min((clerigoData.xp / clerigoData.xpProximoNivel) * 100, 100);
-    document.getElementById('barra-progresso').style.width = `${porcentagem}%`;
-
-    // Atualiza estado do botão de oração
-    atualizarBotaoOracao();
-
-    // Restaura o estado das caixas de seleção das bem-aventuranças salvas
-    for (let id in clerigoData.aventurancasConcluidas) {
-        let checkbox = document.getElementById(id);
-        if (checkbox) {
-            checkbox.checked = clerigoData.aventurancasConcluidas[id];
-        }
-    }
-}
-
-function atualizarBotaoOracao() {
-    let btnOracao = document.getElementById('btn-oracao');
+    // Desabilita o botão visualmente
+    const btnOracao = document.getElementById('btn-oracao');
     if (btnOracao) {
-        if (clerigoData.oracaoConcluidaHoje) {
-            btnOracao.innerText = "Oração Concluida Hoje ✓";
+        btnOracao.disabled = true;
+        btnOracao.textContent = "Prece Concluída Hoje ✓";
+        btnOracao.style.backgroundColor = "#555";
+    }
+
+    adicionarXp(30);
+}
+
+// Ação unificada para Bem-Aventuranças e Penitências (15 XP cada)
+function meditarAventuranca(checkbox) {
+    const id = checkbox.id;
+    const estaMarcado = checkbox.checked;
+
+    // Evita desmarcar e perder/ganhar XP indevidamente na mesma sessão se desejar, 
+    // ou desconta/controla o estado: aqui salvamos o estado booleano
+    if (estaMarcado && !dadosClerigo.tarefasConcluidas[id]) {
+        dadosClerigo.tarefasConcluidas[id] = true;
+        adicionarXp(15);
+    } else if (!estaMarcado && dadosClerigo.tarefasConcluidas[id]) {
+        dadosClerigo.tarefasConcluidas[id] = false;
+        // Opcional: remover XP ao desmarcar (aqui subtraímos 15, respeitando o limite mínimo de 0)
+        dadosClerigo.xp = Math.max(0, dadosClerigo.xp - 15);
+        salvarProgresso();
+        atualizarInterface();
+    }
+}
+
+// Restaura o estado das checkboxes salvas no localStorage ao carregar a página
+function restaurarCheckboxes() {
+    // Restaura as tarefas (tanto bem-aventuranças quanto penitências)
+    for (const [id, concluido] of Object.entries(dadosClerigo.tarefasConcluidas)) {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+            checkbox.checked = concluido;
+        }
+    }
+
+    // Restaura o botão de oração
+    if (dadosClerigo.oracaoConcluidaHoje) {
+        const btnOracao = document.getElementById('btn-oracao');
+        if (btnOracao) {
             btnOracao.disabled = true;
-        } else {
-            btnOracao.innerText = "Concluir Oração (Amém)";
-            btnOracao.disabled = false;
+            btnOracao.textContent = "Prece Concluída Hoje ✓";
+            btnOracao.style.backgroundColor = "#555";
         }
     }
 }
 
-// Inicializa a interface assim que a página carregar
-window.onload = function() {
-    salvarEAtualizarInterface();
-};
+// Atualiza visualmente a barra de progresso e os textos de nível/XP
+function atualizarInterface() {
+    const nivelDisplay = document.getElementById('nivel-display');
+    const xpDisplay = document.getElementById('xp-display');
+    const barraProgresso = document.getElementById('barra-progresso');
+
+    if (nivelDisplay) {
+        nivelDisplay.textContent = `Nível ${dadosClerigo.nivel}: Clérigo`;
+    }
+    if (xpDisplay) {
+        xpDisplay.textContent = `XP: ${dadosClerigo.xp} / ${dadosClerigo.xpProximoNivel}`;
+    }
+    if (barraProgresso) {
+        const porcentagem = (dadosClerigo.xp / dadosClerigo.xpProximoNivel) * 100;
+        barraProgresso.style.width = `${Math.min(porcentagem, 100)}%`;
+    }
+}
+
+// Executa assim que o DOM estiver totalmente carregado
+document.addEventListener('DOMContentLoaded', () => {
+    carregarProgresso();
+});
