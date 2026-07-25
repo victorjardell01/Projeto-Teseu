@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.toggleAudio = function() {
         if (audio.paused) {
             audio.play();
-            if (btn) btn.textContent = "🎵 Pausار Música";
+            if (btn) btn.textContent = "🎵 Pausar Música";
             localStorage.setItem('audioIsPlaying', 'true');
         } else {
             audio.pause();
