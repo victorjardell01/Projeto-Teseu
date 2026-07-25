@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santuário do Clérigo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="santuario-container">
+        <!-- Cabeçalho Principal -->
+        <header>
+            <h1>Santuário do Clérigo</h1>
+            <p>Espaço de Oração, Palavra e Fortalecimento Espiritual</p>
+        </header>
+
+        <!-- Painel de Progressão / XP do Clérigo -->
+        <section class="painel-xp">
+            <div class="status-nivel">
+                <span id="nivel-display">Nível 1: Aspirante</span>
+                <span id="xp-display">XP: 0 / 100</span>
+            </div>
+            <div class="barra-progresso-container">
+                <div id="barra-progresso" style="width: 0%;"></div>
+            </div>
+        </section>
+
+        <!-- O seu Mantra -->
+        <div class="card-clerigo-mantra">
+            <div class="simbolo-sagrado">✝</div>
+            <div class="texto-mantra">
+                <span class="titulo-mantra">Mantra do Clérigo</span>
+                <p>"Em Cristo, por Cristo, para Cristo, viverei e morrei, que seja feita a vontade de meu Pai."</p>
+            </div>
+        </div>
+
+        <!-- Oração Diária -->
+        <section class="secao-oracao">
+            <h2>Prece Diária</h2>
+            <blockquote>
+                "Senhor, guia meus passos neste dia. Dá-me sabedoria para fazer escolhas justas, força para perseverar e paz para o coração. Que minhas ações reflitam a Tua vontade. Amém."
+            </blockquote>
+            <!-- Botão para acionar a função no clerigo.js e ganhar XP -->
+            <button id="btn-oracao" onclick="concluirOracao()">Concluir Oração (Amém)</button>
+        </section>
+
+        <!-- As Bem-Aventuranças -->
+        <section class="secao-bem-aventurancas">
+            <h2>As Bem-Aventuranças</h2>
+            <p class="subtitulo-meditacao">Medite nas palavras do Mestre e marque ao concluir sua reflexão diária.</p>
+            
+            <ul class="lista-aventurancas">
+                <li>
+                    <input type="checkbox" id="aventuranca-1" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-1">
+                        <strong>Os Pobres em Espírito:</strong> "Bem-aventurados os pobres em espírito, porque deles é o reino dos céus."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-2" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-2">
+                        <strong>Os que Choram:</strong> "Bem-aventurados os que choram, porque serão consolados."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-3" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-3">
+                        <strong>Os Mansos:</strong> "Bem-aventurados os mansos, porque herdarão a terra."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-4" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-4">
+                        <strong>Fome e Sede de Justiça:</strong> "Bem-aventurados os que têm fome e sede de justiça, porque serão saciados."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-5" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-5">
+                        <strong>Os Misericordiosos:</strong> "Bem-aventurados os misericordiosos, porque alcançarão misericórdia."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-6" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-6">
+                        <strong>Os Limpos de Coração:</strong> "Bem-aventurados os limpos de coração, porque verão a Deus."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-7" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-7">
+                        <strong>Os Pacificadores:</strong> "Bem-aventurados os pacificadores, porque serão chamados filhos de Deus."
+                    </label>
+                </li>
+                <li>
+                    <input type="checkbox" id="aventuranca-8" onclick="meditarAventuranca(this)">
+                    <label for="aventuranca-8">
+                        <strong>Os Perseguidos:</strong> "Bem-aventurados os perseguidos por causa da justiça, porque deles é o reino dos céus."
+                    </label>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- Script de lógica do clérigo (onde ficará o sistema de XP) -->
+    <script src="clerigo.js"></script>
+</body>
+</html>
