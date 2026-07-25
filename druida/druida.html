@@ -28,90 +28,37 @@
             <div class="status-item">🥩 Proteína: <span id="proteina-atual">0</span>g / 160g</div>
             <div class="status-item">🍞 Carbo: <span id="carbo-atual">0</span>g / 210g</div>
             <div class="status-item">🥑 Gordura: <span id="gordura-atual">0</span>g / 60g</div>
-            <div class="status-item">🌾 Fibra: <span id="fibra-atual">0</span>g / 30g</div>
             <div class="status-item xp-badge">✨ XP: <span id="xp-atual">0</span></div>
         </div>
 
-        <!-- Seções de Refeições -->
+        <!-- Inventário de Alimentos do Druida -->
         <div class="ritual-section">
-            <h3>🌱 Refeições do Dia</h3>
+            <h3>🎒 Inventário de Alimentos (Adicionar ao Prato)</h3>
             
-            <!-- Café da Manhã -->
-            <div class="meal-card" data-meal="cafe">
-                <div class="meal-header">
-                    <span style="font-size: 0.8rem; color: #a3e4d7;">07:00 - Despertar da Aurora</span>
-                    <div style="font-weight: bold;">Café da Manhã</div>
-                </div>
-                <div class="meal-body">
-                    <select class="preset-select" id="preset-cafe">
-                        <option value="">Selecione uma opção pré-definida...</option>
-                        <option value="ovos_tapioca">Ovos mexidos (2 unid.) + Tapioca</option>
-                        <option value="pao_frances">Pão francês (1 unid.) + Ovo + Café</option>
-                    </select>
-                    <div class="input-group">
-                        <input type="number" id="qnt-cafe" placeholder="Qtd (g ou ml)" min="0">
-                        <button class="add-btn" onclick="adicionarRefeicao('cafe')">Consumir</button>
-                    </div>
+            <div class="inventory-controls">
+                <select id="inventario-alimento" onchange="atualizarUnidadeMedida()">
+                    <option value="">Selecione um item do inventário...</option>
+                    <optgroup label="Fontes Acessíveis">
+                        <option value="arroz" data-tipo="g">Arroz Cozido (por 100g)</option>
+                        <option value="feijao" data-tipo="g">Feijão (por 100g)</option>
+                        <option value="frango" data-tipo="g">Frango Grelhado / Desfiado (por 100g)</option>
+                        <option value="ovo" data-tipo="unidade">Ovo Cozido / Mexido (por unidade)</option>
+                        <option value="pao_frances" data-tipo="unidade">Pão Francês (por unidade)</option>
+                        <option value="tapioca" data-tipo="g">Massa de Tapioca (por 100g)</option>
+                        <option value="banana" data-tipo="unidade">Banana (por unidade)</option>
+                        <option value="suco" data-tipo="ml">Suco / Leite / Bebida (por ml)</option>
+                        <option value="sopa" data-tipo="ml">Sopão / Caldo (por ml)</option>
+                    </optgroup>
+                </select>
+
+                <div class="input-group">
+                    <input type="number" id="inventario-quantidade" placeholder="Qtd (g, ml ou un)" min="0" step="any">
+                    <span id="label-unidade" style="align-self: center; color: #a3e4d7; font-size: 0.9rem;">un</span>
+                    <button class="add-btn" onclick="adicionarDoInventario()">Adicionar ao Ritual</button>
                 </div>
             </div>
-
-            <!-- Almoço -->
-            <div class="meal-card" data-meal="almoco">
-                <div class="meal-header">
-                    <span style="font-size: 0.8rem; color: #a3e4d7;">12:30 - Banquete do Sol</span>
-                    <div style="font-weight: bold;">Almoço</div>
-                </div>
-                <div class="meal-body">
-                    <select class="preset-select" id="preset-almoco">
-                        <option value="">Selecione uma opção pré-definida...</option>
-                        <option value="frango_arroz">Arroz, Feijão, Frango Grelhado (150g) + Salada</option>
-                    </select>
-                    <div class="input-group">
-                        <input type="number" id="qnt-almoco" placeholder="Qtd em gramas (g)" min="0">
-                        <button class="add-btn" onclick="adicionarRefeicao('almoco')">Consumir</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lanche da Tarde -->
-            <div class="meal-card" data-meal="lanche">
-                <div class="meal-header">
-                    <span style="font-size: 0.8rem; color: #a3e4d7;">16:30 - Revitalização da Tarde</span>
-                    <div style="font-weight: bold;">Lanche da Tarde</div>
-                </div>
-                <div class="meal-body">
-                    <select class="preset-select" id="preset-lanche">
-                        <option value="">Selecione uma opção pré-definida...</option>
-                        <option value="fruta_ovo">Banana/Maçã + Ovos cozidos</option>
-                        <option value="vitamina_leite">Vitamina de banana com leite (ml)</option>
-                    </select>
-                    <div class="input-group">
-                        <input type="number" id="qnt-lanche" placeholder="Qtd (g ou ml)" min="0">
-                        <button class="add-btn" onclick="adicionarRefeicao('lanche')">Consumir</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Jantar -->
-            <div class="meal-card" data-meal="jantar">
-                <div class="meal-header">
-                    <span style="font-size: 0.8rem; color: #a3e4d7;">20:00 - Recolhimento do Crepúsculo</span>
-                    <div style="font-weight: bold;">Jantar</div>
-                </div>
-                <div class="meal-body">
-                    <select class="preset-select" id="preset-jantar">
-                        <option value="">Selecione uma opção pré-definida...</option>
-                        <option value="omelete">Omelete reforçada (3 ovos com legumes)</option>
-                        <option value="sopao">Sopão de frango com legumes (ml)</option>
-                    </select>
-                    <div class="input-group">
-                        <input type="number" id="qnt-jantar" placeholder="Qtd (g ou ml)" min="0">
-                        <button class="add-btn" onclick="adicionarRefeicao('jantar')">Consumir</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
     </div>
 
     <script src="druida.js"></script>
