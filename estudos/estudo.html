@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧙‍♂️ Torre do Mago - Controle & Rotina de Estudos</title>
-    <link rel="stylesheet" href="estudo.css">
+    <!-- CORREÇÃO APLICADA: ./ força a mesma pasta e ?v=7 quebra o cache -->
+    <link rel="stylesheet" href="./estudo.css?v=7">
 </head>
 <body>
     <!-- CANVAS: Fórmulas e Funções Matemáticas Flutuantes -->
@@ -44,7 +45,7 @@
             <button onclick="mostrarAssuntos('legislação')">Legislação</button>
         </div>
 
-        <!-- PAINEL DE XP E NÍVEL (CORRIGIDO) -->
+        <!-- PAINEL DE XP E NÍVEL -->
         <div id="progresso-geral" style="display: block; margin: 20px 0; background: rgba(16, 24, 38, 0.92); border: 1px solid rgba(0, 255, 255, 0.3); padding: 15px; border-radius: 8px; width: 100%;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: bold;">
                 <span id="texto-nivel" style="color: #00ffff;">Nível 1 (Mago)</span>
@@ -56,7 +57,9 @@
         </div>
         
         <div id="lista-assuntos" class="lista-assuntos"></div>
+    </div>
 
-    <script src="estudo.js"></script>
+    <!-- CORREÇÃO APLICADA AQUI TAMBÉM -->
+    <script src="./estudo.js?v=7"></script>
 </body>
 </html>
