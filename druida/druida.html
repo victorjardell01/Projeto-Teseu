@@ -11,52 +11,57 @@
     <div class="druid-container">
         <h2>🌿 Bosque do Druida - Ritual Nutricional</h2>
         
-        <!-- Seletor de Dias da Semana -->
+        <!-- 1. Seletor de Dias da Semana -->
         <div class="day-selector">
-            <button class="day-btn active" data-day="segunda">Segunda</button>
-            <button class="day-btn" data-day="terca">Terça</button>
-            <button class="day-btn" data-day="quarta">Quarta</button>
-            <button class="day-btn" data-day="quinta">Quinta</button>
-            <button class="day-btn" data-day="sexta">Sexta</button>
-            <button class="day-btn" data-day="sabado">Sábado</button>
-            <button class="day-btn" data-day="domingo">Domingo</button>
+            <button class="day-btn active" data-day="segunda" onclick="selecionarDia('segunda')">Segunda</button>
+            <button class="day-btn" data-day="terca" onclick="selecionarDia('terca')">Terça</button>
+            <button class="day-btn" data-day="quarta" onclick="selecionarDia('quarta')">Quarta</button>
+            <button class="day-btn" data-day="quinta" onclick="selecionarDia('quinta')">Quinta</button>
+            <button class="day-btn" data-day="sexta" onclick="selecionarDia('sexta')">Sexta</button>
+            <button class="day-btn" data-day="sabado" onclick="selecionarDia('sabado')">Sábado</button>
+            <button class="day-btn" data-day="domingo" onclick="selecionarDia('domingo')">Domingo</button>
         </div>
 
-        <!-- Painel de Status Diário (XP e Macros) -->
+        <!-- Painel de Status do Personagem (Peso, IMC e Déficit Dinâmico) -->
+        <div class="status-panel" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                <label>⚖️ Peso Atual (kg):</label>
+                <input type="number" id="input-peso-atual" step="0.1" style="width: 80px; padding: 4px;" placeholder="Ex: 89">
+                <button class="add-btn" onclick="atualizarPesoCorporal()">Atualizar Peso</button>
+            </div>
+            <div style="font-size: 0.9rem; color: #a3e4d7;">
+                📊 IMC: <span id="imc-atual">0.0</span> | 🔥 Meta Calórica Dinâmica: <span id="meta-calorias">2100</span> kcal
+            </div>
+        </div>
+
+        <!-- Painel de Status Diário (XP e Macros Consumidos) -->
         <div class="status-panel">
-            <div class="status-item">🔥 Calorias: <span id="calorias-atual">0</span> / 2100 kcal</div>
+            <div class="status-item">🔥 Consumidas: <span id="calorias-atual">0</span> / <span id="meta-calorias-display">2100</span> kcal</div>
             <div class="status-item">🥩 Proteína: <span id="proteina-atual">0</span>g / 160g</div>
             <div class="status-item">🍞 Carbo: <span id="carbo-atual">0</span>g / 210g</div>
             <div class="status-item">🥑 Gordura: <span id="gordura-atual">0</span>g / 60g</div>
             <div class="status-item xp-badge">✨ XP: <span id="xp-atual">0</span></div>
         </div>
 
-        <!-- Inventário de Alimentos do Druida -->
+        <!-- 2. Seletor de Refeições do Dia -->
         <div class="ritual-section">
-            <h3>🎒 Inventário de Alimentos (Adicionar ao Prato)</h3>
-            
-            <div class="inventory-controls">
-                <select id="inventario-alimento" onchange="atualizarUnidadeMedida()">
-                    <option value="">Selecione um item do inventário...</option>
-                    <optgroup label="Fontes Acessíveis">
-                        <option value="arroz" data-tipo="g">Arroz Cozido (por 100g)</option>
-                        <option value="feijao" data-tipo="g">Feijão (por 100g)</option>
-                        <option value="frango" data-tipo="g">Frango Grelhado / Desfiado (por 100g)</option>
-                        <option value="ovo" data-tipo="unidade">Ovo Cozido / Mexido (por unidade)</option>
-                        <option value="pao_frances" data-tipo="unidade">Pão Francês (por unidade)</option>
-                        <option value="tapioca" data-tipo="g">Massa de Tapioca (por 100g)</option>
-                        <option value="banana" data-tipo="unidade">Banana (por unidade)</option>
-                        <option value="suco" data-tipo="ml">Suco / Leite / Bebida (por ml)</option>
-                        <option value="sopa" data-tipo="ml">Sopão / Caldo (por ml)</option>
-                    </optgroup>
-                </select>
-
-                <div class="input-group">
-                    <input type="number" id="inventario-quantidade" placeholder="Qtd (g, ml ou un)" min="0" step="any">
-                    <span id="label-unidade" style="align-self: center; color: #a3e4d7; font-size: 0.9rem;">un</span>
-                    <button class="add-btn" onclick="adicionarDoInventario()">Adicionar ao Ritual</button>
-                </div>
+            <h3>🍽️ Refeições de <span id="label-dia-ativo">Segunda-feira</span></h3>
+            <div class="meal-tabs">
+                <button class="meal-tab-btn active" onclick="abrirRefeicao('cafe')">Café da Manhã</button>
+                <button class="meal-tab-btn" onclick="abrirRefeicao('almoco')">Almoço</button>
+                <button class="meal-tab-btn" onclick="abrirRefeicao('lanche')">Lanche da Tarde</button>
+                <button class="meal-tab-btn" onclick="abrirRefeicao('jantar')">Jantar</button>
             </div>
+
+            <div id="container-refeicao-ativa" class="meal-inventory-box"></div>
+        </div>
+
+        <!-- 3. Histórico de Evolução de Peso -->
+        <div class="ritual-section" style="margin-top: 20px;">
+            <h3>📜 Histórico de Evolução do Druida</h3>
+            <ul id="lista-historico-peso" style="list-style: none; padding: 0; font-size: 0.9rem; color: #b2dfdb;">
+                <!-- Injetado via JS -->
+            </ul>
         </div>
 
     </div>
