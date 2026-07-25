@@ -87,7 +87,7 @@ function entrarComoClasse(classe) {
         window.location.href = "estudos/estudo.html";
         break;
       case "clerigo":
-        window.location.href = "santuario.html";
+        window.location.href = "santuario/santuario.html";
         break;
       case "druida":
         window.location.href = "druida/druida.html";
