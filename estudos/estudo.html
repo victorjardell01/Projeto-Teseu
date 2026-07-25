@@ -3,27 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧙‍♂️ Torre do Mago - Controle & Rotina de Estudos</title>
-    <!-- CORREÇÃO APLICADA: ./ força a mesma pasta e ?v=7 quebra o cache -->
-    <link rel="stylesheet" href="./estudo.css?v=7">
+    <title>🧙‍♂️ Torre do Mago - Estudos</title>
+    <link rel="stylesheet" href="./estudo.css?v=10">
 </head>
 <body>
-    <!-- CANVAS: Fórmulas e Funções Matemáticas Flutuantes -->
     <canvas id="canvas-fundo"></canvas>
 
     <div class="container">
-        <!-- BOTÃO DE VOLTAR PARA SELEÇÃO DE CLASSE (RAIZ) -->
-        <div style="text-align: center; margin-bottom: 20px; width: 100%;">
-            <a href="index.html" style="color: #00ffff; text-decoration: none; font-weight: bold; border: 1px solid #00ffff; padding: 8px 16px; border-radius: 6px; background: rgba(10, 25, 35, 0.9); font-size: 0.9rem; display: inline-block; box-shadow: 0 0 10px rgba(0,255,255,0.2);">
-                🔮 Voltar para Seleção de Classe
-            </a>
+        <!-- BOTÃO DE VOLTAR -->
+        <div class="btn-voltar-container">
+            <a href="index.html" class="btn-voltar">🔮 Voltar para Seleção de Classe</a>
         </div>
 
         <h1>🧙‍♂️ Torre do Mago</h1>
         <h2>Controle & Rotina de Estudos</h2>
+
+        <!-- 1. TOPO: PAINEL DE NÍVEL E XP -->
+        <div id="progresso-geral" class="painel-nivel">
+            <div class="nivel-info">
+                <span id="texto-nivel">Nível 1 (Mago)</span>
+                <span id="texto-xp">0 / 100 XP</span>
+            </div>
+            <div class="barra-fundo">
+                <div id="barra-preenchimento"></div>
+            </div>
+        </div>
+
+        <!-- 2. MEIO: ABAS DE MATÉRIAS E QUADRADINHOS -->
+        <div class="materias-menu">
+            <button onclick="mostrarAssuntos('portugues')">Português</button>
+            <button onclick="mostrarAssuntos('matematica')">Matemática</button>
+            <button onclick="mostrarAssuntos('fisica')">Física</button>
+            <button onclick="mostrarAssuntos('quimica')">Química</button>
+            <button onclick="mostrarAssuntos('legislação')">Legislação</button>
+        </div>
         
+        <div id="lista-assuntos" class="lista-assuntos"></div>
+
+        <hr class="divisor">
+
+        <!-- 3. FUNDO: ROTINA SEMANAL -->
         <div class="rotina-semanal">
-            <h2>🗓️ Escala Semanal de Magia</h2>
+            <h2>🗓️ Rotina Semanal</h2>
             <div class="grid-semana">
                 <div class="dia-box"><span>SEG</span><textarea id="seg" oninput="salvarRotina('seg')"></textarea></div>
                 <div class="dia-box"><span>TER</span><textarea id="ter" oninput="salvarRotina('ter')"></textarea></div>
@@ -34,32 +55,8 @@
                 <div class="dia-box"><span>DOM</span><textarea id="dom" oninput="salvarRotina('dom')"></textarea></div>
             </div>
         </div>
-
-        <hr style="border-color: rgba(0,255,255,0.2); margin: 20px 0;">
-
-        <div class="materias-menu">
-            <button onclick="mostrarAssuntos('portugues')">Português</button>
-            <button onclick="mostrarAssuntos('matematica')">Matemática</button>
-            <button onclick="mostrarAssuntos('fisica')">Física</button>
-            <button onclick="mostrarAssuntos('quimica')">Química</button>
-            <button onclick="mostrarAssuntos('legislação')">Legislação</button>
-        </div>
-
-        <!-- PAINEL DE XP E NÍVEL -->
-        <div id="progresso-geral" style="display: block; margin: 20px 0; background: rgba(16, 24, 38, 0.92); border: 1px solid rgba(0, 255, 255, 0.3); padding: 15px; border-radius: 8px; width: 100%;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: bold;">
-                <span id="texto-nivel" style="color: #00ffff;">Nível 1 (Mago)</span>
-                <span id="texto-xp" style="color: #39ff14;">0 / 100 XP (Total: 0 XP)</span>
-            </div>
-            <div class="barra-fundo">
-                <div id="barra-preenchimento"></div>
-            </div>
-        </div>
-        
-        <div id="lista-assuntos" class="lista-assuntos"></div>
     </div>
 
-    <!-- CORREÇÃO APLICADA AQUI TAMBÉM -->
-    <script src="./estudo.js?v=7"></script>
+    <script src="./estudo.js?v=10"></script>
 </body>
 </html>
