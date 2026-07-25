@@ -391,3 +391,49 @@ function finalizarExercicios() {
   localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
   window.location.href = "exercicio.html";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const audio = document.getElementById('trilha-sonora');
+    const btn = document.getElementById('btn-audio');
+
+    if (!audio) return; // Segurança caso a página não tenha áudio
+
+    // Recupera o tempo salvo e o estado de reprodução ao carregar a página
+    const savedTime = localStorage.getItem('audioCurrentTime');
+    const isPlaying = localStorage.getItem('audioIsPlaying');
+
+    if (savedTime) {
+        audio.currentTime = parseFloat(savedTime);
+    }
+
+    // Se o usuário não tinha pausado explicitamente, tenta tocar
+    if (isPlaying !== 'false') {
+        audio.play().then(() => {
+            if (btn) btn.textContent = "🎵 Pausar Música";
+        }).catch(error => {
+            console.log("Autoplay bloqueado pelo navegador. Aguardando interação.");
+            if (btn) btn.textContent = "▶️ Tocar Música";
+        });
+    } else {
+        audio.pause();
+        if (btn) btn.textContent = "▶️ Tocar Música";
+    }
+
+    // Salva o tempo atual do áudio continuamente
+    audio.addEventListener('timeupdate', () => {
+        localStorage.setItem('audioCurrentTime', audio.currentTime);
+    });
+
+    // Função global para o botão de ligar/desligar funcionar no HTML
+    window.toggleAudio = function() {
+        if (audio.paused) {
+            audio.play();
+            if (btn) btn.textContent = "🎵 Pausار Música";
+            localStorage.setItem('audioIsPlaying', 'true');
+        } else {
+            audio.pause();
+            if (btn) btn.textContent = "▶️ Tocar Música";
+            localStorage.setItem('audioIsPlaying', 'false');
+        }
+    };
+});
