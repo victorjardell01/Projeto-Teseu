@@ -1,174 +1,114 @@
-// --- SCRIPT JAVASCRIPT DO DRUIDA ---
-let caloriasAtuais = parseInt(localStorage.getItem('druida-calorias')) || 0;
-let aguaAtual = parseInt(localStorage.getItem('druida-agua')) || 0;
-const metaCalorias = 2500;
-const metaAgua = 3000;
+// Configuração Inicial e Estado do Druida (Focado em Déficit Calórico)
+let dadosDruida = JSON.parse(localStorage.getItem('dadosDruida')) || {
+    peso: 89,
+    altura: 1.65,
+    caloriasAtuais: 0,
+    caloriasMeta: 2100,
+    carboAtual: 0,
+    carboMeta: 210,
+    protAtual: 0,
+    protMeta: 160,
+    gordAtual: 0,
+    gordMeta: 60,
+    fibraAtual: 0,
+    fibraMeta: 30,
+    aguaAtual: 0,
+    aguaMeta: 3000,
+    xp: 0
+};
 
-function atualizarPainelDruida() {
-    const elCalorias = document.getElementById('texto-calorias');
-    const elAgua = document.getElementById('texto-agua');
-    if (elCalorias) elCalorias.innerText = `${caloriasAtuais} / ${metaCalorias} kcal`;
-    if (elAgua) elAgua.innerText = `${aguaAtual} / ${metaAgua} ml`;
+// Inicializar tela ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("peso-input").value = dadosDruida.peso;
+    document.getElementById("altura-input").value = dadosDruida.altura;
+    atualizarInterface();
+    calcularIMCAutomatico();
+});
 
-    let totalMarcados = 0;
-    for (let i = 0; i < localStorage.length; i++) {
-        const chave = localStorage.key(i);
-        if (chave && chave.startsWith('druida-') && localStorage.getItem(chave) === 'true') {
-            totalMarcados++;
-        }
-    }
-
-    let bonusCalorias = Math.floor(caloriasAtuais / 250);
-    let bonusAgua = Math.floor(aguaAtual / 500);
-    let xpTotal = (totalMarcados * 15) + (bonusCalorias * 5) + (bonusAgua * 5);
-
-    const xpPorNivel = 100;
-    const nivelAtual = Math.floor(xpTotal / xpPorNivel) + 1;
-    const xpNoNivelAtual = xpTotal % xpPorNivel;
-    const porcentagemBarra = Math.min((xpNoNivelAtual / xpPorNivel) * 100, 100);
-
-    const elBarra = document.getElementById('barra-preenchimento');
-    const elNivel = document.getElementById('texto-nivel');
-    const elXp = document.getElementById('texto-xp');
-
-    if (elBarra) elBarra.style.width = porcentagemBarra + '%';
-    if (elNivel) elNivel.innerText = `Nível ${nivelAtual} (Arquidruida)`;
-    if (elXp) elXp.innerText = `${xpNoNivelAtual} / ${xpPorNivel} XP (Total: ${xpTotal} XP)`;
-}
-
-function adicionarCalorias(qtd) {
-    caloriasAtuais += qtd;
-    if (caloriasAtuais > metaCalorias) caloriasAtuais = metaCalorias;
-    localStorage.setItem('druida-calorias', caloriasAtuais);
-    atualizarPainelDruida();
-}
-
-function adicionarAgua(qtd) {
-    aguaAtual += qtd;
-    if (aguaAtual > metaAgua) aguaAtual = metaAgua;
-    localStorage.setItem('druida-agua', aguaAtual);
-    atualizarPainelDruida();
-}
-
-function calcularIMC() {
-    const inputPeso = document.getElementById('peso-input');
-    const inputAltura = document.getElementById('altura-input');
-    const textoImc = document.getElementById('texto-imc');
-
-    if (!inputPeso || !inputAltura || !textoImc) return;
-
-    const peso = parseFloat(inputPeso.value);
-    const altura = parseFloat(inputAltura.value);
-
-    if (!peso || !altura || altura <= 0) {
-        textoImc.innerText = "Insira valores válidos!";
-        return;
-    }
-
-    const imc = peso / (altura * altura);
-    let classificacao = "";
-
-    if (imc < 18.5) classificacao = "Abaixo do peso";
-    else if (imc < 25) classificacao = "Peso normal";
-    else if (imc < 30) classificacao = "Sobrepeso";
-    else classificacao = "Obesidade";
-
-    textoImc.innerText = `IMC: ${imc.toFixed(1)} (${classificacao})`;
-    localStorage.setItem('druida-peso', peso);
-    localStorage.setItem('druida-altura', altura);
-}
-
-function toggleRefeicao(id, elemento) {
-    const estaMarcado = elemento.classList.toggle('check');
-    localStorage.setItem(`druida-${id}`, estaMarcado);
-    if (estaMarcado) {
-        adicionarCalorias(400);
-    }
-    atualizarPainelDruida();
-}
-
-function salvarRotina(diaId) {
-    const campo = document.getElementById(diaId);
-    if (campo) {
-        localStorage.setItem(`druida-rotina-${diaId}`, campo.value);
-    }
-}
-
-function carregarDadosDruida() {
-    ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'].forEach(dia => {
-        const salvo = localStorage.getItem(`druida-rotina-${dia}`);
-        if (salvo) {
-            const campo = document.getElementById(dia);
-            if (campo) campo.value = salvo;
-        }
-    });
-
-    document.querySelectorAll('.checkbox-refeicao').forEach((el, index) => {
-        const id = `ref-${index + 1}`;
-        if (localStorage.getItem(`druida-${id}`) === 'true') {
-            el.classList.add('check');
-        }
-    });
-
-    const pesoSalvo = localStorage.getItem('druida-peso');
-    const alturaSalva = localStorage.getItem('druida-altura');
-    const inputPeso = document.getElementById('peso-input');
-    const inputAltura = document.getElementById('altura-input');
-
-    if (pesoSalvo && inputPeso) inputPeso.value = pesoSalvo;
-    if (alturaSalva && inputAltura) inputAltura.value = alturaSalva;
-    if (pesoSalvo && alturaSalva) calcularIMC();
-
-    atualizarPainelDruida();
-}
-
-window.onload = carregarDadosDruida;
-
-// --- CANVAS: FOLHAS E FLUXO DA FLORESTA ---
-const canvas = document.getElementById('canvas-fundo');
-const ctx = canvas ? canvas.getContext('2d') : null;
-let particulas = [];
-
-function ajustarCanvas() {
-    if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// Cálculo automático do IMC
+function calcularIMCAutomatico() {
+    let peso = parseFloat(dadosDruida.peso);
+    let altura = parseFloat(dadosDruida.altura);
     
-    particulas = [];
-    const quantidade = Math.floor(canvas.width / 40);
-    for (let i = 0; i < quantidade; i++) {
-        particulas.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            velocidade: 0.2 + Math.random() * 0.5,
-            tamanho: 2 + Math.random() * 3,
-            opacidade: 0.2 + Math.random() * 0.4
-        });
+    if (peso > 0 && altura > 0) {
+        let imc = peso / (altura * altura);
+        let classificacao = "";
+        
+        if (imc < 18.5) classificacao = "Abaixo do peso";
+        else if (imc < 25) classificacao = "Peso normal";
+        else if (imc < 30) classificacao = "Sobrepeso";
+        else classificacao = "Obesidade";
+
+        document.getElementById("imc-valor").innerText = `${imc.toFixed(1)} (${classificacao})`;
+    } else {
+        document.getElementById("imc-valor").innerText = "--";
     }
 }
 
-function desenharFloresta() {
-    if (!ctx || !canvas) return;
-    ctx.fillStyle = "#0c1810";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    particulas.forEach(p => {
-        ctx.fillStyle = `rgba(82, 183, 136, ${p.opacidade})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.tamanho, 0, Math.PI * 2);
-        ctx.fill();
-
-        p.y -= p.velocidade;
-
-        if (p.y < -10) {
-            p.y = canvas.height + 10;
-            p.x = Math.random() * canvas.width;
-        }
-    });
+// Atualizar o peso pelo input da interface
+function atualizarPeso() {
+    let novoPeso = parseFloat(document.getElementById("peso-input").value);
+    if (!isNaN(novoPeso) && novoPeso > 0) {
+        dadosDruida.peso = novoPeso;
+        salvarEstado();
+        calcularIMCAutomatico();
+        alert("Peso atualizado com sucesso!");
+    } else {
+        alert("Insira um peso válido.");
+    }
 }
 
-if (canvas) {
-    ajustarCanvas();
-    setInterval(desenharFloresta, 35);
-    window.addEventListener('resize', ajustarCanvas);
+// Adicionar refeição (Incrementa calorias, macros e fibras de forma balanceada para o déficit)
+function adicionarRefeicao() {
+    dadosDruida.caloriasAtuais += 300;
+    dadosDruida.carboAtual += 30;
+    dadosDruida.protAtual += 25;
+    dadosDruida.gordAtual += 8;
+    dadosDruida.fibraAtual += 5;
+    
+    dadosDruida.xp += 10; // Adiciona XP de bônus por registrar refeição
+    
+    atualizarInterface();
+    salvarEstado();
+}
+
+// Adicionar água
+function adicionarAgua() {
+    dadosDruida.aguaAtual += 500;
+    dadosDruida.xp += 5; // Bônus de XP por hidratação
+    
+    atualizarInterface();
+    salvarEstado();
+}
+
+// Atualizar os elementos visuais na tela
+function atualizarInterface() {
+    document.getElementById("calorias-atual").innerText = dadosDruida.caloriasAtuais;
+    document.getElementById("calorias-meta").innerText = dadosDruida.caloriasMeta;
+    
+    document.getElementById("carbo-atual").innerText = dadosDruida.carboAtual;
+    document.getElementById("carbo-meta").innerText = dadosDruida.carboMeta;
+
+    document.getElementById("prot-atual").innerText = dadosDruida.protAtual;
+    document.getElementById("prot-meta").innerText = dadosDruida.protMeta;
+
+    document.getElementById("gord-atual").innerText = dadosDruida.gordAtual;
+    document.getElementById("gord-meta").innerText = dadosDruida.gordMeta;
+
+    document.getElementById("fibra-atual").innerText = dadosDruida.fibraAtual;
+    document.getElementById("fibra-meta").innerText = dadosDruida.fibraMeta;
+    
+    document.getElementById("agua-atual").innerText = dadosDruida.aguaAtual;
+    document.getElementById("agua-meta").innerText = dadosDruida.aguaMeta;
+
+    // Atualização da barra de XP (cada nível exige 100 XP)
+    let xpAtualNoNivel = dadosDruida.xp % 100;
+    
+    document.getElementById("texto-xp").innerText = `${xpAtualNoNivel} / 100 XP (Total: ${dadosDruida.xp} XP)`;
+    document.getElementById("barra-xp").style.width = `${xpAtualNoNivel}%`;
+}
+
+// Salvar dados no navegador
+function salvarEstado() {
+    localStorage.setItem('dadosDruida', JSON.stringify(dadosDruida));
 }
