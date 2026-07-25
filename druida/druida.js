@@ -1,16 +1,18 @@
-// Estado global da aplicação com persistência no localStorage
-let estadoNutricional = JSON.parse(localStorage.getItem('druida_estado')) || {
-    diaAtual: 'segunda',
-    refeicaoAtual: 'cafe',
-    pesoAtual: 89,
-    altura: 1.65, // Altura fixa com base nas suas métricas
-    metaCalorias: 2100,
-    calorias: 0,
-    proteina: 0,
-    carbo: 0,
-    gordura: 0,
-    xp: 0,
-    historicoPeso: [] // Ex: [{ data: '15/05/2026', peso: 89, tipo: 'Atualização' }]
+// Estado global da aplicação com tratamento de segurança para evitar NaN/undefined
+let estadoNutricional = JSON.parse(localStorage.getItem('druida_estado')) || {};
+
+estadoNutricional = {
+    diaAtual: estadoNutricional.diaAtual || 'segunda',
+    refeicaoAtual: estadoNutricional.refeicaoAtual || 'cafe',
+    pesoAtual: Number(estadoNutricional.pesoAtual) || 89,
+    altura: Number(estadoNutricional.altura) || 1.65,
+    metaCalorias: Number(estadoNutricional.metaCalorias) || 2100,
+    calorias: Number(estadoNutricional.calorias) || 0,
+    proteina: Number(estadoNutricional.proteina) || 0,
+    carbo: Number(estadoNutricional.carbo) || 0,
+    gordura: Number(estadoNutricional.gordura) || 0,
+    xp: Number(estadoNutricional.xp) || 0,
+    historicoPeso: Array.isArray(estadoNutricional.historicoPeso) ? estadoNutricional.historicoPeso : []
 };
 
 // Banco de dados dos alimentos disponíveis por refeição
@@ -41,7 +43,10 @@ const cardapioRefeicoes = {
 
 // Inicialização ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('input-peso-atual').value = estadoNutricional.pesoAtual;
+    const inputPeso = document.getElementById('input-peso-atual');
+    if (inputPeso) {
+        inputPeso.value = estadoNutricional.pesoAtual;
+    }
     atualizarInterface();
     destacarDiaAtivo();
     renderizarItensRefeicao();
@@ -61,7 +66,8 @@ function destacarDiaAtivo() {
     botoesDias.forEach(btn => {
         if(btn.dataset.day === estadoNutricional.diaAtual) {
             btn.classList.add('active');
-            document.getElementById('label-dia-ativo').innerText = btn.innerText;
+            const labelDia = document.getElementById('label-dia-ativo');
+            if(labelDia) labelDia.innerText = btn.innerText;
         } else {
             btn.classList.remove('active');
         }
@@ -73,14 +79,19 @@ function abrirRefeicao(tipoRefeicao) {
     estadoNutricional.refeicaoAtual = tipoRefeicao;
     const abas = document.querySelectorAll('.meal-tab-btn');
     abas.forEach(aba => aba.classList.remove('active'));
-    event.target.classList.add('active');
+    
+    if(event && event.target) {
+        event.target.classList.add('active');
+    }
     renderizarItensRefeicao();
 }
 
 // Renderiza a lista de comidas
 function renderizarItensRefeicao() {
     const container = document.getElementById('container-refeicao-ativa');
-    const itens = cardapioRefeicoes[estadoNutricional.refeicaoAtual];
+    if (!container) return;
+
+    const itens = cardapioRefeicoes[estadoNutricional.refeicaoAtual] || [];
     
     let html = '';
     itens.forEach(alimento => {
@@ -103,6 +114,8 @@ function renderizarItensRefeicao() {
 // Consome o item e soma macros
 function consumirItem(idAlimento) {
     const inputQtd = document.getElementById(`qtd-${idAlimento}`);
+    if (!inputQtd) return;
+
     const quantidade = parseFloat(inputQtd.value);
 
     if (isNaN(quantidade) || quantidade <= 0) {
@@ -111,6 +124,8 @@ function consumirItem(idAlimento) {
     }
 
     const alimento = cardapioRefeicoes[estadoNutricional.refeicaoAtual].find(item => item.id === idAlimento);
+    if (!alimento) return;
+
     const proporcao = quantidade / alimento.base;
 
     estadoNutricional.calorias += Math.round(alimento.cal * proporcao);
@@ -126,7 +141,10 @@ function consumirItem(idAlimento) {
 
 // Atualiza o peso, recalcula o IMC e ajusta o déficit calórico de forma inteligente
 function atualizarPesoCorporal() {
-    const novoPeso = parseFloat(document.getElementById('input-peso-atual').value);
+    const inputPeso = document.getElementById('input-peso-atual');
+    if (!inputPeso) return;
+
+    const novoPeso = parseFloat(inputPeso.value);
     
     if (isNaN(novoPeso) || novoPeso <= 30) {
         alert("Insira um peso válido em kg.");
@@ -158,6 +176,8 @@ function atualizarPesoCorporal() {
 // Renderiza a lista do histórico na tela
 function renderizarHistorico() {
     const lista = document.getElementById('lista-historico-peso');
+    if (!lista) return;
+
     if(estadoNutricional.historicoPeso.length === 0) {
         lista.innerHTML = "<li>Nenhum registro anterior salvo ainda. Atualize seu peso acima!</li>";
         return;
@@ -181,13 +201,22 @@ function atualizarInterface() {
     // Cálculo do IMC: Peso / (Altura * Altura)
     const imc = estadoNutricional.pesoAtual / (estadoNutricional.altura * estadoNutricional.altura);
     
-    document.getElementById('imc-atual').innerText = imc.toFixed(1);
-    document.getElementById('meta-calorias').innerText = estadoNutricional.metaCalorias;
-    document.getElementById('meta-calorias-display').innerText = estadoNutricional.metaCalorias;
+    const elImc = document.getElementById('imc-atual');
+    const elMeta = document.getElementById('meta-calorias');
+    const elMetaDisp = document.getElementById('meta-calorias-display');
+    const elCal = document.getElementById('calorias-atual');
+    const elProt = document.getElementById('proteina-atual');
+    const elCarbo = document.getElementById('carbo-atual');
+    const elGord = document.getElementById('gordura-atual');
+    const elXp = document.getElementById('xp-atual');
+
+    if (elImc) elImc.innerText = imc.toFixed(1);
+    if (elMeta) elMeta.innerText = estadoNutricional.metaCalorias;
+    if (elMetaDisp) elMetaDisp.innerText = estadoNutricional.metaCalorias;
     
-    document.getElementById('calorias-atual').innerText = estadoNutricional.calorias;
-    document.getElementById('proteina-atual').innerText = estadoNutricional.proteina;
-    document.getElementById('carbo-atual').innerText = estadoNutricional.carbo;
-    document.getElementById('gordura-atual').innerText = estadoNutricional.gordura;
-    document.getElementById('xp-atual').innerText = estadoNutricional.xp;
+    if (elCal) elCal.innerText = estadoNutricional.calorias;
+    if (elProt) elProt.innerText = estadoNutricional.proteina;
+    if (elCarbo) elCarbo.innerText = estadoNutricional.carbo;
+    if (elGord) elGord.innerText = estadoNutricional.gordura;
+    if (elXp) elXp.innerText = estadoNutricional.xp;
 }
