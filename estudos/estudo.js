@@ -144,11 +144,11 @@ function ajustarCanvas() {
 
 function desenharMagiaMatematica() {
     if (!ctx || !canvas) return;
-    ctx.fillStyle = "#0b0f19";
+    ctx.fillStyle = "#f5f7fa"; // Cor do fundo claro para apagar o frame anterior
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     formulasFlutuantes.forEach(p => {
-        ctx.fillStyle = `rgba(0, 255, 255, ${p.opacidade})`;
+        ctx.fillStyle = `rgba(108, 92, 231, ${p.opacidade})`; // Cor roxa clara para as fórmulas
         ctx.font = `${p.tamanho}px monospace`;
         ctx.fillText(p.texto, p.x, p.y);
 
