@@ -87,10 +87,10 @@ function entrarComoClasse(classe) {
         window.location.href = "estudos/estudo.html";
         break;
       case "clerigo":
-        window.location.href = "druida/druida.html";
+        window.location.href = "templo.html";
         break;
       case "druida":
-        window.location.href = "alimentacao.html";
+        window.location.href = "druida/druida.html";
         break;
     }
   }, 200);
