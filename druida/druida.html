@@ -112,7 +112,7 @@
         <button class="btn-voltar" onclick="window.location.href='../index.html'">🌿 Voltar para Seleção de Classe</button>
         
         <h1>🌲 Bosque do Druida</h1>
-        <p style="color: #a3e4d7; margin-bottom: 25px;">Nutrição & Vitalidade da Natureza</p>
+        <p style="color: #a3e4d7; margin-bottom: 25px;">Módulo de Déficit Calórico & Nutrição</p>
 
         <!-- Barra de XP / Nível -->
         <div class="card" style="margin-bottom: 20px;">
@@ -127,14 +127,14 @@
 
         <!-- Cards Principais -->
         <div class="cards-grid">
-            <!-- Calorias e Macros -->
+            <!-- Calorias e Macros (Déficit) -->
             <div class="card">
-                <h3>🔥 Calorias e Macros</h3>
-                <p><span id="calorias-atual">0</span> / <span id="calorias-meta">2500</span> kcal</p>
+                <h3>🔥 Déficit (Calorias)</h3>
+                <p><span id="calorias-atual">0</span> / <span id="calorias-meta">2100</span> kcal</p>
                 <div class="macros-info" style="font-size: 0.8rem; margin: 8px 0; color: #a3e4d7; line-height: 1.4;">
-                    <span>Carbo: <strong id="carbo-atual">0</strong>/<span id="carbo-meta">300</span>g</span> | 
+                    <span>Carbo: <strong id="carbo-atual">0</strong>/<span id="carbo-meta">210</span>g</span> | 
                     <span>Prot: <strong id="prot-atual">0</strong>/<span id="prot-meta">160</span>g</span><br>
-                    <span>Gord: <strong id="gord-atual">0</strong>/<span id="gord-meta">70</span>g</span> | 
+                    <span>Gord: <strong id="gord-atual">0</strong>/<span id="gord-meta">60</span>g</span> | 
                     <span>Fibras: <strong id="fibra-atual">0</strong>/<span id="fibra-meta">30</span>g</span>
                 </div>
                 <button onclick="adicionarRefeicao()">+300 kcal (Refeição)</button>
@@ -167,7 +167,7 @@
             <div class="ritual-item">
                 <div>
                     <span style="font-size: 0.8rem; color: #a3e4d7;">06:00 - Despertar da Aurora</span>
-                    <div style="font-weight: bold; margin-top: 2px;">Café da Manhã Energético</div>
+                    <div style="font-weight: bold; margin-top: 2px;">Café da Manhã Proteico</div>
                     <div style="font-size: 0.85rem; color: #b2dfdb; margin-top: 2px;">Ovos mexidos, pão integral e castanhas</div>
                 </div>
                 <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer;">
@@ -175,7 +175,6 @@
         </div>
     </div>
 
-    <!-- Script local correto -->
-    <script src="druida.js?v=1"></script>
+    <script src="druida.js?v=2"></script>
 </body>
 </html>
