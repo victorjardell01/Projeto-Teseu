@@ -69,9 +69,11 @@ function mostrarTelaAvatares() {
   const telaLogin = document.getElementById("screen-login");
   const telaAvatares = document.getElementById("screen-avatars");
   const telaBencaos = document.getElementById("screen-bencaos");
+  const telaMissoes = document.getElementById("screen-missoes");
 
   if (telaLogin) telaLogin.classList.add("hidden");
   if (telaBencaos) telaBencaos.classList.add("hidden");
+  if (telaMissoes) telaMissoes.classList.add("hidden");
   if (telaAvatares) telaAvatares.classList.remove("hidden");
 
   atualizarNiveisNaTela();
@@ -90,7 +92,7 @@ function atualizarNiveisNaTela() {
 }
 
 function atualizarMoedasNaTela() {
-  const contadores = document.querySelectorAll("#contador-moedas, #contador-moedas-topo");
+  const contadores = document.querySelectorAll("#contador-moedas, #contador-moedas-topo, #contador-moedas-missoes");
   contadores.forEach(el => {
     if (el) el.textContent = dadosRPG.moedas;
   });
@@ -99,22 +101,36 @@ function atualizarMoedasNaTela() {
 }
 
 // ==========================================
-// 5. NAVEGAÇÃO E SISTEMA DE BÊNÇÃOS / LOJA
+// 5. NAVEGAÇÃO DE TELAS (MISSÕES E BÊNÇÃOS)
 // ==========================================
+function abrirMissoes() {
+  document.getElementById("screen-avatars").classList.add("hidden");
+  document.getElementById("screen-bencaos").classList.add("hidden");
+  document.getElementById("screen-missoes").classList.remove("hidden");
+  
+  atualizarMoedasNaTela();
+  renderizarMissoes();
+}
+
 function abrirBencaos() {
   document.getElementById("screen-avatars").classList.add("hidden");
+  document.getElementById("screen-missoes").classList.add("hidden");
   document.getElementById("screen-bencaos").classList.remove("hidden");
+  
   atualizarMoedasNaTela();
   renderizarNotificacoesColeta();
 }
 
 function voltarParaAvatares() {
   document.getElementById("screen-bencaos").classList.add("hidden");
+  document.getElementById("screen-missoes").classList.add("hidden");
   document.getElementById("screen-avatars").classList.remove("hidden");
-  atualizarNiveisNaTela(); // Atualiza os avatares ao voltar
+  atualizarNiveisNaTela();
 }
 
-// Renderiza dinamicamente as opções de coleta bloqueando se já foi resgatado
+// ==========================================
+// 6. SISTEMA DE BÊNÇÃOS E LOJA
+// ==========================================
 function renderizarNotificacoesColeta() {
   const container = document.getElementById("notificacoes-container");
   if (!container) return;
@@ -191,7 +207,7 @@ function comprarRecompensa(item, custo) {
 }
 
 // ==========================================
-// 6. SISTEMA DE XP E RESET (LVL MAX)
+// 7. SISTEMA DE XP E RESET (LVL MAX 10)
 // ==========================================
 function adicionarXP(classe, quantidadeXP) {
   const dadosClasse = dadosRPG[classe];
@@ -222,8 +238,54 @@ function adicionarXP(classe, quantidadeXP) {
 }
 
 // ==========================================
-// 7. SISTEMA DE MISSÕES E CONQUISTAS
+// 8. RENDERIZAÇÃO E LÓGICA DAS MISSÕES
 // ==========================================
+function renderizarMissoes() {
+  const container = document.getElementById("missoes-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const listaMissoes = [
+    { id: "tarefasGuerreiro", titulo: "💪 Força de Guerreiro", desc: "Complete 5 exercícios/tarefas" },
+    { id: "nivelMago", titulo: "🧠 Sabedoria de Mago", desc: "Alcance o Nível 5 com o Mago" },
+    { id: "diasSeguidosClerigo", titulo: "✨ Devocional de Clérigo", desc: "Mantenha a rotina por 3 dias seguidos" }
+  ];
+
+  listaMissoes.forEach(m => {
+    const dadosM = dadosRPG.missoes[m.id];
+    if (!dadosM) return;
+
+    const card = document.createElement("div");
+    card.className = "card-bencao-item";
+
+    if (dadosM.concluida) {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo}</h4>
+          <p>${m.desc} - <strong>Concluída!</strong></p>
+        </div>
+        <button class="btn-acao-bencao" disabled style="background: #333; color: #00ffcc; border: 1px solid #00ffcc; cursor: default;">Concluída ✔️</button>
+      `;
+    } else {
+      let progressoTexto = "";
+      if (m.id === "tarefasGuerreiro") progressoTexto = `(${dadosM.progresso}/${dadosM.objetivo})`;
+      if (m.id === "nivelMago") progressoTexto = `(Lvl Alvo: ${dadosM.nivelAlvo})`;
+      if (m.id === "diasSeguidosClerigo") progressoTexto = `(${dadosM.atual}/${dadosM.diasAlvo} dias)`;
+
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo} <span style="color:#00ffcc; font-size:0.85rem">${progressoTexto}</span></h4>
+          <p>${m.desc}</p>
+        </div>
+        <div style="color:#00ffcc; font-weight:bold; font-size:0.9rem;">+${dadosM.recompensa} 🪙</div>
+      `;
+    }
+
+    container.appendChild(card);
+  });
+}
+
 function progredirMissao(chaveMissao, quantidade = 1) {
   if (!dadosRPG.missoes) return;
   
@@ -236,7 +298,8 @@ function progredirMissao(chaveMissao, quantidade = 1) {
       dadosRPG.moedas += missao.recompensa;
       
       atualizarMoedasNaTela();
-      alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. Elas já foram adicionadas ao seu saldo para usar nas bênçãos! 🪙`);
+      renderizarMissoes();
+      alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. Elas já foram adicionadas ao seu saldo! 🪙`);
     }
     
     localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
@@ -253,14 +316,15 @@ function verificarMissaoNivel(classe, nivelAtual) {
       dadosRPG.moedas += missao.recompensa;
       
       atualizarMoedasNaTela();
-      alert(`🏆 Conquista Desbloqueada: Mago no Nível ${missao.nivelAlvo}! Recompensa: ${missao.recompensa} moedas adicionadas às suas Bênçãos.`);
+      renderizarMissoes();
+      alert(`🏆 Conquista Desbloqueada: Mago no Nível ${missao.nivelAlvo}! Recompensa: ${missao.recompensa} moedas.`);
       localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
     }
   }
 }
 
 // ==========================================
-// 8. REDIRECIONAMENTO DE CLASSES
+// 9. REDIRECIONAMENTO DE CLASSES
 // ==========================================
 function entrarComoClasse(classe) {
   localStorage.setItem("rpg_classe_ativa", classe);
@@ -294,6 +358,7 @@ function entrarComoClasse(classe) {
 // ==========================================
 window.autenticarUsuario = autenticarUsuario;
 window.entrarComoClasse = entrarComoClasse;
+window.abrirMissoes = abrirMissoes;
 window.abrirBencaos = abrirBencaos;
 window.voltarParaAvatares = voltarParaAvatares;
 window.coletarMoedasDeClasse = coletarMoedasDeClasse;
