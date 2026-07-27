@@ -296,11 +296,11 @@
       domingo: []
     };
 
-    // Lógica do Cronômetro Regressivo
+   // Lógica do Cronômetro Regressivo
     let timerInterval = null;
     function iniciarCronometro() {
       clearInterval(timerInterval);
-      let tempoRestante = 90; // 90 segundos de descanso padrão
+      let tempoRestante = 90;
       atualizarDisplayTempo(tempoRestante);
 
       timerInterval = setInterval(() => {
@@ -333,7 +333,6 @@
       const container = document.getElementById("container-exercicios-dia");
       const lista = agendaTreinos[dia];
 
-      // Atualiza o Status do Herói no Card Superior com base no LocalStorage
       let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {
         guerreiro: { level: 1, xp: 0, xpMax: 100 }
       };
@@ -345,7 +344,6 @@
       document.getElementById("rpg-titulo-classe").textContent = `🛡️ GUERREIRO (LVL ${lvl})`;
       document.getElementById("rpg-texto-status").textContent = `Progresso de XP: ${xpAtual} / ${xpMax} (${porcentagem}%)`;
       
-      // Atualiza visual da barra circular
       const circulo = document.getElementById("circulo-progresso");
       circulo.style.background = `conic-gradient(#00ffcc ${porcentagem * 3.6}deg, #222 0deg)`;
       document.getElementById("texto-porcentagem").textContent = `${porcentagem}%`;
@@ -379,11 +377,7 @@
     });
   </script>
 
-<footer style="text-align: center; margin: 40px 0; padding: 20px;">
-      <button id="btn-audio" onclick="toggleAudio()" style="padding: 10px 20px; cursor: pointer; background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 5px; font-weight: bold;">▶️ Tocar Música</button>
-  </footer>
-  
-<script src="BDexercicio.js"></script>
-  
+  <!-- Script de Banco de Dados / Funções Auxiliares -->
+  <script src="BDexercicio.js"></script>
 </body>
 </html>
