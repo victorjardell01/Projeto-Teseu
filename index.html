@@ -31,11 +31,16 @@
       </div>
     </section>
 
-    <!-- TELA DE SELEÇÃO -->
+    <!-- TELA DE SELEÇÃO DE CAMPEÕES -->
     <section id="screen-avatars" class="screen hidden">
       <header class="header-selecao">
         <h2>Escolha seu Campeão</h2>
         <p>Selecione a área que deseja evoluir hoje</p>
+        
+        <!-- Botão de Acesso ao Santuário -->
+        <button onclick="abrirBencaos()" class="btn-primary" style="margin-top: 15px; background: linear-gradient(90deg, #ffcc00, #ff9900); color: #000;">
+          ✨ Santuário das Bênçãos (<span id="contador-moedas-topo">0</span> 🪙)
+        </button>
       </header>
 
       <div class="grid-avatars">
@@ -80,7 +85,7 @@
           <span class="foco-tag">🍃 Alimentação</span>
         </div>
 
-     <!-- LADINO -->
+        <!-- LADINO -->
         <div class="card-avatar-select" onclick="entrarComoClasse('ladino')">
           <div class="badge-level" id="lvl-ladino">Lvl 1</div>
           <div class="avatar-frame">
@@ -103,7 +108,7 @@
       </div>
     </section>
 
-  <!-- TELA DE BÊNÇÃOS E LOJA (Agora fora e independente) -->
+    <!-- TELA DE BÊNÇÃOS E LOJA (Separada e independente) -->
     <section id="screen-bencaos" class="screen hidden">
       <header class="header-selecao">
         <h2>Santuário das Bênçãos</h2>
@@ -111,7 +116,6 @@
         <button onclick="voltarParaAvatares()" class="btn-primary" style="margin-top: 10px; background: #333; color: #fff;">Voltar aos Campeões</button>
       </header>
 
-      <!-- Notificações de Coleta por Personagem -->
       <div class="bencaos-container" style="margin-top: 20px;">
         <h3 style="color: #00ffcc; margin-bottom: 10px; font-size: 1.1rem;">Notificações de Coleta</h3>
         
@@ -128,7 +132,6 @@
 
         <hr style="margin: 20px 0; border: 0; border-top: 1px solid #444;">
 
-        <!-- Loja de Recompensas -->
         <h3 style="color: #00ffcc; margin-bottom: 10px; font-size: 1.1rem;">Loja de Recompensas</h3>
         <div class="loja-grid" style="display: flex; flex-direction: column; gap: 10px;">
           
