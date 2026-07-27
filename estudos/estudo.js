@@ -61,11 +61,10 @@ function toggleCheck(id, elemento, materia, assunto) {
     atualizarXP();
 }
 
-// --- SISTEMA DE XP E NÍVEIS DO MAGO (ISOLADO E PRECISO) ---
+// --- SISTEMA DE XP E NÍVEIS DO MAGO ---
 function atualizarXP() {
     let totalMarcados = 0;
     
-    // Varre exclusivamente as chaves que pertencem aos quadrados das matérias
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
         if (chave && (chave.includes('portugues-') || chave.includes('matematica-') || chave.includes('fisica-') || chave.includes('quimica-') || chave.includes('legislação-'))) {
@@ -111,41 +110,105 @@ function carregarDados() {
     atualizarXP();
 }
 
-// ==========================================
-// --- FUNDO MÁGICO: ANIMAÇÃO DO PÊNDULO ---
-// ==========================================
+// =========================================================
+// --- FUNDO MÁGICO: PÊNDULO + FÓRMULAS E CONTAS FLUTUANTES ---
+// =========================================================
 const canvas = document.getElementById('canvas-fundo');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
 if (canvas && ctx) {
-    let angulo = Math.PI / 4; // Ângulo inicial de 45°
+    // 1. CONFIGURAÇÕES DO PÊNDULO
+    let angulo = Math.PI / 4; // 45° inicial
     let velocidadeAngular = 0;
     let aceleracaoAngular = 0;
 
     const gravidade = 0.5;
     let comprimentoFio = Math.min(window.innerHeight * 0.5, 350);
-    const amortecimento = 0.9995; // Mantém a oscilação suave por longo tempo
+    const amortecimento = 0.9995;
+
+    // 2. CONFIGURAÇÕES DAS FÓRMULAS FLUTUANTES
+    const simbolosFormulas = [
+        "∫ f(x) dx", "E = mc²", "∇ × B = μ₀J", "e^(iπ) + 1 = 0",
+        "F = m·a", "PV = nRT", "Δx · Δp ≥ ℏ/2", "d/dx [sin(x)] = cos(x)",
+        "lim (x→0) sin(x)/x = 1", "∫∫ f(x,y) dA", "λ = h/p",
+        "Hψ = Eψ", "a² + b² = c²", "Q = m·c·ΔT", "pH = -log[H⁺]",
+        "∇ · E = ρ / ε₀", "f'(x) = lim Δy/Δx"
+    ];
+
+    const numParticulas = 22;
+    const particulas = [];
+
+    function criarParticula() {
+        return {
+            texto: simbolosFormulas[Math.floor(Math.random() * simbolosFormulas.length)],
+            x: Math.random() * canvas.width,
+            y: canvas.height + Math.random() * 80,
+            vy: -(0.3 + Math.random() * 0.6), // Velocidade de subida suave
+            vx: (Math.random() - 0.5) * 0.4,   // Leve oscilação lateral
+            tamanho: 13 + Math.random() * 7,   // Tamanho da fonte
+            alpha: 0.12 + Math.random() * 0.35, // Transparência mística suave
+            rotacao: (Math.random() - 0.5) * 0.2,
+            vRotacao: (Math.random() - 0.5) * 0.004
+        };
+    }
+
+    function inicializarParticulas() {
+        particulas.length = 0;
+        for (let i = 0; i < numParticulas; i++) {
+            const p = criarParticula();
+            p.y = Math.random() * canvas.height; // Espalha as partículas pela tela na primeira vez
+            particulas.push(p);
+        }
+    }
 
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         comprimentoFio = Math.min(window.innerHeight * 0.5, 350);
+        inicializarParticulas();
     }
 
-    function animarPendulo() {
-        // Limpa a tela
+    function desenharFormulas() {
+        for (let i = 0; i < particulas.length; i++) {
+            const p = particulas[i];
+
+            // Atualiza posição e rotação
+            p.y += p.vy;
+            p.x += p.vx;
+            p.rotacao += p.vRotacao;
+
+            // Recria a partícula quando sobe além do topo
+            if (p.y < -30 || p.x < -60 || p.x > canvas.width + 60) {
+                particulas[i] = criarParticula();
+            }
+
+            // Renderiza o texto no canvas
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotacao);
+            ctx.font = `${p.tamanho}px 'Courier New', monospace, sans-serif`;
+            ctx.fillStyle = `rgba(108, 92, 231, ${p.alpha})`; // Roxo místico
+            ctx.fillText(p.texto, 0, 0);
+            ctx.restore();
+        }
+    }
+
+    function animarCena() {
+        // Limpa o canvas a cada quadro
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // A. Desenha as Fórmulas Matemáticas Flutuando no Fundo
+        desenharFormulas();
+
+        // B. Animação e Física do Pêndulo
         const origemX = canvas.width / 2;
         const origemY = 0;
 
-        // Cálculo da física do movimento harmônico
         aceleracaoAngular = (-1 * gravidade / comprimentoFio) * Math.sin(angulo);
         velocidadeAngular += aceleracaoAngular;
         velocidadeAngular *= amortecimento;
         angulo += velocidadeAngular;
 
-        // Posição da esfera no espaço
         const penduloX = origemX + comprimentoFio * Math.sin(angulo);
         const penduloY = origemY + comprimentoFio * Math.cos(angulo);
 
@@ -172,12 +235,12 @@ if (canvas && ctx) {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        requestAnimationFrame(animarPendulo);
+        requestAnimationFrame(animarCena);
     }
 
     ajustarCanvas();
     window.addEventListener('resize', ajustarCanvas);
-    animarPendulo();
+    animarCena();
 }
 
 window.onload = carregarDados;
