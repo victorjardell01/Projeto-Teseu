@@ -3,165 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Discipline RPG</title>
+  <title>Santuário do Conhecimento - RPG</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="main-container">
+  <main class="main-container">
 
-    <!-- TELA DE LOGIN -->
-    <section id="screen-login" class="screen">
-      <div class="card-login">
-        <span class="logo-icon">🛡️</span>
-        <h1>Discipline RPG</h1>
-        <p>Digite sua senha para acessar sua jornada</p>
-        
-        <form id="form-login" onsubmit="autenticarUsuario(event)">
-          <div class="input-group">
-            <input 
-              type="password" 
-              id="input-password" 
-              placeholder="Sua senha secreta" 
-              required 
-            />
-          </div>
-          <button type="submit" class="btn-primary">Entrar no Reino</button>
-        </form>
-      </div>
+    <!-- ==========================================
+         1. TELA DE LOGIN
+         ========================================== -->
+    <section id="screen-login" class="card-login">
+      <span class="logo-icon">🛡️</span>
+      <h1>Portal do Reino</h1>
+      <p>Digite a chave secreta para acessar a sua jornada de disciplina.</p>
+      
+      <form onsubmit="autenticarUsuario(event)">
+        <div class="input-group">
+          <input 
+            type="password" 
+            id="input-password" 
+            placeholder="Digite a senha..." 
+            required 
+            autocomplete="current-password"
+          >
+        </div>
+        <button type="submit" class="btn-primary">Entrar no Reino</button>
+      </form>
     </section>
 
-    <!-- TELA DE SELEÇÃO -->
-    <section id="screen-avatars" class="screen hidden">
+
+    <!-- ==========================================
+         2. TELA DE SELEÇÃO DE AVATARES
+         ========================================== -->
+    <section id="screen-avatars" class="hidden">
       <header class="header-selecao">
         <h2>Escolha seu Campeão</h2>
-        <p>Selecione a área que deseja evoluir hoje</p>
-        
-        <!-- Botão de Acesso ao Santuário -->
-        <button onclick="abrirBencaos()" class="btn-primary" style="margin-top: 15px; background: linear-gradient(90deg, #ffcc00, #ff9900); color: #000;">
-          ✨ Santuário das Bênçãos (<span id="contador-moedas-topo">0</span> 🪙)
-        </button>
+        <p>Selecione uma classe para iniciar seus treinos ou estudos.</p>
+        <div class="moedas-display">
+          Saldo: <span id="contador-moedas-topo">0</span> 🪙
+        </div>
       </header>
 
       <div class="grid-avatars">
-        
         <!-- GUERREIRO -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('guerreiro')">
-          <div class="badge-level" id="lvl-guerreiro">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('guerreiro')">
+          <span class="badge-level" id="lvl-guerreiro">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/Guerreiro.jpg" alt="Guerreiro">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=💪" alt="Guerreiro">
           </div>
           <h3>Guerreiro</h3>
-          <span class="foco-tag">💪 Treino</span>
-        </div>
+          <span class="foco-tag">Treino / Exercícios</span>
+        </article>
 
         <!-- MAGO -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('mago')">
-          <div class="badge-level" id="lvl-mago">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('mago')">
+          <span class="badge-level" id="lvl-mago">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/mago.png" alt="Mago">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=🧠" alt="Mago">
           </div>
           <h3>Mago</h3>
-          <span class="foco-tag">🧠 Mente</span>
-        </div>
+          <span class="foco-tag">Estudos / Foco</span>
+        </article>
 
         <!-- CLÉRIGO -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('clerigo')">
-          <div class="badge-level" id="lvl-clerigo">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('clerigo')">
+          <span class="badge-level" id="lvl-clerigo">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/clericoo.png" alt="Clérigo">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=✨" alt="Clérigo">
           </div>
           <h3>Clérigo</h3>
-          <span class="foco-tag">✨ Alma</span>
-        </div>
+          <span class="foco-tag">Hábitos / Saúde</span>
+        </article>
 
         <!-- DRUIDA -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('druida')">
-          <div class="badge-level" id="lvl-druida">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('druida')">
+          <span class="badge-level" id="lvl-druida">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/druida.jpg" alt="Druida">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=🍃" alt="Druida">
           </div>
           <h3>Druida</h3>
-          <span class="foco-tag">🍃 Alimentação</span>
-        </div>
+          <span class="foco-tag">Natureza / Pacing</span>
+        </article>
 
         <!-- LADINO -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('ladino')">
-          <div class="badge-level" id="lvl-ladino">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('ladino')">
+          <span class="badge-level" id="lvl-ladino">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/ladino.jpg" alt="Ladino">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=🏃" alt="Ladino">
           </div>
           <h3>Ladino</h3>
-          <span class="foco-tag">🏃 Destreza</span>
-        </div>
+          <span class="foco-tag">Agilidade / Metas</span>
+        </article>
 
         <!-- MERCADOR -->
-        <div class="card-avatar-select" onclick="entrarComoClasse('mercador')">
-          <div class="badge-level" id="lvl-mercador">Lvl 1</div>
+        <article class="card-avatar-select" onclick="entrarComoClasse('mercador')">
+          <span class="badge-level" id="lvl-mercador">Lvl 1</span>
           <div class="avatar-frame">
-            <img src="img.avatar/mercador.jpg" alt="Mercador">
+            <img src="https://via.placeholder.com/80/1f1f1f/00ffcc?text=💼" alt="Mercador">
           </div>
           <h3>Mercador</h3>
-          <span class="foco-tag">💼 Negócios</span>
-        </div>
-
+          <span class="foco-tag">Finanças / Gestão</span>
+        </article>
       </div>
+
+      <!-- BOTÃO DE ACESSO AO SANTUÁRIO -->
+      <button onclick="abrirBencaos()" class="btn-primary" style="margin-top: 24px;">
+        🏛️ Santuário das Bênçãos
+      </button>
     </section>
 
-    <!-- TELA: BÊNÇÃOS E LOJA (Fora da grid e devidamente isolada) -->
-    <section id="screen-bencaos" class="screen hidden">
-      <header class="header-selecao">
+
+    <!-- ==========================================
+         3. TELA DE BÊNÇÃOS E LOJA DE RECOMPENSAS
+         ========================================== -->
+    <section id="screen-bencaos" class="hidden">
+      <header class="header-bencaos">
         <h2>Santuário das Bênçãos</h2>
-        <p>Suas moedas atuais: <strong id="contador-moedas" style="color: gold;">0</strong> 🪙</p>
-        <button onclick="voltarParaAvatares()" class="btn-secondary" style="margin-top: 10px;">Voltar aos Campeões</button>
+        <div class="moedas-display">
+          Suas moedas atuais: <span id="contador-moedas">0</span> 🪙
+        </div>
       </header>
 
-      <!-- Notificações de Coleta por Personagem -->
-      <div class="bencaos-container" style="margin-top: 20px;">
-        <h3>Notificações de Coleta</h3>
-        <div id="notificacoes-container">
-          <div class="card-notificacao" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span id="texto-notif-guerreiro">Guerreiro (Lvl 1): Resgatar bônus</span>
-            <button onclick="coletarMoedasDeClasse('guerreiro')" class="btn-primary" style="padding: 5px 10px;">Coletar 🪙</button>
-          </div>
-        </div>
+      <button onclick="voltarParaAvatares()" class="btn-secundario" style="margin-bottom: 20px;">
+        ⬅️ Voltar aos Campeões
+      </button>
 
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #444;">
+      <!-- NOTIFICAÇÕES DE COLETA (GERADAS DINAMICAMENTE PELO JS) -->
+      <h3 style="margin-bottom: 12px; color: #00ffcc; font-size: 1.1rem; text-transform: uppercase;">
+        Bônus de Nível Disponíveis
+      </h3>
+      <div id="notificacoes-container" class="bencaos-grid">
+        <!-- O JS insere os cards de bônus aqui -->
+      </div>
 
-        <!-- Loja de Recompensas -->
-        <h3>Loja de Recompensas</h3>
-        <div class="loja-grid" style="display: grid; gap: 10px; margin-top: 10px;">
-          
-          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h4>📖 Livro / Mangá</h4>
-              <p style="font-size: 0.9em; color: #aaa;">Custo: 100 Moedas</p>
-            </div>
-            <button onclick="comprarRecompensa('Livro / Mangá', 100)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
+      <!-- LOJA DE RECOMPENSAS DA VIDA REAL -->
+      <h3 style="margin-top: 28px; margin-bottom: 12px; color: #00ffcc; font-size: 1.1rem; text-transform: uppercase;">
+        Loja de Recompensas
+      </h3>
+      <div class="bencaos-grid">
+        <article class="card-bencao-item">
+          <div class="info-bencao">
+            <h4>🎮 1 Hora de Jogos / Lazer</h4>
+            <p>Resgate para aproveitar sem culpa.</p>
           </div>
-          
-          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h4>🍕 Dia do Lixo</h4>
-              <p style="font-size: 0.9em; color: #aaa;">Custo: 300 Moedas</p>
-            </div>
-            <button onclick="comprarRecompensa('Dia do Lixo', 300)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
-          </div>
+          <button onclick="comprarRecompensa('1 Hora de Jogos', 50)" class="btn-acao-bencao">
+            50 🪙
+          </button>
+        </article>
 
-          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <h4>🎮 1h de Jogos / Série</h4>
-              <p style="font-size: 0.9em; color: #aaa;">Custo: 50 Moedas</p>
-            </div>
-            <button onclick="comprarRecompensa('1h de Jogos', 50)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
+        <article class="card-bencao-item">
+          <div class="info-bencao">
+            <h4>🍿 Lanche / Doce Especial</h4>
+            <p>Um descanso merecido para o paladar.</p>
           </div>
+          <button onclick="comprarRecompensa('Lanche / Doce Especial', 100)" class="btn-acao-bencao">
+            100 🪙
+          </button>
+        </article>
 
-        </div>
+        <article class="card-bencao-item">
+          <div class="info-bencao">
+            <h4>🎬 Filme ou Episódio Extra</h4>
+            <p>Sessão livre após bater as metas.</p>
+          </div>
+          <button onclick="comprarRecompensa('Filme ou Episódio Extra', 75)" class="btn-acao-bencao">
+            75 🪙
+          </button>
+        </article>
       </div>
     </section>
 
-  </div>
+  </main>
 
+  <!-- SCRIPT PRINCIPAL DO SISTEMA -->
   <script src="app.js"></script>
 </body>
 </html>
