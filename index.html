@@ -80,6 +80,57 @@
           <span class="foco-tag">🍃 Alimentação</span>
         </div>
 
+        <!-- NOVA TELA: BÊNÇÃOS E LOJA -->
+    <section id="screen-bencaos" class="screen hidden">
+      <header class="header-selecao">
+        <h2>Santuário das Bênçãos</h2>
+        <p>Suas moedas atuais: <strong id="contador-moedas" style="color: gold;">0</strong> 🪙</p>
+        <button onclick="voltarParaAvatares()" class="btn-secondary" style="margin-top: 10px;">Voltar aos Campeões</button>
+      </header>
+
+      <!-- Notificações de Coleta por Personagem -->
+      <div class="bencaos-container" style="margin-top: 20px;">
+        <h3>Notificações de Coleta</h3>
+        <div id="notificacoes-container">
+          <!-- Exemplo dinâmico baseado no nível dos heróis -->
+          <div class="card-notificacao" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span id="texto-notif-guerreiro">Guerreiro (Lvl 1): Resgatar bônus</span>
+            <button onclick="coletarMoedasDeClasse('guerreiro')" class="btn-primary" style="padding: 5px 10px;">Coletar 🪙</button>
+          </div>
+        </div>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #444;">
+
+        <!-- Loja de Recompensas -->
+        <h3>Loja de Recompensas</h3>
+        <div class="loja-grid" style="display: grid; gap: 10px; margin-top: 10px;">
+          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4>📖 Livro / Mangá</h4>
+              <p style="font-size: 0.9em; color: #aaa;">Custo: 100 Moedas</p>
+            </div>
+            <button onclick="comprarRecompensa('Livro / Mangá', 100)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
+          </div>
+          
+          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4>🍕 Dia do Lixo</h4>
+              <p style="font-size: 0.9em; color: #aaa;">Custo: 300 Moedas</p>
+            </div>
+            <button onclick="comprarRecompensa('Dia do Lixo', 300)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
+          </div>
+
+          <div class="item-loja" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4>🎮 1h de Jogos / Série</h4>
+              <p style="font-size: 0.9em; color: #aaa;">Custo: 50 Moedas</p>
+            </div>
+            <button onclick="comprarRecompensa('1h de Jogos', 50)" class="btn-primary" style="padding: 5px 10px;">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
       </div>
     </section>
 
