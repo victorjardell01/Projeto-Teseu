@@ -107,15 +107,41 @@
         </article>
       </div>
 
-      <!-- BOTÃO DE ACESSO AO SANTUÁRIO -->
-      <button onclick="abrirBencaos()" class="btn-primary" style="margin-top: 24px;">
-        🏛️ Santuário das Bênçãos
-      </button>
+      <!-- BOTÕES DE NAVEGAÇÃO -->
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button onclick="abrirMissoes()" class="btn-primary" style="flex: 1; background: linear-gradient(90deg, #ffaa00, #ff7700);">
+          📜 Missões
+        </button>
+        <button onclick="abrirBencaos()" class="btn-primary" style="flex: 1;">
+          🏛️ Santuário
+        </button>
+      </div>
     </section>
 
 
     <!-- ==========================================
-         3. TELA DE BÊNÇÃOS E LOJA DE RECOMPENSAS
+         3. TELA DE MISSÕES E CONQUISTAS
+         ========================================== -->
+    <section id="screen-missoes" class="hidden">
+      <header class="header-bencaos">
+        <h2>📜 Mural de Missões</h2>
+        <div class="moedas-display">
+          Suas moedas atuais: <span id="contador-moedas-missoes">0</span> 🪙
+        </div>
+      </header>
+
+      <button onclick="voltarParaAvatares()" class="btn-secundario" style="margin-bottom: 20px;">
+        ⬅️ Voltar aos Campeões
+      </button>
+
+      <div id="missoes-container" class="bencaos-grid">
+        <!-- O JS insere as missões aqui -->
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         4. TELA DE BÊNÇÃOS E LOJA DE RECOMPENSAS
          ========================================== -->
     <section id="screen-bencaos" class="hidden">
       <header class="header-bencaos">
@@ -129,7 +155,7 @@
         ⬅️ Voltar aos Campeões
       </button>
 
-      <!-- NOTIFICAÇÕES DE COLETA (GERADAS DINAMICAMENTE PELO JS) -->
+      <!-- NOTIFICAÇÕES DE COLETA -->
       <h3 style="margin-bottom: 12px; color: #00ffcc; font-size: 1.1rem; text-transform: uppercase;">
         Bônus de Nível Disponíveis
       </h3>
@@ -137,7 +163,7 @@
         <!-- O JS insere os cards de bônus aqui -->
       </div>
 
-      <!-- LOJA DE RECOMPENSAS DA VIDA REAL -->
+      <!-- LOJA DE RECOMPENSAS -->
       <h3 style="margin-top: 28px; margin-bottom: 12px; color: #00ffcc; font-size: 1.1rem; text-transform: uppercase;">
         Loja de Recompensas
       </h3>
