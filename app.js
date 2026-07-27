@@ -6,6 +6,8 @@ const estadoInicial = {
   mago: { level: 1, xp: 0, xpMax: 100 },
   clerigo: { level: 1, xp: 0, xpMax: 100 },
   druida: { level: 1, xp: 0, xpMax: 100 },
+  ladino: { level: 1, xp: 0, xpMax: 100 },
+  mercador: { level: 1, xp: 0, xpMax: 100 },
   moedas: 0 // Novo campo para guardar o saldo de moedas
 };
 
@@ -65,7 +67,7 @@ function mostrarTelaAvatares() {
 }
 
 function atualizarNiveisNaTela() {
-  const classes = ["guerreiro", "mago", "clerigo", "druida"];
+  const classes = ["guerreiro", "mago", "clerigo", "druida", "ladino", "mercador"];
   
   classes.forEach(classe => {
     const elementoLevel = document.getElementById(`lvl-${classe}`);
@@ -138,6 +140,12 @@ function entrarComoClasse(classe) {
         break;
       case "druida":
         window.location.href = "druida/druida.html";
+        break;
+         case "ladino":
+        window.location.href = "destreza/destreza.html";
+        break;
+         case "mercador":
+        window.location.href = "comercio/comercio.html";
         break;
     }
   }, 200);
