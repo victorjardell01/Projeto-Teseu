@@ -9,6 +9,8 @@ const estadoInicial = {
   ladino: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   mercador: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   moedas: 0,
+  dataUltimasMissoes: null,
+  missoesAtivas: [],
   missoes: {
     tarefasGuerreiro: { progresso: 0, objetivo: 5, concluida: false, recompensa: 50 },
     nivelMago: { nivelAlvo: 5, concluida: false, recompensa: 100 },
@@ -18,9 +20,9 @@ const estadoInicial = {
 
 let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || estadoInicial;
 
-// Garante compatibilidade caso o save seja antigo (adiciona propriedades faltantes)
+// Garante compatibilidade caso o save seja antigo
 Object.keys(estadoInicial).forEach(chave => {
-  if (chave !== "moedas" && chave !== "missoes") {
+  if (chave !== "moedas" && chave !== "missoes" && chave !== "dataUltimasMissoes" && chave !== "missoesAtivas") {
     if (!dadosRPG[chave]) dadosRPG[chave] = estadoInicial[chave];
     if (dadosRPG[chave].ultimoNivelColetado === undefined) {
       dadosRPG[chave].ultimoNivelColetado = 0;
@@ -30,6 +32,7 @@ Object.keys(estadoInicial).forEach(chave => {
 
 if (dadosRPG.moedas === undefined) dadosRPG.moedas = 0;
 if (dadosRPG.missoes === undefined) dadosRPG.missoes = estadoInicial.missoes;
+if (!dadosRPG.missoesAtivas) dadosRPG.missoesAtivas = [];
 
 const SENHA_SECRETA = "1234";
 
@@ -129,7 +132,200 @@ function voltarParaAvatares() {
 }
 
 // ==========================================
-// 6. SISTEMA DE BÊNÇÃOS E LOJA
+// 6. CATÁLOGO E CICLO DIÁRIO DE MISSÕES
+// ==========================================
+const POOL_MISSOES = [
+  // --- DIÁRIAS GERAIS ---
+  { id: 'rot1', titulo: '💧 Hidratação Épica', desc: 'Beba 2L de água ao longo do dia', recompensa: 15, tipo: 'diaria' },
+  { id: 'rot2', titulo: '🧘 Pausa Estratégica', desc: 'Desconecte de telas por 15 minutos', recompensa: 20, tipo: 'diaria' },
+  { id: 'rot3', titulo: '☀️ Despertar no Horário', desc: 'Levante no primeiro alarme sem adiar', recompensa: 25, tipo: 'diaria' },
+  
+  // --- GUERREIRO ---
+  { id: 'rot4', titulo: '🏋️ Treino Consistente', desc: 'Conclua a série de exercícios programada', recompensa: 40, classe: 'guerreiro' },
+  { id: 'rot5', titulo: '🏃 Alongamento / Cardio', desc: 'Realize 15 minutos de mobilidade ou caminhada', recompensa: 30, classe: 'guerreiro' },
+
+  // --- MAGO ---
+  { id: 'rot6', titulo: '📚 Bloco de Foco Pomodoro', desc: 'Estude focado sem distrações por 45 minutos', recompensa: 40, classe: 'mago' },
+  { id: 'rot7', titulo: '📐 Resolução de Exercícios', desc: 'Complete 5 exercícios teóricos ou práticos', recompensa: 50, classe: 'mago' },
+
+  // --- CLÉRIGO ---
+  { id: 'rot8', titulo: '🥗 Nutrição Rituística', desc: 'Mantenha a refeição equilibrada no dia', recompensa: 35, classe: 'clerigo' },
+
+  // --- MERCADOR / LADINO / DRUIDA ---
+  { id: 'rot9', titulo: '💼 Gestão Financeira', desc: 'Registre as entradas e saídas do dia', recompensa: 30, classe: 'mercador' },
+  { id: 'rot10', titulo: '⚡ Agilidade de Metas', desc: 'Finalize a tarefa mais importante da sua lista', recompensa: 35, classe: 'ladino' }
+];
+
+function gerarMissoesDoDia() {
+  const hoje = new Date().toISOString().split('T')[0]; // Ex: "2026-07-27"
+  const classeAtiva = localStorage.getItem("rpg_classe_ativa") || 'guerreiro';
+
+  // Se já gerou hoje e possui missões salvas, mantém a lista
+  if (dadosRPG.dataUltimasMissoes === hoje && dadosRPG.missoesAtivas && dadosRPG.missoesAtivas.length > 0) {
+    return dadosRPG.missoesAtivas;
+  }
+
+  // Filtra missões gerais ou específicas da última classe selecionada
+  const disponiveis = POOL_MISSOES.filter(m => 
+    m.tipo === 'diaria' || m.classe === classeAtiva
+  );
+
+  // Sorteia 3 missões diárias
+  const embaralhadas = [...disponiveis].sort(() => 0.5 - Math.random());
+  const sorteadas = embaralhadas.slice(0, 3).map(m => ({
+    id: m.id,
+    titulo: m.titulo,
+    desc: m.desc,
+    recompensa: m.recompensa,
+    concluida: false
+  }));
+
+  dadosRPG.dataUltimasMissoes = hoje;
+  dadosRPG.missoesAtivas = sorteadas;
+  localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+
+  return sorteadas;
+}
+
+function concluirMissaoDiaria(idMissao) {
+  const missao = dadosRPG.missoesAtivas.find(m => m.id === idMissao);
+
+  if (missao && !missao.concluida) {
+    missao.concluida = true;
+    dadosRPG.moedas += missao.recompensa;
+
+    atualizarMoedasNaTela();
+    renderizarMissoes();
+    alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. 🪙`);
+  }
+}
+
+// ==========================================
+// 7. RENDERIZAÇÃO E LÓGICA DAS MISSÕES
+// ==========================================
+function renderizarMissoes() {
+  const container = document.getElementById("missoes-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  // 1. Renderiza as Missões Diárias Rotativas
+  const missoesDiarias = gerarMissoesDoDia();
+  
+  const tituloDiario = document.createElement("h3");
+  tituloDiario.style.cssText = "color: #00ffcc; margin-bottom: 8px; font-size: 1rem; text-transform: uppercase;";
+  tituloDiario.innerText = "📜 Missões do Dia";
+  container.appendChild(tituloDiario);
+
+  missoesDiarias.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "card-bencao-item";
+
+    if (m.concluida) {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo}</h4>
+          <p>${m.desc} - <strong>Concluída!</strong></p>
+        </div>
+        <button class="btn-acao-bencao" disabled style="background: #333; color: #777; border: 1px solid #444; cursor: not-allowed;">Concluída ✔️</button>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo}</h4>
+          <p>${m.desc} • <strong>+${m.recompensa} 🪙</strong></p>
+        </div>
+        <button onclick="concluirMissaoDiaria('${m.id}')" class="btn-acao-bencao">Concluir</button>
+      `;
+    }
+    container.appendChild(card);
+  });
+
+  // 2. Renderiza as Conquistas de Longo Prazo
+  const tituloConquistas = document.createElement("h3");
+  tituloConquistas.style.cssText = "color: #00ffcc; margin-top: 20px; margin-bottom: 8px; font-size: 1rem; text-transform: uppercase;";
+  tituloConquistas.innerText = "🏆 Marcos do Reino";
+  container.appendChild(tituloConquistas);
+
+  const listaConquistas = [
+    { id: "tarefasGuerreiro", titulo: "💪 Força de Guerreiro", desc: "Complete 5 exercícios/tarefas" },
+    { id: "nivelMago", titulo: "🧠 Sabedoria de Mago", desc: "Alcance o Nível 5 com o Mago" },
+    { id: "diasSeguidosClerigo", titulo: "✨ Devocional de Clérigo", desc: "Mantenha a rotina por 3 dias seguidos" }
+  ];
+
+  listaConquistas.forEach(m => {
+    const dadosM = dadosRPG.missoes[m.id];
+    if (!dadosM) return;
+
+    const card = document.createElement("div");
+    card.className = "card-bencao-item";
+
+    if (dadosM.concluida) {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo}</h4>
+          <p>${m.desc} - <strong>Concluída!</strong></p>
+        </div>
+        <button class="btn-acao-bencao" disabled style="background: #333; color: #00ffcc; border: 1px solid #00ffcc; cursor: default;">Concluída ✔️</button>
+      `;
+    } else {
+      let progressoTexto = "";
+      if (m.id === "tarefasGuerreiro") progressoTexto = `(${dadosM.progresso}/${dadosM.objetivo})`;
+      if (m.id === "nivelMago") progressoTexto = `(Lvl Alvo: ${dadosM.nivelAlvo})`;
+      if (m.id === "diasSeguidosClerigo") progressoTexto = `(${dadosM.atual}/${dadosM.diasAlvo} dias)`;
+
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${m.titulo} <span style="color:#00ffcc; font-size:0.85rem">${progressoTexto}</span></h4>
+          <p>${m.desc}</p>
+        </div>
+        <div style="color:#00ffcc; font-weight:bold; font-size:0.9rem;">+${dadosM.recompensa} 🪙</div>
+      `;
+    }
+
+    container.appendChild(card);
+  });
+}
+
+function progredirMissao(chaveMissao, quantidade = 1) {
+  if (!dadosRPG.missoes) return;
+  
+  const missao = dadosRPG.missoes[chaveMissao];
+  if (missao && !missao.concluida) {
+    missao.progresso = (missao.progresso || 0) + quantidade;
+    
+    if (missao.progresso >= missao.objetivo) {
+      missao.concluida = true;
+      dadosRPG.moedas += missao.recompensa;
+      
+      atualizarMoedasNaTela();
+      renderizarMissoes();
+      alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. Elas já foram adicionadas ao seu saldo! 🪙`);
+    }
+    
+    localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+  }
+}
+
+function verificarMissaoNivel(classe, nivelAtual) {
+  if (!dadosRPG.missoes) return;
+
+  if (classe === "mago" && nivelAtual >= dadosRPG.missoes.nivelMago.nivelAlvo) {
+    const missao = dadosRPG.missoes.nivelMago;
+    if (missao && !missao.concluida) {
+      missao.concluida = true;
+      dadosRPG.moedas += missao.recompensa;
+      
+      atualizarMoedasNaTela();
+      renderizarMissoes();
+      alert(`🏆 Conquista Desbloqueada: Mago no Nível ${missao.nivelAlvo}! Recompensa: ${missao.recompensa} moedas.`);
+      localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+    }
+  }
+}
+
+// ==========================================
+// 8. SISTEMA DE BÊNÇÃOS E LOJA
 // ==========================================
 function renderizarNotificacoesColeta() {
   const container = document.getElementById("notificacoes-container");
@@ -207,7 +403,7 @@ function comprarRecompensa(item, custo) {
 }
 
 // ==========================================
-// 7. SISTEMA DE XP E RESET (LVL MAX 10)
+// 9. SISTEMA DE XP E RESET (LVL MAX 10)
 // ==========================================
 function adicionarXP(classe, quantidadeXP) {
   const dadosClasse = dadosRPG[classe];
@@ -238,93 +434,7 @@ function adicionarXP(classe, quantidadeXP) {
 }
 
 // ==========================================
-// 8. RENDERIZAÇÃO E LÓGICA DAS MISSÕES
-// ==========================================
-function renderizarMissoes() {
-  const container = document.getElementById("missoes-container");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const listaMissoes = [
-    { id: "tarefasGuerreiro", titulo: "💪 Força de Guerreiro", desc: "Complete 5 exercícios/tarefas" },
-    { id: "nivelMago", titulo: "🧠 Sabedoria de Mago", desc: "Alcance o Nível 5 com o Mago" },
-    { id: "diasSeguidosClerigo", titulo: "✨ Devocional de Clérigo", desc: "Mantenha a rotina por 3 dias seguidos" }
-  ];
-
-  listaMissoes.forEach(m => {
-    const dadosM = dadosRPG.missoes[m.id];
-    if (!dadosM) return;
-
-    const card = document.createElement("div");
-    card.className = "card-bencao-item";
-
-    if (dadosM.concluida) {
-      card.innerHTML = `
-        <div class="info-bencao">
-          <h4>${m.titulo}</h4>
-          <p>${m.desc} - <strong>Concluída!</strong></p>
-        </div>
-        <button class="btn-acao-bencao" disabled style="background: #333; color: #00ffcc; border: 1px solid #00ffcc; cursor: default;">Concluída ✔️</button>
-      `;
-    } else {
-      let progressoTexto = "";
-      if (m.id === "tarefasGuerreiro") progressoTexto = `(${dadosM.progresso}/${dadosM.objetivo})`;
-      if (m.id === "nivelMago") progressoTexto = `(Lvl Alvo: ${dadosM.nivelAlvo})`;
-      if (m.id === "diasSeguidosClerigo") progressoTexto = `(${dadosM.atual}/${dadosM.diasAlvo} dias)`;
-
-      card.innerHTML = `
-        <div class="info-bencao">
-          <h4>${m.titulo} <span style="color:#00ffcc; font-size:0.85rem">${progressoTexto}</span></h4>
-          <p>${m.desc}</p>
-        </div>
-        <div style="color:#00ffcc; font-weight:bold; font-size:0.9rem;">+${dadosM.recompensa} 🪙</div>
-      `;
-    }
-
-    container.appendChild(card);
-  });
-}
-
-function progredirMissao(chaveMissao, quantidade = 1) {
-  if (!dadosRPG.missoes) return;
-  
-  const missao = dadosRPG.missoes[chaveMissao];
-  if (missao && !missao.concluida) {
-    missao.progresso = (missao.progresso || 0) + quantidade;
-    
-    if (missao.progresso >= missao.objetivo) {
-      missao.concluida = true;
-      dadosRPG.moedas += missao.recompensa;
-      
-      atualizarMoedasNaTela();
-      renderizarMissoes();
-      alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. Elas já foram adicionadas ao seu saldo! 🪙`);
-    }
-    
-    localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
-  }
-}
-
-function verificarMissaoNivel(classe, nivelAtual) {
-  if (!dadosRPG.missoes) return;
-
-  if (classe === "mago" && nivelAtual >= dadosRPG.missoes.nivelMago.nivelAlvo) {
-    const missao = dadosRPG.missoes.nivelMago;
-    if (missao && !missao.concluida) {
-      missao.concluida = true;
-      dadosRPG.moedas += missao.recompensa;
-      
-      atualizarMoedasNaTela();
-      renderizarMissoes();
-      alert(`🏆 Conquista Desbloqueada: Mago no Nível ${missao.nivelAlvo}! Recompensa: ${missao.recompensa} moedas.`);
-      localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
-    }
-  }
-}
-
-// ==========================================
-// 9. REDIRECIONAMENTO DE CLASSES
+// 10. REDIRECIONAMENTO DE CLASSES
 // ==========================================
 function entrarComoClasse(classe) {
   localStorage.setItem("rpg_classe_ativa", classe);
@@ -365,3 +475,4 @@ window.coletarMoedasDeClasse = coletarMoedasDeClasse;
 window.comprarRecompensa = comprarRecompensa;
 window.adicionarXP = adicionarXP;
 window.progredirMissao = progredirMissao;
+window.concluirMissaoDiaria = concluirMissaoDiaria;
