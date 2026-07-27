@@ -8,7 +8,7 @@ const estadoInicial = {
   druida: { level: 1, xp: 0, xpMax: 100 },
   ladino: { level: 1, xp: 0, xpMax: 100 },
   mercador: { level: 1, xp: 0, xpMax: 100 },
-  moedas: 0 // Novo campo para guardar o saldo de moedas
+  moedas: 0
 };
 
 let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || estadoInicial;
@@ -78,13 +78,11 @@ function atualizarNiveisNaTela() {
 }
 
 function atualizarMoedasNaTela() {
-  // Atualiza em todos os locais onde o contador de moedas aparece
   const contadores = document.querySelectorAll("#contador-moedas, #contador-moedas-topo");
   contadores.forEach(el => {
     if (el) el.textContent = dadosRPG.moedas;
   });
   
-  // Salva o progresso completo automaticamente
   localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
 }
 
@@ -95,6 +93,7 @@ function abrirBencaos() {
   document.getElementById("screen-avatars").classList.add("hidden");
   document.getElementById("screen-bencaos").classList.remove("hidden");
   atualizarMoedasNaTela();
+  renderizarNotificacoesColeta(); // Atualiza a lista de coleta com os níveis atuais
 }
 
 function voltarParaAvatares() {
@@ -102,13 +101,47 @@ function voltarParaAvatares() {
   document.getElementById("screen-avatars").classList.remove("hidden");
 }
 
+// Renderiza dinamicamente as opções de coleta para cada classe no Santuário
+function renderizarNotificacoesColeta() {
+  const container = document.getElementById("notificacoes-container");
+  if (!container) return;
+
+  const classesInfo = [
+    { id: "guerreiro", nome: "Guerreiro", emoji: "💪" },
+    { id: "mago", nome: "Mago", emoji: "🧠" },
+    { id: "clerigo", nome: "Clérigo", emoji: "✨" },
+    { id: "druida", nome: "Druida", emoji: "🍃" },
+    { id: "ladino", nome: "Ladino", emoji: "🏃" },
+    { id: "mercador", nome: "Mercador", emoji: "💼" }
+  ];
+
+  container.innerHTML = ""; // Limpa antes de recriar
+
+  classesInfo.forEach(c => {
+    const nivel = dadosRPG[c.id].level;
+    const premio = nivel * 15;
+
+    const card = document.createElement("div");
+    card.className = "card-notificacao";
+    card.style.cssText = "background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333;";
+    
+    card.innerHTML = `
+      <span style="font-size: 0.9rem;">${c.emoji} ${c.nome} (Lvl ${nivel}) - Resgatar bônus</span>
+      <button onclick="coletarMoedasDeClasse('${c.id}')" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">Coletar ${premio} 🪙</button>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 // Coletar moedas com base no nível do personagem ativo
 function coletarMoedasDeClasse(classe) {
   const nivel = dadosRPG[classe].level;
-  const premio = nivel * 15; // Exemplo: nível multiplicado por 15 moedas
+  const premio = nivel * 15; 
 
   dadosRPG.moedas += premio;
   atualizarMoedasNaTela();
+  renderizarNotificacoesColeta(); // Atualiza a tela
   
   alert(`Parabéns! Você resgatou ${premio} moedas com o seu ${classe.toUpperCase()}! 🪙`);
 }
@@ -141,10 +174,10 @@ function entrarComoClasse(classe) {
       case "druida":
         window.location.href = "druida/druida.html";
         break;
-         case "ladino":
+      case "ladino":
         window.location.href = "destreza/destreza.html";
         break;
-         case "mercador":
+      case "mercador":
         window.location.href = "comercio/comercio.html";
         break;
     }
