@@ -268,6 +268,22 @@
             <div id="container-refeicao-ativa" class="meal-inventory-box"></div>
         </div>
 
+        <!-- Seção para Adicionar Alimento Personalizado -->
+<div class="ritual-section" style="border-style: dashed;">
+    <h3>✨ Forjar Novo Alimento (Personalizado)</h3>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+        <input type="text" id="novo-nome" placeholder="Nome do Alimento (ex: Frango Temperado)" style="background: #121e18; border: 1px solid var(--border); color: #fff; padding: 6px; border-radius: 4px;">
+        <div style="display: flex; gap: 5px;">
+            <input type="number" id="novo-cal" placeholder="Calorias (kcal)" style="flex: 1; background: #121e18; border: 1px solid var(--border); color: #fff; padding: 6px; border-radius: 4px;">
+            <input type="number" id="novo-prot" placeholder="Proteína (g)" step="0.1" style="flex: 1; background: #121e18; border: 1px solid var(--border); color: #fff; padding: 6px; border-radius: 4px;">
+        </div>
+        <div style="display: flex; gap: 5px;">
+            <input type="number" id="novo-carbo" placeholder="Carbo (g)" step="0.1" style="flex: 1; background: #121e18; border: 1px solid var(--border); color: #fff; padding: 6px; border-radius: 4px;">
+            <input type="number" id="novo-gord" placeholder="Gordura (g)" step="0.1" style="flex: 1; background: #121e18; border: 1px solid var(--border); color: #fff; padding: 6px; border-radius: 4px;">
+        </div>
+        <button class="add-btn" onclick="adicionarAlimentoPersonalizado()" style="margin-top: 5px;">Salvar na Refeição Atual</button>
+    </div>
+</div>
         <!-- 3. Histórico de Evolução de Peso -->
         <div class="ritual-section" style="margin-top: 20px;">
             <h3>📜 Histórico de Evolução do Druida</h3>
