@@ -2,23 +2,35 @@
 // 1. ESTADO DO JOGO E DADOS SALVOS
 // ==========================================
 const estadoInicial = {
-  guerreiro: { level: 1, xp: 0, xpMax: 100 },
-  mago: { level: 1, xp: 0, xpMax: 100 },
-  clerigo: { level: 1, xp: 0, xpMax: 100 },
-  druida: { level: 1, xp: 0, xpMax: 100 },
-  ladino: { level: 1, xp: 0, xpMax: 100 },
-  mercador: { level: 1, xp: 0, xpMax: 100 },
-  moedas: 0
+  guerreiro: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  mago: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  clerigo: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  druida: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  ladino: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  mercador: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  moedas: 0,
+  missoes: {
+    tarefasGuerreiro: { progresso: 0, objetivo: 5, concluida: false, recompensa: 50 },
+    nivelMago: { nivelAlvo: 5, concluida: false, recompensa: 100 },
+    diasSeguidosClerigo: { diasAlvo: 3, atual: 0, concluida: false, recompensa: 80 }
+  }
 };
 
 let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || estadoInicial;
 
-// Garante que a propriedade de moedas existe caso o save seja antigo
-if (dadosRPG.moedas === undefined) {
-  dadosRPG.moedas = 0;
-}
+// Garante compatibilidade caso o save seja antigo (adiciona propriedades faltantes)
+Object.keys(estadoInicial).forEach(chave => {
+  if (chave !== "moedas" && chave !== "missoes") {
+    if (!dadosRPG[chave]) dadosRPG[chave] = estadoInicial[chave];
+    if (dadosRPG[chave].ultimoNivelColetado === undefined) {
+      dadosRPG[chave].ultimoNivelColetado = 0;
+    }
+  }
+});
 
-// Senha de acesso definida para o sistema
+if (dadosRPG.moedas === undefined) dadosRPG.moedas = 0;
+if (dadosRPG.missoes === undefined) dadosRPG.missoes = estadoInicial.missoes;
+
 const SENHA_SECRETA = "1234";
 
 // ==========================================
@@ -93,15 +105,16 @@ function abrirBencaos() {
   document.getElementById("screen-avatars").classList.add("hidden");
   document.getElementById("screen-bencaos").classList.remove("hidden");
   atualizarMoedasNaTela();
-  renderizarNotificacoesColeta(); // Atualiza a lista de coleta com os níveis atuais
+  renderizarNotificacoesColeta();
 }
 
 function voltarParaAvatares() {
   document.getElementById("screen-bencaos").classList.add("hidden");
   document.getElementById("screen-avatars").classList.remove("hidden");
+  atualizarNiveisNaTela(); // Atualiza os avatares ao voltar
 }
 
-// Renderiza dinamicamente as opções de coleta para cada classe no Santuário
+// Renderiza dinamicamente as opções de coleta bloqueando se já foi resgatado
 function renderizarNotificacoesColeta() {
   const container = document.getElementById("notificacoes-container");
   if (!container) return;
@@ -115,38 +128,58 @@ function renderizarNotificacoesColeta() {
     { id: "mercador", nome: "Mercador", emoji: "💼" }
   ];
 
-  container.innerHTML = ""; // Limpa antes de recriar
+  container.innerHTML = "";
 
   classesInfo.forEach(c => {
-    const nivel = dadosRPG[c.id].level;
+    const dadosClasse = dadosRPG[c.id];
+    const nivel = dadosClasse.level;
+    const jaColetouNivelAtual = dadosClasse.ultimoNivelColetado >= nivel;
     const premio = nivel * 15;
 
     const card = document.createElement("div");
-    card.className = "card-notificacao";
-    card.style.cssText = "background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333;";
+    card.className = "card-bencao-item";
     
-    card.innerHTML = `
-      <span style="font-size: 0.9rem;">${c.emoji} ${c.nome} (Lvl ${nivel}) - Resgatar bônus</span>
-      <button onclick="coletarMoedasDeClasse('${c.id}')" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem; width: auto;">Coletar ${premio} 🪙</button>
-    `;
+    if (jaColetouNivelAtual) {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${c.emoji} ${c.nome} (Lvl ${nivel})</h4>
+          <p>Recompensa já resgatada para este nível!</p>
+        </div>
+        <button class="btn-acao-bencao" disabled style="background: #333; color: #777; cursor: not-allowed;">Resgatado ✔️</button>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="info-bencao">
+          <h4>${c.emoji} ${c.nome} (Lvl ${nivel})</h4>
+          <p>Resgatar bônus de ${premio} moedas</p>
+        </div>
+        <button onclick="coletarMoedasDeClasse('${c.id}')" class="btn-acao-bencao">COLETAR ${premio} 🪙</button>
+      `;
+    }
 
     container.appendChild(card);
   });
 }
 
-// Coletar moedas com base no nível do personagem ativo
 function coletarMoedasDeClasse(classe) {
-  const nivel = dadosRPG[classe].level;
-  const premio = nivel * 15; 
+  const dadosClasse = dadosRPG[classe];
+  const nivel = dadosClasse.level;
 
+  if (dadosClasse.ultimoNivelColetado >= nivel) {
+    alert("Você já resgatou o bônus deste nível! Suba de nível nos estudos ou treinos para coletar novamente.");
+    return;
+  }
+
+  const premio = nivel * 15; 
   dadosRPG.moedas += premio;
+  dadosClasse.ultimoNivelColetado = nivel;
+
   atualizarMoedasNaTela();
-  renderizarNotificacoesColeta(); // Atualiza a tela
+  renderizarNotificacoesColeta();
   
   alert(`Parabéns! Você resgatou ${premio} moedas com o seu ${classe.toUpperCase()}! 🪙`);
 }
 
-// Comprar recompensas na lojinha
 function comprarRecompensa(item, custo) {
   if (dadosRPG.moedas >= custo) {
     dadosRPG.moedas -= custo;
@@ -157,6 +190,78 @@ function comprarRecompensa(item, custo) {
   }
 }
 
+// ==========================================
+// 6. SISTEMA DE XP E RESET (LVL MAX)
+// ==========================================
+function adicionarXP(classe, quantidadeXP) {
+  const dadosClasse = dadosRPG[classe];
+  const LEVEL_MAX = 10; 
+
+  dadosClasse.xp += quantidadeXP;
+
+  while (dadosClasse.xp >= dadosClasse.xpMax) {
+    dadosClasse.xp -= dadosClasse.xpMax;
+    dadosClasse.level += 1;
+
+    if (dadosClasse.level > LEVEL_MAX) {
+      dadosClasse.level = 1; 
+      dadosClasse.xp = 0;
+      dadosClasse.xpMax = 100; 
+      dadosClasse.ultimoNivelColetado = 0; 
+
+      alert(`🏆 GLÓRIA! O seu ${classe.toUpperCase()} atingiu o ápice (Lvl ${LEVEL_MAX}) e completou o ciclo de maestria! Ele retornou ao Lvl 1 com poder renovado e novas bênçãos para farmar! 🎉`);
+    } else {
+      dadosClasse.xpMax = Math.floor(dadosClasse.xpMax * 1.2); 
+    }
+    
+    verificarMissaoNivel(classe, dadosClasse.level);
+  }
+
+  localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+  atualizarNiveisNaTela();
+}
+
+// ==========================================
+// 7. SISTEMA DE MISSÕES E CONQUISTAS
+// ==========================================
+function progredirMissao(chaveMissao, quantidade = 1) {
+  if (!dadosRPG.missoes) return;
+  
+  const missao = dadosRPG.missoes[chaveMissao];
+  if (missao && !missao.concluida) {
+    missao.progresso = (missao.progresso || 0) + quantidade;
+    
+    if (missao.progresso >= missao.objetivo) {
+      missao.concluida = true;
+      dadosRPG.moedas += missao.recompensa;
+      
+      atualizarMoedasNaTela();
+      alert(`🎉 Missão Concluída! Você ganhou ${missao.recompensa} moedas. Elas já foram adicionadas ao seu saldo para usar nas bênçãos! 🪙`);
+    }
+    
+    localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+  }
+}
+
+function verificarMissaoNivel(classe, nivelAtual) {
+  if (!dadosRPG.missoes) return;
+
+  if (classe === "mago" && nivelAtual >= dadosRPG.missoes.nivelMago.nivelAlvo) {
+    const missao = dadosRPG.missoes.nivelMago;
+    if (missao && !missao.concluida) {
+      missao.concluida = true;
+      dadosRPG.moedas += missao.recompensa;
+      
+      atualizarMoedasNaTela();
+      alert(`🏆 Conquista Desbloqueada: Mago no Nível ${missao.nivelAlvo}! Recompensa: ${missao.recompensa} moedas adicionadas às suas Bênçãos.`);
+      localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+    }
+  }
+}
+
+// ==========================================
+// 8. REDIRECIONAMENTO DE CLASSES
+// ==========================================
 function entrarComoClasse(classe) {
   localStorage.setItem("rpg_classe_ativa", classe);
 
@@ -193,3 +298,5 @@ window.abrirBencaos = abrirBencaos;
 window.voltarParaAvatares = voltarParaAvatares;
 window.coletarMoedasDeClasse = coletarMoedasDeClasse;
 window.comprarRecompensa = comprarRecompensa;
+window.adicionarXP = adicionarXP;
+window.progredirMissao = progredirMissao;
