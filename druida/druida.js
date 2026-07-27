@@ -220,3 +220,49 @@ function atualizarInterface() {
     if (elGord) elGord.innerText = estadoNutricional.gordura;
     if (elXp) elXp.innerText = estadoNutricional.xp;
 }
+
+function adicionarAlimentoPersonalizado() {
+    const nome = document.getElementById('novo-nome').value.trim();
+    const cal = parseFloat(document.getElementById('novo-cal').value);
+    const prot = parseFloat(document.getElementById('novo-prot').value) || 0;
+    const carbo = parseFloat(document.getElementById('novo-carbo').value) || 0;
+    const gord = parseFloat(document.getElementById('novo-gord').value) || 0;
+
+    if (!nome || isNaN(cal)) {
+        alert("Preencha pelo menos o nome e as calorias do alimento.");
+        return;
+    }
+
+    // Cria um ID único baseado no nome
+    const idCustom = 'custom_' + Date.now();
+
+    const novoItem = {
+        id: idCustom,
+        nome: nome + " (Custom)",
+        tipo: 'porção',
+        base: 1,
+        cal: cal,
+        prot: prot,
+        carbo: carbo,
+        gord: gord,
+        xp: 15 // XP fixo ou proporcional para itens criados
+    };
+
+    // Insere o item na refeição que está ativa no momento
+    if (!cardapioRefeicoes[estadoNutricional.refeicaoAtual]) {
+        cardapioRefeicoes[estadoNutricional.refeicaoAtual] = [];
+    }
+    
+    cardapioRefeicoes[estadoNutricional.refeicaoAtual].push(novoItem);
+
+    // Limpa os campos do formulário
+    document.getElementById('novo-nome').value = '';
+    document.getElementById('novo-cal').value = '';
+    document.getElementById('novo-prot').value = '';
+    document.getElementById('novo-carbo').value = '';
+    document.getElementById('novo-gord').value = '';
+
+    // Re-renderiza a lista para o item aparecer imediatamente
+    renderizarItensRefeicao();
+    alert("Alimento customizado adicionado com sucesso ao cardápio de " + estadoNutricional.refeicaoAtual + "!");
+}
