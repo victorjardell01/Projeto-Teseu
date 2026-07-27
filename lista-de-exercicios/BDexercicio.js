@@ -392,13 +392,16 @@ function finalizarExercicios() {
   window.location.href = "exercicio.html";
 }
 
+// ==========================================
+// 4. PLAYER DE ÁUDIO GLOBAL
+// ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById('trilha-sonora');
     const btn = document.getElementById('btn-audio');
 
-    if (!audio) return; // Segurança caso a página não tenha áudio
+    if (!audio) return; // Se a página não tiver player, encerra sem erro
 
-    // Recupera o tempo salvo e o estado de reprodução ao carregar a página
+    // Recupera o tempo salvo e o estado de reprodução
     const savedTime = localStorage.getItem('audioCurrentTime');
     const isPlaying = localStorage.getItem('audioIsPlaying');
 
@@ -406,12 +409,11 @@ document.addEventListener("DOMContentLoaded", () => {
         audio.currentTime = parseFloat(savedTime);
     }
 
-    // Se o usuário não tinha pausado explicitamente, tenta tocar
-    if (isPlaying !== 'false') {
+    if (isPlaying === 'true') {
         audio.play().then(() => {
             if (btn) btn.textContent = "🎵 Pausar Música";
         }).catch(error => {
-            console.log("Autoplay bloqueado pelo navegador. Aguardando interação.");
+            console.log("Autoplay bloqueado pelo navegador. Aguardando clique.");
             if (btn) btn.textContent = "▶️ Tocar Música";
         });
     } else {
@@ -419,21 +421,29 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btn) btn.textContent = "▶️ Tocar Música";
     }
 
-    // Salva o tempo atual do áudio continuamente
+    // Salva o progresso da música continuamente
     audio.addEventListener('timeupdate', () => {
         localStorage.setItem('audioCurrentTime', audio.currentTime);
     });
+});
 
-    // Função global para o botão de ligar/desligar funcionar no HTML
-    window.toggleAudio = function() {
-        if (audio.paused) {
-            audio.play();
+// Função global fora do DOMContentLoaded para garantir que o onclick funcione no HTML
+window.toggleAudio = function() {
+    const audio = document.getElementById('trilha-sonora');
+    const btn = document.getElementById('btn-audio');
+    
+    if (!audio) return;
+
+    if (audio.paused) {
+        audio.play().then(() => {
             if (btn) btn.textContent = "🎵 Pausar Música";
             localStorage.setItem('audioIsPlaying', 'true');
-        } else {
-            audio.pause();
-            if (btn) btn.textContent = "▶️ Tocar Música";
-            localStorage.setItem('audioIsPlaying', 'false');
-        }
-    };
-});
+        }).catch(err => {
+            alert("Erro ao reproduzir áudio. Verifique se o arquivo da música existe na pasta 'song/'.");
+        });
+    } else {
+        audio.pause();
+        if (btn) btn.textContent = "▶️ Tocar Música";
+        localStorage.setItem('audioIsPlaying', 'false');
+    }
+};
