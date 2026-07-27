@@ -7,7 +7,7 @@ const dadosEstudos = {
     legislação: ["LDB", "ECA", "BNCC", "Didática e Avaliação", "Constitucional", "Penal", "Processo Penal", "Administrativo"]
 };
 
-// --- LOGICA DE MATÉRIAS ---
+// --- LÓGICA DE MATÉRIAS ---
 function mostrarAssuntos(materia) {
     const container = document.getElementById('lista-assuntos');
     if (!container) return;
@@ -68,7 +68,6 @@ function atualizarXP() {
     // Varre exclusivamente as chaves que pertencem aos quadrados das matérias
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
-        // Filtra para pegar apenas IDs de marcação de quadrados (que contêm os hífens das matérias e número final)
         if (chave && (chave.includes('portugues-') || chave.includes('matematica-') || chave.includes('fisica-') || chave.includes('quimica-') || chave.includes('legislação-'))) {
             if (localStorage.getItem(chave) === 'true') {
                 totalMarcados++;
@@ -112,60 +111,73 @@ function carregarDados() {
     atualizarXP();
 }
 
-// --- FUNDO MÁGICO: FÓRMULAS E FUNÇÕES FLUTUANTES ---
+// ==========================================
+// --- FUNDO MÁGICO: ANIMAÇÃO DO PÊNDULO ---
+// ==========================================
 const canvas = document.getElementById('canvas-fundo');
 const ctx = canvas ? canvas.getContext('2d') : null;
-let formulasFlutuantes = [];
 
-const formulas = [
-    "f(x) = x²", "∫ f(x)dx", "lim (x→∞)", "dy/dx", "e^(ix)", 
-    "∑ (1/n)", "∇·E = ρ", "Δ = b²-4ac", "sin(θ)", "cos(θ)", 
-    "A = πr²", "log(x)", "√x", "n!", "P(A|B)"
-];
+if (canvas && ctx) {
+    let angulo = Math.PI / 4; // Ângulo inicial de 45°
+    let velocidadeAngular = 0;
+    let aceleracaoAngular = 0;
 
-function ajustarCanvas() {
-    if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    formulasFlutuantes = [];
-    const quantidade = Math.floor(canvas.width / 50);
-    for (let i = 0; i < quantidade; i++) {
-        formulasFlutuantes.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            velocidade: 0.15 + Math.random() * 0.4,
-            texto: formulas[Math.floor(Math.random() * formulas.length)],
-            tamanho: 11 + Math.random() * 4,
-            opacidade: 0.15 + Math.random() * 0.35
-        });
+    const gravidade = 0.5;
+    let comprimentoFio = Math.min(window.innerHeight * 0.5, 350);
+    const amortecimento = 0.9995; // Mantém a oscilação suave por longo tempo
+
+    function ajustarCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        comprimentoFio = Math.min(window.innerHeight * 0.5, 350);
     }
-}
 
-function desenharMagiaMatematica() {
-    if (!ctx || !canvas) return;
-    ctx.fillStyle = "#f5f7fa"; // Cor do fundo claro para apagar o frame anterior
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    formulasFlutuantes.forEach(p => {
-        ctx.fillStyle = `rgba(108, 92, 231, ${p.opacidade})`; // Cor roxa clara para as fórmulas
-        ctx.font = `${p.tamanho}px monospace`;
-        ctx.fillText(p.texto, p.x, p.y);
+    function animarPendulo() {
+        // Limpa a tela
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        p.y -= p.velocidade;
+        const origemX = canvas.width / 2;
+        const origemY = 0;
 
-        if (p.y < -20) {
-            p.y = canvas.height + 20;
-            p.x = Math.random() * canvas.width;
-            p.texto = formulas[Math.floor(Math.random() * formulas.length)];
-        }
-    });
-}
+        // Cálculo da física do movimento harmônico
+        aceleracaoAngular = (-1 * gravidade / comprimentoFio) * Math.sin(angulo);
+        velocidadeAngular += aceleracaoAngular;
+        velocidadeAngular *= amortecimento;
+        angulo += velocidadeAngular;
 
-if (canvas) {
+        // Posição da esfera no espaço
+        const penduloX = origemX + comprimentoFio * Math.sin(angulo);
+        const penduloY = origemY + comprimentoFio * Math.cos(angulo);
+
+        // 1. Linha / Haste
+        ctx.beginPath();
+        ctx.moveTo(origemX, origemY);
+        ctx.lineTo(penduloX, penduloY);
+        ctx.strokeStyle = '#6c5ce7';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // 2. Ponto de Fixação (Topo)
+        ctx.beginPath();
+        ctx.arc(origemX, origemY, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#2c3e50';
+        ctx.fill();
+
+        // 3. Esfera / Peso do Pêndulo
+        ctx.beginPath();
+        ctx.arc(penduloX, penduloY, 22, 0, Math.PI * 2);
+        ctx.fillStyle = '#6c5ce7';
+        ctx.fill();
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        requestAnimationFrame(animarPendulo);
+    }
+
     ajustarCanvas();
-    setInterval(desenharMagiaMatematica, 35);
     window.addEventListener('resize', ajustarCanvas);
+    animarPendulo();
 }
 
 window.onload = carregarDados;
