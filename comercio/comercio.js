@@ -21,7 +21,7 @@ function adicionarXPNativo(nomeClasse, quantidadeXP) {
     classe.nivel += 1;
     classe.xp -= xpNecessario;
     dadosRPG.moedas += 50;
-    alert(`🎉 PARABÉNS! A classe ${nomeClasse.toUpperCase()} subiu para o Nível ${classe.nivel}! Você ganhou +50 Moedas!`);
+    alert(`🎉 "Heh heh heh... Thank you!"\nA classe ${nomeClasse.toUpperCase()} subiu para o Nível ${classe.nivel}! Você ganhou +50 Moedas!`);
   }
 
   localStorage.setItem('dadosRPG', JSON.stringify(dadosRPG));
@@ -55,16 +55,17 @@ function salvarDados() {
   localStorage.setItem('rpg_comercio_dados', JSON.stringify(dadosMercador));
 }
 
-// --- INICIALIZAR GRÁFICO CHART.JS ---
+// --- INICIALIZAR GRÁFICO CHART.JS (PALETA RE4) ---
 function inicializarGrafico() {
   const ctx = document.getElementById('financeChart').getContext('2d');
   chartInstance = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['Reserva (20%)', 'Compromissos', 'Saldo Livre'],
+      labels: ['Reserva do Baú', 'Compromissos', 'Ouro Livre'],
       datasets: [{
         data: [20, 0, 80],
-        backgroundColor: ['#00ffcc', '#ff5555', '#ffaa00'],
+        /* Dourado Antigo, Vermelho Carmesim e Laranja Tocha */
+        backgroundColor: ['#e5b869', '#a82e2e', '#d9822b'],
         borderWidth: 0
       }]
     },
@@ -73,7 +74,10 @@ function inicializarGrafico() {
       plugins: {
         legend: {
           position: 'bottom',
-          labels: { color: '#ccc', font: { size: 11 } }
+          labels: { 
+            color: '#d1c2a5', 
+            font: { size: 11, family: 'Segoe UI, serif' } 
+          }
         }
       }
     }
@@ -90,7 +94,7 @@ function adicionarDespesa() {
   const valor = parseFloat(valorInput.value);
 
   if (!nome || isNaN(valor) || valor <= 0) {
-    alert("Preencha um nome e valor válido.");
+    alert("Stranger, informe um nome e valor válidos em Pesetas!");
     return;
   }
 
@@ -119,7 +123,7 @@ function renderizarDespesas() {
   lista.innerHTML = '';
 
   if (despesas.length === 0) {
-    lista.innerHTML = '<li style="color: #555; text-align: center; padding: 10px;">Nenhuma dívida ou gasto adicionado.</li>';
+    lista.innerHTML = '<li style="color: #8a7b63; text-align: center; padding: 10px; font-style: italic;">Nenhum suprimento ou dívida registrada no baú.</li>';
     return;
   }
 
@@ -128,11 +132,11 @@ function renderizarDespesas() {
     li.className = `item-despesa ${item.tipo}`;
     li.innerHTML = `
       <div>
-        <strong>${item.nome}</strong> <small style="color: #888;">(${item.tipo.toUpperCase()})</small>
+        <strong>${item.nome}</strong> <small style="color: #a39274;">(${item.tipo.toUpperCase()})</small>
       </div>
       <div>
         <span>R$ ${item.valor.toFixed(2)}</span>
-        <button class="btn-del" onclick="removerDespesa(${item.id})">✖</button>
+        <button class="btn-del" onclick="removerDespesa(${item.id})" title="Remover">✖</button>
       </div>
     `;
     lista.appendChild(li);
@@ -165,20 +169,20 @@ function atualizarTudo() {
   document.getElementById('pct-compromissos').innerText = `${pctCompVal}% da renda`;
   document.getElementById('pct-livre').innerText = `${pctLivreVal}% da renda`;
 
-  // Rank do Mercador
+  // Rank do Mercador (RE4 Style)
   const badge = document.getElementById('badge-status');
   if (totalRenda === 0) {
     badge.className = "status-badge status-excelente";
-    badge.innerText = "Aprendiz";
+    badge.innerText = "Forasteiro";
   } else if (saldoLivre < 0) {
     badge.className = "status-badge status-critico";
-    badge.innerText = "Mercador Endividado";
+    badge.innerText = "Mercador Falido";
   } else if (pctCompVal > 60) {
     badge.className = "status-badge status-atencao";
     badge.innerText = "Sob Pressão";
   } else {
     badge.className = "status-badge status-excelente";
-    badge.innerText = "Magnata do Ouro";
+    badge.innerText = "Magnata das Pesetas";
   }
 
   // Previsão de Meta de Compra
@@ -188,16 +192,16 @@ function atualizarTudo() {
 
   if (valorDesejo > 0) {
     if (saldoLivre <= 0) {
-      textoMeta.innerHTML = `<span style="color: #ff5555;">Você precisa ter saldo livre positivo para planejar a compra de <strong>${nomeDesejo || 'este item'}</strong>.</span>`;
+      textoMeta.innerHTML = `<span style="color: #a82e2e;">Precisa de ouro livre positivo para adquirir <strong>${nomeDesejo || 'este equipamento'}</strong>, stranger!</span>`;
     } else {
       const mesesNecessarios = Math.ceil(valorDesejo / saldoLivre);
-      textoMeta.innerHTML = `Economizando seu saldo livre (R$ ${saldoLivre.toFixed(2)}/mês), você comprará <strong>${nomeDesejo || 'seu item'}</strong> em aproximadamente <strong style="color: #00ffcc;">${mesesNecessarios} mês(es)</strong>!`;
+      textoMeta.innerHTML = `Poupando seu ouro livre (R$ ${saldoLivre.toFixed(2)}/mês), você comprará <strong>${nomeDesejo || 'seu item'}</strong> em aproximadamente <strong style="color: #e5b869;">${mesesNecessarios} mês(es)</strong>!`;
     }
   } else {
-    textoMeta.innerText = "Insira um valor para calcular o tempo de compra com o Saldo Livre.";
+    textoMeta.innerText = "Insira um valor em Pesetas para calcular o tempo de aquisição.";
   }
 
-  // Reserva de Emergência (6 meses)
+  // Fundo de Reserva de Emergência (6 meses)
   const reservaEmergenciaIdeal = totalCompromissos * 6;
   document.getElementById('val-reserva-emergencia').innerText = `R$ ${reservaEmergenciaIdeal.toFixed(2)}`;
 
@@ -217,7 +221,7 @@ function salvarNoHistorico() {
   const totalRenda = ganhos + rendaExtra;
 
   if (totalRenda <= 0) {
-    alert("Adicione ganhos antes de salvar no histórico!");
+    alert("Stranger, adicione seus ganhos em Pesetas antes de registrar!");
     return;
   }
 
@@ -236,7 +240,7 @@ function salvarNoHistorico() {
   if (historico.length > 5) historico.pop();
   renderizarHistorico();
   salvarDados();
-  alert("✅ Balanço salvo no histórico do Mercador!");
+  alert("📜 Balanço registrado no pergaminho do Mercador!");
 }
 
 function renderizarHistorico() {
@@ -244,7 +248,7 @@ function renderizarHistorico() {
   lista.innerHTML = '';
 
   if (historico.length === 0) {
-    lista.innerHTML = '<li style="color: #555; text-align: center;">Nenhum balanço salvo ainda.</li>';
+    lista.innerHTML = '<li style="color: #8a7b63; text-align: center; font-style: italic;">Nenhum registro gravado ainda.</li>';
     return;
   }
 
@@ -252,8 +256,8 @@ function renderizarHistorico() {
     const li = document.createElement('li');
     li.className = 'historico-item';
     li.innerHTML = `
-      <span><strong>${item.data}:</strong> Renda R$ ${item.renda.toFixed(0)}</span>
-      <span>Reserva: <span style="color: #00ffcc;">R$ ${item.guardado.toFixed(0)}</span> | Livre: <span style="color: #ffaa00;">R$ ${item.livre.toFixed(0)}</span></span>
+      <span><strong>${item.data}:</strong> Pesetas R$ ${item.renda.toFixed(0)}</span>
+      <span>Baú: <span style="color: #e5b869;">R$ ${item.guardado.toFixed(0)}</span> | Livre: <span style="color: #d9822b;">R$ ${item.livre.toFixed(0)}</span></span>
     `;
     lista.appendChild(li);
   });
@@ -264,14 +268,14 @@ function finalizarBalanco() {
   const ganhos = parseFloat(document.getElementById('input-ganhos').value) || 0;
 
   if (ganhos <= 0) {
-    alert("Preencha seus ganhos para conseguir analisar o balanço!");
+    alert("Not enough cash, stranger! Preencha seus ganhos para analisar o balanço!");
     return;
   }
 
   // Adiciona o XP nativamente no localStorage
   adicionarXPNativo("mercador", 30);
 
-  alert("💰 Balanço registrado com sucesso! Você ganhou +30 XP de Mercador.");
+  alert("💰 'Ah, a rare customer!' Balanço registrado! Você ganhou +30 XP de Mercador.");
 }
 
 // INICIALIZAÇÃO
