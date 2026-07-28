@@ -3,25 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Templo do Monge - Autocontrole & Disciplina</title>
+  <title>Templo do Monge - Autocontrole & Paz</title>
 
-  <!-- Google Fonts: Noto Serif (Sereno/Zen) e Quicksand -->
+  <!-- Google Fonts: Shippori Mincho (Letras de Paz/Zen), Cinzel (Títulos) e Quicksand -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Shippori+Mincho:wght@400;600&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Estilo do Monge (Estética Zen / Slate / Bambu) -->
+  <!-- Estilo do Monge (Zen, Vento & Folhas) -->
   <link rel="stylesheet" href="monge.css">
 </head>
 <body>
 
+  <!-- ELEMENTOS DE VENTO & FOLHAS FLUTUANTES -->
+  <div class="folha-vento f1">🍃</div>
+  <div class="folha-vento f2">🍂</div>
+  <div class="folha-vento f3">🍃</div>
+  <div class="folha-vento f4">🍃</div>
+
   <main class="monge-container">
     
+    <!-- BANNER DE SABEDORIA ZEN (MANTRA) -->
+    <div class="quote-banner">
+      <span id="texto-quote">"O vento não quebra o bambu porque ele sabe se curvar."</span>
+    </div>
+
     <!-- HEADER ZEN DO MONGE -->
     <header class="header-monge">
       <div class="header-icone">🧘‍♂️</div>
       <h2>Templo do Monge</h2>
-      <p><em>"A mente mestre governa o corpo. O corpo forte abriga a mente em paz."</em></p>
+      <p class="subtitulo-paz">A mente mestre governa o corpo. O corpo forte abriga a mente em paz.</p>
     </header>
 
     <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
@@ -43,7 +54,7 @@
       </div>
 
       <div class="dash-card">
-        <h4>🧘 Minutos de Prática</h4>
+        <h4>🧘 Minutos Zen</h4>
         <div class="valor" id="stat-minutos-zen">0</div>
         <small>Meditação & Alongamento</small>
       </div>
@@ -61,7 +72,7 @@
       
       <div class="grid-form">
         <div class="field-group">
-          <label for="input-horas-sono">Horas Dormidas (Ex: 7.5)</label>
+          <label for="input-horas-sono">Horas Dormidas (Ex: 8.0)</label>
           <input type="number" id="input-horas-sono" step="0.5" placeholder="8.0" min="0" max="16">
         </div>
         <div class="field-group">
@@ -78,7 +89,7 @@
 
       <div class="checklist-sono">
         <label><input type="checkbox" id="chk-sem-telas"> 📵 Sem telas 1h antes de deitar</label>
-        <label><input type="checkbox" id="chk-quarto-escuro"> 🌙 Quarto 100% escuro e fresco</label>
+        <label><input type="checkbox" id="chk-quarto-escuro"> 🌙 Quarto escuro e fresco</label>
         <label><input type="checkbox" id="chk-cafeina-corte"> ☕ Sem cafeína após as 14h</label>
       </div>
 
@@ -87,10 +98,17 @@
       </button>
     </section>
 
-    <!-- PILAR 2: MEDITAÇÃO & RESPIRAÇÃO (RESPIRAÇÃO / ZAZEN) -->
+    <!-- PILAR 2: MEDITAÇÃO & ANEL DE RESPIRAÇÃO GUIADO -->
     <section class="card-painel pilar-meditacao">
       <h3>🌬️ Pilar II: Respiração & Meditação (Zazen)</h3>
-      <p class="pilar-desc">Acalme o sistema simpático e recupere o foco através da respiração consciente.</p>
+      <p class="pilar-desc">Siga o anel de vento abaixo para sincronizar seu ritmo cardíaco.</p>
+
+      <!-- VISUALIZADOR DE RESPIRAÇÃO (ANEL DE VENTO) -->
+      <div class="anel-respiracao-container">
+        <div class="anel-respiracao">
+          <span id="fase-respiracao">Inspire...</span>
+        </div>
+      </div>
 
       <div class="grid-form">
         <div class="field-group">
@@ -98,7 +116,7 @@
           <select id="select-tipo-respiracao">
             <option value="Box Breathing (4-4-4-4)">Box Breathing (Inspira 4s, Segura 4s, Expira 4s, Segura 4s)</option>
             <option value="Respiração 4-7-8 (Ansiolítica)">Respiração 4-7-8 (Desligamento de Ansiedade)</option>
-            <option value="Meditação Zazen (Foco na Ancoragem)">Meditação Zazen (Silêncio & Observação)</option>
+            <option value="Meditação Zazen (Silêncio)">Meditação Zazen (Foco na Ancoragem)</option>
           </select>
         </div>
         <div class="field-group">
@@ -135,12 +153,12 @@
     <!-- PILAR 4: ALONGAMENTO & MOBILIDADE -->
     <section class="card-painel pilar-alongamento">
       <h3>🧘‍♀️ Pilar IV: Alongamento & Mobilidade</h3>
-      <p class="pilar-desc">Descompressão articular e flexibilidade pós-treino ou longas horas sentado.</p>
+      <p class="pilar-desc">Descompressão articular e flexibilidade pós-treino ou estudo.</p>
 
       <div class="grid-form">
         <div class="field-group">
           <label for="input-foco-alongamento">Foco do Alongamento</label>
-          <input type="text" id="input-foco-alongamento" placeholder="Ex: Posterior de coxa, Ombros, Cervical, Quadril...">
+          <input type="text" id="input-foco-alongamento" placeholder="Ex: Posterior, Cervical, Quadril, Ombros...">
         </div>
         <div class="field-group">
           <label for="input-minutos-alongamento">Duração (Minutos)</label>
@@ -161,15 +179,15 @@
         <div class="field-group">
           <label for="select-tipo-resiliencia">Ação Monástica</label>
           <select id="select-tipo-resiliencia">
-            <option value="Banho Frio / Contraste">🧊 Banho Frio (Resiliência & Alívio)</option>
-            <option value="Liberação Miofascial">🪵 Liberação Miofascial (Recuperação Muscular)</option>
-            <option value="Detox de Dopamina (2h Sem Telas)">🧠 Detox Digital (2h sem redes/telas)</option>
+            <option value="Banho Frio / Contraste">🧊 Banho Frio (Resiliência & Disparo Dopaminérgico)</option>
+            <option value="Liberação Miofascial">🪵 Liberação Miofascial (Alívio Muscular)</option>
+            <option value="Detox Digital (2h Sem Telas)">🧠 Detox Digital (2h sem redes/telas)</option>
             <option value="Tolerância à Dor de Treino">💪 Recuperação Muscular Ativa</option>
           </select>
         </div>
         <div class="field-group">
-          <label for="input-observacao-resiliencia">Nota ou Sensação (Opcional)</label>
-          <input type="text" id="input-observacao-resiliencia" placeholder="Ex: Sensação de alívio muscular pós-treino.">
+          <label for="input-observacao-resiliencia">Sensação / Observação (Opcional)</label>
+          <input type="text" id="input-observacao-resiliencia" placeholder="Ex: Sensação de alívio muscular pós-treino de peito.">
         </div>
       </div>
 
@@ -188,7 +206,6 @@
 
   </main>
 
-  <!-- Vinculação do JavaScript -->
   <script src="monge.js"></script>
 </body>
 </html>
