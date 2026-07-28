@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repertório do Bardo - Jazz, Noir & Cultura</title>
+
+  <!-- Google Fonts: Playfair Display (Elegante/Noir), Courier Prime (Máquina de Escrever) e Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Estilo do Bardo (Noir Edition) -->
+  <link rel="stylesheet" href="bardo.css">
+</head>
+<body>
+
+  <main class="bardo-container">
+    
+    <!-- HEADER NOIR / BAR DE JAZZ -->
+    <header class="header-bardo">
+      <div class="header-icone">🎷</div>
+      <h2>Repertório do Bardo</h2>
+      <p><em>"You're gonna carry that weight..."</em> — Arquive suas leituras, discos e filmes nas madrugadas de chuva.</p>
+    </header>
+
+    <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
+      ⬅️ Voltar ao Hub do RPG
+    </a>
+
+    <!-- RESUMO DE STATS (VITROLA NOIR) -->
+    <section class="dashboard-grid">
+      <div class="dash-card">
+        <h4>📖 Páginas Absorvidas</h4>
+        <div class="valor" id="total-paginas-lidas">0</div>
+        <small style="color: var(--texto-suave);">Sabedoria Acumulada</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>📚 Tomos Concluídos</h4>
+        <div class="valor" id="total-livros-lidos">0</div>
+        <small style="color: var(--texto-suave);">Livros Finalizados</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🎬 Obras no Arquivo</h4>
+        <div class="valor" id="total-midias-consumidas">0</div>
+        <small style="color: var(--texto-suave);">Filmes, Séries & Álbuns</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🎖️ Rank do Bardo</h4>
+        <div id="badge-nivel-bardo" class="status-badge">Nível 1 - Saxofonista Noir</div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO: ADICIONAR NOVO ITEM AO ARQUIVO -->
+    <section class="card-painel">
+      <h3>🎙️ Registrar no Arquivo Noir</h3>
+      
+      <div class="grid-form-bardo">
+        <!-- Tipo de Mídia -->
+        <div class="field-group">
+          <label for="select-tipo-midia">Tipo de Obra</label>
+          <select id="select-tipo-midia" onchange="alternarCamposMidia()">
+            <option value="livro">📖 Livro</option>
+            <option value="filme">🎬 Filme</option>
+            <option value="serie">📺 Série</option>
+            <option value="musica">🎵 Música / Álbum</option>
+          </select>
+        </div>
+
+        <!-- Título -->
+        <div class="field-group">
+          <label for="input-titulo">Título da Obra</label>
+          <input type="text" id="input-titulo" placeholder="Ex: O Apanhador no Campo de Centeio, Blade Runner...">
+        </div>
+
+        <!-- Categoria / Gênero -->
+        <div class="field-group">
+          <label for="select-categoria">Gênero / Categoria</label>
+          <select id="select-categoria">
+            <option value="Literatura Clássica">Literatura Clássica</option>
+            <option value="Literatura Geral / Ficção">Literatura Geral / Ficção</option>
+            <option value="Psicologia">Psicologia</option>
+            <option value="História">História</option>
+            <option value="Desenvolvimento Pessoal">Desenvolvimento Pessoal</option>
+            <option value="Filosofia / Ciências">Filosofia / Ciências</option>
+            <option value="Arte / Cinema / Jazz">Arte / Cinema / Jazz</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CAMPOS DINÂMICOS PARA LIVROS -->
+      <div id="campos-livro" class="grid-form-especifico">
+        <div class="field-group">
+          <label for="input-total-paginas">Total de Páginas</label>
+          <input type="number" id="input-total-paginas" placeholder="Ex: 320" min="1">
+        </div>
+        <div class="field-group">
+          <label for="input-pagina-atual">Página Atual (Onde parou)</label>
+          <input type="number" id="input-pagina-atual" placeholder="Ex: 45" min="0" value="0">
+        </div>
+      </div>
+
+      <!-- CAMPOS DINÂMICOS PARA SÉRIES -->
+      <div id="campos-serie" class="grid-form-especifico" style="display: none;">
+        <div class="field-group">
+          <label for="input-temp-atual">Temporada Atual</label>
+          <input type="number" id="input-temp-atual" placeholder="Ex: 1" value="1">
+        </div>
+        <div class="field-group">
+          <label for="input-ep-atual">Episódio Atual</label>
+          <input type="number" id="input-ep-atual" placeholder="Ex: 5" value="1">
+        </div>
+      </div>
+
+      <!-- CAMPOS DINÂMICOS PARA FILMES / MÚSICAS -->
+      <div id="campos-midia-geral" class="grid-form-especifico" style="display: none;">
+        <div class="field-group">
+          <label for="input-autor-artista">Autor / Diretor / Artista</label>
+          <input type="text" id="input-autor-artista" placeholder="Ex: Cigarettes After Sex, Miles Davis, Shinichirō Watanabe...">
+        </div>
+      </div>
+
+      <button onclick="adicionarAoRepertorio()" class="btn-primary" style="margin-top: 15px; width: 100%;">
+        🚬 Gravar no Arquivo (+XP)
+      </button>
+    </section>
+
+    <!-- SEÇÃO 1: LIVROS EM LEITURA -->
+    <section class="card-painel">
+      <h3>📚 Livros na Mesa do Bar (Em Leitura)</h3>
+      <div id="lista-livros-andamento" class="container-cards-livros">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: REPERTÓRIO CULTURAL (MÚSICAS, SÉRIES E FILMES) -->
+    <section class="card-painel">
+      <h3>📻 Galeria Noturna (Músicas, Séries & Filmes)</h3>
+      <ul id="lista-outras-midias" class="lista-midias">
+        <!-- Injetado dinamicamente via JS -->
+      </ul>
+    </section>
+
+    <!-- SEÇÃO 3: BIBLIOTECA DE LIVROS CONCLUÍDOS -->
+    <section class="card-painel">
+      <h3>🏆 Arquivo Finalizado (Biblioteca de Sabedoria)</h3>
+      <ul id="lista-livros-concluidos" class="lista-concluidos">
+        <!-- Injetado dinamicamente via JS -->
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Vinculação do JavaScript -->
+  <script src="bardo.js"></script>
+</body>
+</html>
