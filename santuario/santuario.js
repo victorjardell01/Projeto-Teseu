@@ -7,7 +7,13 @@ let dadosClerigo = {
     xp: 0,
     xpProximoNivel: 100,
     oracaoConcluidaHoje: false,
-    tarefasConcluidas: {} // Armazena o estado das checkboxes (bem-aventuranças e penitências)
+    tarefasConcluidas: {}, // Armazena o estado das checkboxes (bem-aventuranças e penitências)
+    bencaoAtiva: null,
+    liturgia: {
+        manha: false,
+        tarde: false,
+        noite: false
+    }
 };
 
 // Carrega os dados salvos ao iniciar a página
@@ -85,27 +91,62 @@ function meditarAventuranca(checkbox) {
     const id = checkbox.id;
     const estaMarcado = checkbox.checked;
 
-    // Evita desmarcar e perder/ganhar XP indevidamente na mesma sessão se desejar, 
-    // ou desconta/controla o estado: aqui salvamos o estado booleano
     if (estaMarcado && !dadosClerigo.tarefasConcluidas[id]) {
         dadosClerigo.tarefasConcluidas[id] = true;
         adicionarXp(15);
     } else if (!estaMarcado && dadosClerigo.tarefasConcluidas[id]) {
         dadosClerigo.tarefasConcluidas[id] = false;
-        // Opcional: remover XP ao desmarcar (aqui subtraímos 15, respeitando o limite mínimo de 0)
         dadosClerigo.xp = Math.max(0, dadosClerigo.xp - 15);
         salvarProgresso();
         atualizarInterface();
     }
 }
 
-// Restaura o estado das checkboxes salvas no localStorage ao carregar a página
+// Sistema de Bênçãos (Altar)
+function ativarBencao(nomeBencao, descricao) {
+    dadosClerigo.bencaoAtiva = `${nomeBencao} (${descricao})`;
+    salvarProgresso();
+    atualizarInterface();
+    alert(`✨ Altar Consagrado!\nVocê recebeu a Bênção da ${nomeBencao}: ${descricao}. Que o dia seja produtivo e abençoado!`);
+}
+
+// Sistema de Liturgia das Horas
+function concluirLiturgia(periodo) {
+    if (!dadosClerigo.liturgia) {
+        dadosClerigo.liturgia = { manha: false, tarde: false, noite: false };
+    }
+
+    if (dadosClerigo.liturgia[periodo]) {
+        alert(`Você já cumpriu a liturgia de ${periodo} hoje!`);
+        return;
+    }
+
+    dadosClerigo.liturgia[periodo] = true;
+    adicionarXp(20);
+    bloquearBotaoLiturgia(periodo);
+    salvarProgresso();
+
+    alert(`⏳ Liturgia das Horas (${periodo.toUpperCase()}) cumprida com reverência! (+20 XP)`);
+}
+
+function bloquearBotaoLiturgia(periodo) {
+    const btn = document.getElementById(`btn-liturgia-${periodo}`);
+    if (btn) {
+        btn.innerText = "Realizada ✓";
+        btn.disabled = true;
+        btn.style.backgroundColor = "#555";
+    }
+}
+
+// Restaura o estado das checkboxes e mecânicas salvas no localStorage ao carregar a página
 function restaurarCheckboxes() {
     // Restaura as tarefas (tanto bem-aventuranças quanto penitências)
-    for (const [id, concluido] of Object.entries(dadosClerigo.tarefasConcluidas)) {
-        const checkbox = document.getElementById(id);
-        if (checkbox) {
-            checkbox.checked = concluido;
+    if (dadosClerigo.tarefasConcluidas) {
+        for (const [id, concluido] of Object.entries(dadosClerigo.tarefasConcluidas)) {
+            const checkbox = document.getElementById(id);
+            if (checkbox) {
+                checkbox.checked = concluido;
+            }
         }
     }
 
@@ -118,13 +159,21 @@ function restaurarCheckboxes() {
             btnOracao.style.backgroundColor = "#555";
         }
     }
+
+    // Restaura Liturgia
+    if (dadosClerigo.liturgia) {
+        if (dadosClerigo.liturgia.manha) bloquearBotaoLiturgia('manha');
+        if (dadosClerigo.liturgia.tarde) bloquearBotaoLiturgia('tarde');
+        if (dadosClerigo.liturgia.noite) bloquearBotaoLiturgia('noite');
+    }
 }
 
-// Atualiza visualmente a barra de progresso e os textos de nível/XP
+// Atualiza visualmente a barra de progresso, textos de nível/XP e buffs
 function atualizarInterface() {
     const nivelDisplay = document.getElementById('nivel-display');
     const xpDisplay = document.getElementById('xp-display');
     const barraProgresso = document.getElementById('barra-progresso');
+    const buffDisplay = document.getElementById('buff-ativo-display');
 
     if (nivelDisplay) {
         nivelDisplay.textContent = `Nível ${dadosClerigo.nivel}: Clérigo`;
@@ -135,6 +184,13 @@ function atualizarInterface() {
     if (barraProgresso) {
         const porcentagem = (dadosClerigo.xp / dadosClerigo.xpProximoNivel) * 100;
         barraProgresso.style.width = `${Math.min(porcentagem, 100)}%`;
+    }
+    if (buffDisplay) {
+        if (dadosClerigo.bencaoAtiva) {
+            buffDisplay.innerHTML = `🛡️ Bênção Ativa: <strong>${dadosClerigo.bencaoAtiva}</strong>`;
+        } else {
+            buffDisplay.innerHTML = `✨ Nenhuma Bênção Consagrada Hoje`;
+        }
     }
 }
 
