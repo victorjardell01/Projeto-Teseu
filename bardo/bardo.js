@@ -5,7 +5,7 @@
 
 let bardoDados = {
   livros: [],        // Livros em andamento
-  midias: [],        // Filmes, Séries, Músicas (com avaliação/nota)
+  midias: [],        // Filmes, Séries, Músicas (Inspiração do Bardo)
   concluidos: []     // Livros finalizados
 };
 
@@ -115,18 +115,34 @@ function adicionarAoRepertorio() {
 
     bardoDados.midias.push(novaSerie);
     adicionarXPNativo('bardo', 15);
-    alert(`📺 Série registrada no boletim noir. +15 XP de Bardo.`);
+    alert(`📺 Série registrada no arquivo noir. +15 XP de Bardo.`);
 
-  } else { // Filme ou Música
+  } else if (tipo === 'musica') { // VIBE DA SEMANA (INSPIRAÇÃO DO BARDO)
     const autorArtista = document.getElementById('input-autor-artista').value.trim() || "Artista Desconhecido";
-    const nota = prompt(`Nota de 1 a 5 para "${titulo}"?`, "5");
-    const analise = prompt("Sua análise / resenha rápida do filme/álbum:", "Atmosfera inesquecível de jazz às 3 AM.") || "Atmosphere noir.";
+    const analise = prompt(`Qual a vibe dessa música ("${titulo}") no seu loop?`, "Tocado no fundo de um bar à meia-noite.") || "Vibe da Semana.";
 
-    const xpGanha = tipo === 'filme' ? 25 : 15;
-
-    const novaMidia = {
+    const novaMusica = {
       id: Date.now(),
-      tipo: tipo === 'filme' ? 'Filme' : 'Música / Álbum',
+      tipo: 'Inspiração do Bardo',
+      titulo,
+      autorArtista,
+      categoria,
+      nota: 5,
+      analise
+    };
+
+    bardoDados.midias.push(novaMusica);
+    adicionarXPNativo('bardo', 10);
+    alert(`🎵 "${titulo}" registrada como Inspiração do Bardo! +10 XP.`);
+
+  } else if (tipo === 'filme') {
+    const autorArtista = document.getElementById('input-autor-artista').value.trim() || "Diretor Desconhecido";
+    const nota = prompt(`Nota de 1 a 5 para o filme "${titulo}"?`, "5");
+    const analise = prompt("Sua crítica ou impressão rápida do filme:", "Atmosfera marcante e iluminação impecável.") || "Noir puro.";
+
+    const novoFilme = {
+      id: Date.now(),
+      tipo: 'Filme',
       titulo,
       autorArtista,
       categoria,
@@ -134,9 +150,9 @@ function adicionarAoRepertorio() {
       analise
     };
 
-    bardoDados.midias.push(novaMidia);
-    adicionarXPNativo('bardo', xpGanha);
-    alert(`🎷 ${tipo.toUpperCase()} registrado no seu repertório. +${xpGanha} XP de Bardo!`);
+    bardoDados.midias.push(novoFilme);
+    adicionarXPNativo('bardo', 25);
+    alert(`🎬 Filme registrado no repertório. +25 XP de Bardo!`);
   }
 
   // Limpar formulários
@@ -172,9 +188,8 @@ function atualizarPaginaLivro(id) {
   }
 }
 
-// --- LÓGICA DE FINALIZAR LIVRO E CALCULAR XP ---
+// --- LÓGICA DE FINALIZAR LIVRO E CALCULAR XP (5 XP A CADA 10 PGS) ---
 function finalizarLivroObjeto(livro) {
-  // Regra de XP: 5 XP a cada 10 páginas lidas
   const xpGanhado = Math.floor(livro.totalPaginas / 10) * 5;
 
   const analise = prompt(`🏆 Parabéns por terminar "${livro.titulo}"!\nEscreva sua crítica/análise rápida:`, "Obra-prima lida no silêncio da noite.") || "Lido e absorvido.";
