@@ -26,35 +26,35 @@
         </div>
 
         <div class="dashboard-grid">
-            <!-- Coluna de Controles / Sliders -->
+            <!-- Coluna de Controles / Sliders (Escala de 1 a 10) -->
             <div class="pilares-form">
                 <p style="margin-top: 0; font-size: 0.85rem; color: var(--text-muted);">
-                    Ajuste os valores diários dos seus pilares vitais. Cada manutenção e sincronização gera XP e calibragem para o sistema.
+                    Atribua uma nota de 1 a 10 para o estado atual de cada pilar vital. Cada manutenção gera XP e calibragem para o sistema.
                 </p>
 
                 <div class="pilar-card">
-                    <label>1. Autoconhecimento e Identidade (O "Eu"): <span id="val-p1">50</span>%</label>
-                    <input type="range" id="pilar1" min="0" max="100" value="50" oninput="atualizarValoresVisuais()">
+                    <label>1. Autoconhecimento e Identidade (O "Eu"): <span id="val-p1">5</span></label>
+                    <input type="range" id="pilar1" min="1" max="10" value="5" oninput="atualizarValoresVisuais()">
                 </div>
 
                 <div class="pilar-card">
-                    <label>2. Relações Íntimas e Sociais (A Tribo): <span id="val-p2">50</span>%</label>
-                    <input type="range" id="pilar2" min="0" max="100" value="50" oninput="atualizarValoresVisuais()">
+                    <label>2. Relações Íntimas e Sociais (A Tribo): <span id="val-p2">5</span></label>
+                    <input type="range" id="pilar2" min="1" max="10" value="5" oninput="atualizarValoresVisuais()">
                 </div>
 
                 <div class="pilar-card">
-                    <label>3. Contribuição e Trabalho (O Papel Produtivo): <span id="val-p3">50</span>%</label>
-                    <input type="range" id="pilar3" min="0" max="100" value="50" oninput="atualizarValoresVisuais()">
+                    <label>3. Contribuição e Trabalho (O Papel Produtivo): <span id="val-p3">5`</span></label>
+                    <input type="range" id="pilar3" min="1" max="10" value="5" oninput="atualizarValoresVisuais()">
                 </div>
 
                 <div class="pilar-card">
-                    <label>4. Vitalidade e Corpo (O Veículo): <span id="val-p4">50</span>%</label>
-                    <input type="range" id="pilar4" min="0" max="100" value="50" oninput="atualizarValoresVisuais()">
+                    <label>4. Vitalidade e Corpo (O Veículo): <span id="val-p4">5</span></label>
+                    <input type="range" id="pilar4" min="1" max="10" value="5" oninput="atualizarValoresVisuais()">
                 </div>
 
                 <div class="pilar-card">
-                    <label>5. Propósito e Transcendência (O Legado): <span id="val-p5">50</span>%</label>
-                    <input type="range" id="pilar5" min="0" max="100" value="50" oninput="atualizarValoresVisuais()">
+                    <label>5. Propósito e Transcendência (O Legado): <span id="val-p5">5</span></label>
+                    <input type="range" id="pilar5" min="1" max="10" value="5" oninput="atualizarValoresVisuais()">
                 </div>
 
                 <button onclick="salvarManutencaoPilares()" class="btn-acao">⚙️ Sincronizar e Compilar Dados (+XP)</button>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <!-- Painel Explicativo dos Pilares (Abaixo do Grid Principal) -->
+        <!-- Painel Explicativo dos Pilares (Abaixo do Gráfico) -->
         <div class="pilares-info-panel">
             <h3>📖 Manuais de Calibração // Diretrizes dos Pilares</h3>
             <div class="info-grid">
