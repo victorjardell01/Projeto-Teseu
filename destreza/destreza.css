@@ -1,0 +1,350 @@
+/* ==========================================
+   1. VARIÁVEIS CYBERPUNK / HOTLINE MIAMI
+========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg-void: #050508;
+    --panel-bg: #0d0e15;
+    --neon-pink: #ff0055;
+    --neon-cyan: #00f0ff;
+    --neon-yellow: #ffe600;
+    --neon-green: #39ff14;
+    --text-main: #f0f4f8;
+    --text-muted: #6272a4;
+    --border-color: #1e2238;
+    
+    --font-heading: 'Chakra Petch', sans-serif;
+    --font-code: 'JetBrains Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fundo escuro com efeito subtle de grade Synthwave */
+body {
+    background-color: var(--bg-void);
+    background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: var(--text-main);
+    font-family: var(--font-code);
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   2. CABEÇALHO & NAVEGAÇÃO NEON
+========================================== */
+header {
+    background: #090a10;
+    border-bottom: 2px solid var(--neon-pink);
+    padding: 2.5rem 1rem 1.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+}
+
+header h1 {
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan), 0 0 20px rgba(0, 240, 255, 0.4);
+    letter-spacing: 2px;
+}
+
+header p {
+    color: var(--neon-pink);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* Menu de Navegação */
+nav {
+    background-color: rgba(13, 14, 21, 0.95);
+    border-bottom: 1px solid var(--neon-cyan);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.8rem 1rem;
+}
+
+nav a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 8px var(--neon-yellow);
+}
+
+/* ==========================================
+   3. CONTAINER PRINCIPAL E CARDS (PAINÉIS)
+========================================== */
+main {
+    max-width: 900px;
+    margin: 2.5rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+section {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--neon-cyan);
+    padding: 1.8rem;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    /* Cantos cortados estilo Cyberpunk */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+
+section h2 {
+    font-family: var(--font-heading);
+    color: var(--neon-pink);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+section h2::before {
+    content: '//';
+    color: var(--neon-yellow);
+}
+
+section h3 {
+    font-family: var(--font-heading);
+    color: var(--neon-cyan);
+    margin: 1.2rem 0 0.8rem 0;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   4. FORMULÁRIOS E INPUTS FUTURISTAS
+========================================== */
+form {
+    display: grid;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+input {
+    background-color: #05060a;
+    border: 1px solid var(--border-color);
+    color: var(--neon-yellow);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-code);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+/* Botão Neon Agressivo */
+button {
+    background-color: transparent;
+    color: var(--neon-pink);
+    border: 1px solid var(--neon-pink);
+    padding: 0.85rem 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    position: relative;
+}
+
+button:hover {
+    background-color: var(--neon-pink);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+
+/* ==========================================
+   5. PERCURSO & MAPA CRT
+========================================== */
+#resultado-percurso {
+    background-color: #06070d;
+    border: 1px solid var(--neon-cyan);
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+#resultado-percurso p {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+#distancia-val, #tempo-val {
+    color: var(--neon-green);
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+
+/* Container do Mapa com Efeito Scanline Cyberpunk */
+#container-mapa {
+    height: 220px;
+    background-color: #030406;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neon-cyan);
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Linhas de TV Antiga / Monitor CRT */
+#container-mapa::after {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+}
+
+/* ==========================================
+   6. TABELA DE MANUTENÇÃO NEON
+========================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+th, td {
+    padding: 0.85rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #06070c;
+    color: var(--neon-yellow);
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+tbody tr {
+    transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+    background-color: rgba(0, 240, 255, 0.05);
+}
+
+td {
+    color: var(--text-main);
+}
+
+/* ==========================================
+   7. REGRAS DE TRÂNSITO & RODAPÉ
+========================================== */
+#regras article {
+    margin-bottom: 1.2rem;
+    padding: 1rem;
+    background: #06070c;
+    border: 1px solid var(--border-color);
+}
+
+#regras ul {
+    padding-left: 1.2rem;
+}
+
+#regras li {
+    margin-bottom: 0.5rem;
+    color: #a0aec0;
+}
+
+#regras strong {
+    color: var(--neon-cyan);
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #050508;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   8. RESPONSIVIDADE
+========================================== */
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    section {
+        padding: 1.2rem;
+        clip-path: none;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th, td {
+        padding: 0.6rem 0.4rem;
+    }
+}
