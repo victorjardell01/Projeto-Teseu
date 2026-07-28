@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antologia das Sombras - O Poeta Melancólico</title>
+
+  <!-- Google Fonts: Playfair Display (Poético/Gótico) e Special Elite (Máquina de Escrever) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Special+Elite&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Estilo do Poeta (Sombrio, Melancólico & Ébano) -->
+  <link rel="stylesheet" href="poeta.css">
+</head>
+<body>
+
+  <!-- GOTAS DE CHUVA / CINZAS FLUTUANTES -->
+  <div class="pingo-chuva c1"></div>
+  <div class="pingo-chuva c2"></div>
+  <div class="pingo-chuva c3"></div>
+  <div class="pingo-chuva c4"></div>
+
+  <main class="poeta-container">
+    
+    <!-- CITACÃO SOMBRIA -->
+    <div class="quote-goth">
+      <span id="texto-quote-poeta">"A escuridão não é a ausência de luz, é a presença do que não pode ser dito."</span>
+    </div>
+
+    <!-- HEADER DO POETA -->
+    <header class="header-poeta">
+      <div class="header-icone">🥀</div>
+      <h2>O Poeta das Sombras</h2>
+      <p class="subtitulo-depre">Catarse poética, versos tristes e o peso das palavras não ditas.</p>
+    </header>
+
+    <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
+      ⬅️ Voltar ao Hub do RPG
+    </a>
+
+    <!-- PAINEL DE STATS DO POETA -->
+    <section class="dashboard-grid">
+      <div class="dash-card">
+        <h4>📜 Poemas Escritos</h4>
+        <div class="valor" id="stat-total-poemas">0</div>
+        <small>Ecos no Vazio</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🖋️ Total de Versos</h4>
+        <div class="valor" id="stat-total-versos">0</div>
+        <small>Linhas de Melancolia</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🎖️ Título Poético</h4>
+        <div id="badge-nivel-poeta" class="status-badge">Nível 1 - Alma Solitária</div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO: ESCREVER NOVO POEMA -->
+    <section class="card-painel pilar-escrita">
+      <h3>🖤 Novo Escrito Sombrio</h3>
+      <p class="pilar-desc">Despeje sua dor, saudade ou melancolia em versos. Cada estrofe alimenta sua alma.</p>
+      
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="input-titulo-poema">Título da Obra</label>
+          <input type="text" id="input-titulo-poema" placeholder="Ex: O Silêncio das Horas Mortas">
+        </div>
+
+        <div class="field-group">
+          <label for="select-sentimento">Tom / Sentimento Predominante</label>
+          <select id="select-sentimento">
+            <option value="Melancolia Profunda">🌧️ Melancolia Profunda</option>
+            <option value="Nostalgia Amarga">🥀 Nostalgia Amarga</option>
+            <option value="Vazio & Abismo">🕳️ Vazio & Abismo</option>
+            <option value="Saudade Sufocante">💔 Saudade Sufocante</option>
+            <option value="Angústia & Insônia">🌙 Angústia & Insônia</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-top: 15px;">
+        <label for="textarea-corpo-poema">Versos & Estrofes (Corpo do Poema)</label>
+        <textarea id="textarea-corpo-poema" rows="8" placeholder="Escreva aqui seus versos mais tristes...&#10;&#10;Na noite sem estrelas,&#10;o vento sopra memórias&#10;que eu prefiro esquecer..."></textarea>
+      </div>
+
+      <button onclick="registrarPoema()" class="btn-primary" style="margin-top: 18px; width: 100%;">
+        🖋️ Eternizar Poema nas Sombras (+30 XP)
+      </button>
+    </section>
+
+    <!-- ANTOLOGIA: HISTÓRICO DE POEMAS -->
+    <section class="card-painel">
+      <h3>🕯️ Antologia do Abismo</h3>
+      <div id="container-antologia-poemas" class="lista-poemas">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <script src="poeta.js"></script>
+</body>
+</html>
