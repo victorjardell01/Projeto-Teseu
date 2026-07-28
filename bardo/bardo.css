@@ -1,0 +1,327 @@
+/* =========================================================
+   BARDO - NOIR, JAZZ & BLUES EDITION
+   Aesthetic: Cigarettes After Sex x Cowboy Bebop
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+  /* Cores Principais (Noir, Fumaça & Luz de Bar) */
+  --bg-principal: #070709;
+  --bg-card: #0f0f14;
+  --bg-input: #0a0a0d;
+  
+  --borda-suave: #22222d;
+  --borda-fumaça: rgba(255, 255, 255, 0.12);
+  --cor-ambrada: #d4a373; /* Cor de Saxofone / Âmbar */
+  --cor-neon-azul: #6c8ebf; /* Azul melancólico de noite */
+  
+  --texto-principal: #e6e6ee;
+  --texto-suave: #8a8a9e;
+  --texto-fumaça: #b5b5c3;
+
+  --fonte-titulo: 'Playfair Display', serif;
+  --fonte-mono: 'Courier Prime', monospace;
+  --fonte-corpo: 'Quicksand', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-principal);
+  /* Efeito de Névoa/Fumaça de Fundo */
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(108, 142, 191, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212, 163, 115, 0.04) 0%, transparent 40%);
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  padding: 25px 15px;
+  min-height: 100vh;
+}
+
+/* CONTAINER PRINCIPAL */
+.bardo-container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* HEADER DO BARDO (Vibe Vintage Vinyl / Jazz Bar) */
+.header-bardo {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, rgba(20, 20, 28, 0.8) 0%, rgba(10, 10, 14, 0.95) 100%);
+  border: 1px solid var(--borda-fumaça);
+  border-radius: 4px; /* Bordas retas e elegantes */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de iluminação de fumaça no topo */
+.header-bardo::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.header-icone {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  filter: grayscale(0.3) sepia(0.4);
+}
+
+.header-bardo h2 {
+  font-family: var(--fonte-titulo);
+  color: var(--texto-principal);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.header-bardo p {
+  font-family: var(--fonte-mono);
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  margin-top: 10px;
+  letter-spacing: -0.2px;
+}
+
+/* CARDS E PAINÉIS */
+.card-painel {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-suave);
+  border-radius: 4px;
+  padding: 22px;
+  margin-bottom: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease;
+}
+
+.card-painel:hover {
+  border-color: var(--borda-fumaça);
+}
+
+.card-painel h3 {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-ambrada);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--borda-suave);
+  padding-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* DASHBOARD GRID (STATS DE VINIL) */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-suave);
+  border-radius: 4px;
+  padding: 16px;
+  text-align: center;
+}
+
+.dash-card h4 {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.dash-card .valor {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--texto-principal);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  background-color: #16161f;
+  color: var(--cor-ambrada);
+  border: 1px solid var(--cor-ambrada);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* FORMULÁRIO & INPUTS */
+.grid-form-bardo, .grid-form-especifico {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+input, select, textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--borda-suave);
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--cor-neon-azul);
+  box-shadow: 0 0 8px rgba(108, 142, 191, 0.2);
+}
+
+/* BOTÕES (NOIR / SMOKE STYLE) */
+.btn-primary {
+  background: #181824;
+  color: var(--texto-principal);
+  border: 1px solid var(--borda-fumaça);
+  border-radius: 3px;
+  padding: 12px 20px;
+  font-family: var(--fonte-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--texto-principal);
+  color: #000;
+  border-color: var(--texto-principal);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.btn-secundario {
+  background: transparent;
+  color: var(--texto-suave);
+  border: 1px solid var(--borda-suave);
+  border-radius: 3px;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+  color: var(--texto-principal);
+  border-color: var(--borda-fumaça);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* CARDS DE LIVROS NA ESTANTE */
+.container-cards-livros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 15px;
+}
+
+.card-livro-item {
+  background: #0b0b0f;
+  border: 1px solid var(--borda-suave);
+  border-left: 3px solid var(--cor-neon-azul);
+  border-radius: 3px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-livro-item h4 {
+  font-family: var(--fonte-titulo);
+  color: var(--texto-principal);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.card-livro-item .categoria-tag {
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  color: var(--texto-suave);
+  margin-bottom: 12px;
+  display: block;
+  text-transform: uppercase;
+}
+
+/* BARRA DE PROGRESSO DE FUMAÇA / NEON */
+.barra-progresso-container {
+  background: #050507;
+  border-radius: 2px;
+  height: 6px;
+  width: 100%;
+  overflow: hidden;
+  margin: 10px 0;
+  border: 1px solid #1a1a24;
+}
+
+.barra-progresso-preenchimento {
+  background: linear-gradient(90deg, var(--cor-neon-azul), var(--cor-ambrada));
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* LISTAS DE MÍDIAS E CONCLUÍDOS */
+.lista-midias, .lista-concluidos {
+  list-style: none;
+}
+
+.lista-midias li, .lista-concluidos li {
+  background: #0b0b0f;
+  border: 1px solid var(--borda-suave);
+  border-radius: 3px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.lista-midias li:hover, .lista-concluidos li:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.nota-estrelas {
+  color: var(--cor-ambrada);
+  font-family: var(--fonte-mono);
+  font-weight: bold;
+}
