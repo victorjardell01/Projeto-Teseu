@@ -10,6 +10,29 @@ let mongeDados = {
   historico: []
 };
 
+// CITATIONS / FRASES DE SABEDORIA ZEN
+const frasesZen = [
+  '"O vento não quebra o bambu porque ele sabe se curvar."',
+  '"Assim como a água limpa reflete o céu, a mente calma reflete a verdade."',
+  '"Sua única competição é quem você foi ontem no espelho."',
+  '"O autocontrole é o combustível do guerreiro silencioso."',
+  '"A dor do treino é temporária. O orgulho da disciplina é permanente."'
+];
+
+// INICIALIZAR TEXTO DO ANEL DE RESPIRAÇÃO GUIADO
+function iniciarCicloRespiracao() {
+  const elementoTexto = document.getElementById('fase-respiracao');
+  if (!elementoTexto) return;
+
+  const fases = ["Inspire...", "Segure...", "Expire...", "Pause..."];
+  let indice = 0;
+
+  setInterval(() => {
+    indice = (indice + 1) % fases.length;
+    elementoTexto.innerText = fases[indice];
+  }, 4000); // Sincronizado com os 16s da animação CSS (4s cada fase)
+}
+
 // --- INTEGRAÇÃO COM XP GLOBAL DO RPG ---
 function adicionarXPNativo(nomeClasse, quantidadeXP) {
   let dadosRPG = JSON.parse(localStorage.getItem('dadosRPG')) || {
@@ -41,6 +64,14 @@ function carregarDados() {
   if (salvos) {
     mongeDados = JSON.parse(salvos);
   }
+  
+  // Sorteia frase do dia
+  const quoteEl = document.getElementById('texto-quote');
+  if (quoteEl) {
+    const randomIdx = Math.floor(Math.random() * frasesZen.length);
+    quoteEl.innerText = frasesZen[randomIdx];
+  }
+
   renderizarTudo();
 }
 
@@ -61,7 +92,6 @@ function registrarSono() {
 
   const semTelas = document.getElementById('chk-sem-telas').checked;
   const quartoEscuro = document.getElementById('chk-quarto-escuro').checked;
-  const cafeinaCorte = document.getElementById('chk-cafeina-corte').checked;
 
   let xpGanho = 20;
   if (horas >= 7 && horas <= 9) xpGanho += 5;
@@ -82,7 +112,6 @@ function registrarSono() {
   adicionarXPNativo('monge', xpGanho);
   alert(`🌙 Noite registrada com sucesso! +${xpGanho} XP de Monge.`);
 
-  // Resetar campos
   document.getElementById('input-horas-sono').value = '';
   salvarDados();
 }
@@ -119,7 +148,7 @@ function registrarMeditacao() {
 // --- PILAR 3: CONTROLE DE VÍCIOS (STREAK) ---
 function registrarDiaLimpo() {
   mongeDados.streakDiasLimpo += 1;
-  const xpGanho = 20 + (mongeDados.streakDiasLimpo * 5); // Bônus por manter o streak
+  const xpGanho = 20 + (mongeDados.streakDiasLimpo * 5);
 
   const novoRegistro = {
     id: Date.now(),
@@ -252,4 +281,7 @@ function renderizarTudo() {
 }
 
 // INICIALIZAR
-window.addEventListener('DOMContentLoaded', carregarDados);
+window.addEventListener('DOMContentLoaded', () => {
+  carregarDados();
+  iniciarCicloRespiracao();
+});
