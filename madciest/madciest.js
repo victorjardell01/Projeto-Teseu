@@ -106,15 +106,13 @@ function registrarExperimento() {
     document.getElementById('textarea-notas-lab').value = '';
 
     adicionarXpLab(35);
-    alert("🧪 Dados injetados com sucesso no Servidor Central! (+35 XP)");
+    salvarProgressoLab();
     renderizarExperimentos();
+    atualizarInterfaceLab();
+    alert("🧪 Dados injetados com sucesso no Servidor Central! (+35 XP)");
 }
 
 // Excluir arquivo confidencial do laboratório
-function depararExperimento(id) {
-    // Compatibilidade com onclick caso necessário
-}
-
 function deletarExperimento(id) {
     dadosMadScientist.experimentos = dadosMadScientist.experimentos.filter(exp => exp.id !== id);
     salvarProgressoLab();
@@ -122,7 +120,7 @@ function deletarExperimento(id) {
     atualizarInterfaceLab();
 }
 
-// Renderizar lista de arquivos confidenciais
+// Renderizar lista de arquivos confidenciais usando o CSS oficial
 function renderizarExperimentos() {
     const container = document.getElementById('container-experimentos');
     if (!container) return;
@@ -130,29 +128,33 @@ function renderizarExperimentos() {
     container.innerHTML = '';
 
     if (dadosMadScientist.experimentos.length === 0) {
-        container.innerHTML = '<p style="color: #71717a; font-style: italic; padding: 10px;">Nenhum experimento registrado nos arquivos confidenciais.</p>';
+        container.innerHTML = '<p style="color: var(--texto-suave); font-family: var(--fonte-code); font-style: italic; padding: 10px;">Nenhum experimento registrado nos arquivos confidenciais.</p>';
         return;
     }
 
     dadosMadScientist.experimentos.forEach(exp => {
         const card = document.createElement('div');
-        card.style.cssText = 'background: #121214; border: 1px solid #2d2d35; border-radius: 6px; padding: 14px; margin-bottom: 12px;';
+        card.className = 'exp-card';
 
         card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="exp-header">
                 <div>
-                    <strong style="color: #00ff66; font-size: 1rem;">${exp.nome}</strong>
-                    <div style="font-size: 0.8rem; color: #a8a8b3;">Ramo: ${exp.categoria} | Data: ${exp.data}</div>
+                    <div class="exp-titulo">${exp.nome}</div>
+                    <span style="font-size: 0.75rem; color: var(--texto-suave); font-family: var(--fonte-code);">Data: ${exp.data}</span>
                 </div>
-                <button onclick="deletarExperimento(${exp.id})" class="btn-secundario" style="padding: 2px 8px; font-size: 0.75rem; border-color: #ff3b3b; color: #ff3b3b; cursor: pointer;">Excluir</button>
+                <span class="exp-categoria">${exp.categoria}</span>
             </div>
-            <div style="font-size: 0.85rem; color: #d4d4d8; margin-bottom: 6px;">
+            <div class="exp-variaveis">
                 <strong>Variáveis:</strong> ${exp.variaveis}
             </div>
-            <div style="font-size: 0.85rem; color: #38bdf8; margin-bottom: 6px;">
+            <div style="font-size: 0.82rem; color: var(--cor-neon); margin-bottom: 8px; font-family: var(--fonte-code);">
                 <strong>Status:</strong> ${exp.resultado}
             </div>
-            <p style="font-size: 0.85rem; color: #a1a1aa; font-style: italic; background: #1a1a1e; padding: 8px; border-radius: 4px; margin-top: 6px;">"${exp.notas}"</p>
+            <div class="exp-corpo">${exp.notas}</div>
+            <div class="exp-footer">
+                <span>ID: #${exp.id}</span>
+                <button onclick="deletarExperimento(${exp.id})" class="btn-secundario" style="border-color: #331414; color: #ff5555; cursor: pointer;">Excluir Arquivo</button>
+            </div>
         `;
         container.appendChild(card);
     });
