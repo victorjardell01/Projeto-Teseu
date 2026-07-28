@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Balanço do Mercador - Santuário do Conhecimento</title>
+  <title>Balanço do Mercador - RE4 Edition</title>
   
   <!-- Chart.js para o Gráfico Financeiro -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Vinculação do CSS -->
+  <!-- Google Fonts: Fonte Medieval/Gótica -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=MedievalSharp&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- ANIMAÇÃO DO CASACO ABRINDO -->
+  <div class="casaco-overlay">
+    <div class="aba-casaco esquerda"></div>
+    <div class="aba-casaco direita"></div>
+  </div>
 
   <main class="comercio-container">
     
     <!-- HEADER -->
     <header class="header-selecao">
-      <h2>💼 Balanço do Mercador</h2>
-      <p>Gerencie seu tesouro, liquide dívidas e planeje conquistas.</p>
+      <h2>🔥 Balanço do Mercador 🔥</h2>
+      <p><em>"Whaddya buyin', stranger?"</em> — Gerencie seu tesouro e pesetas.</p>
     </header>
 
     <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px;">
@@ -27,14 +37,14 @@
 
     <!-- PAINEL 1: RENDA E GANHOS -->
     <section class="card-painel">
-      <h3>🪙 Renda Mensal</h3>
+      <h3>🪙 Renda & Pesetas (Mensal)</h3>
       <div class="grid-inputs-renda">
         <div class="field-group">
-          <label for="input-ganhos">Ganhos / Salário (R$)</label>
+          <label for="input-ganhos">Ganhos / Lucro (R$)</label>
           <input type="number" id="input-ganhos" placeholder="Ex: 2000" oninput="atualizarTudo()" value="0">
         </div>
         <div class="field-group">
-          <label for="input-renda-extra">Renda Extra / Vendas (R$)</label>
+          <label for="input-renda-extra">Venda de Relíquias / Extras (R$)</label>
           <input type="number" id="input-renda-extra" placeholder="Ex: 300" oninput="atualizarTudo()" value="0">
         </div>
       </div>
@@ -42,12 +52,12 @@
 
     <!-- PAINEL 2: DÍVIDAS E GASTOS INDIVIDUAIS -->
     <section class="card-painel">
-      <h3>💸 Dívidas & Gastos</h3>
+      <h3>💸 Despesas & Suprimentos</h3>
       
       <div class="form-inline-item">
-        <input type="text" id="novo-item-nome" placeholder="Ex: Aluguel, Cartão..." style="flex: 2;">
+        <input type="text" id="novo-item-nome" placeholder="Ex: Ervas, Munição, Aluguel..." style="flex: 2;">
         <input type="number" id="novo-item-valor" placeholder="R$" style="flex: 1;">
-        <select id="novo-item-tipo" style="background: #0a0a0a; color: #fff; border: 1px solid #333; border-radius: 6px; padding: 0 6px;">
+        <select id="novo-item-tipo" style="background: #0f0a07; color: #e5c158; border: 1px solid #5c4326; border-radius: 6px; padding: 0 6px;">
           <option value="gasto">Gasto</option>
           <option value="divida">Dívida</option>
         </select>
@@ -60,56 +70,56 @@
     <!-- PAINEL 3: DASHBOARD FINANCEIRO -->
     <section class="dashboard-grid">
       <div class="dash-card reserva">
-        <h4>Reserva (20%) 🛡️</h4>
+        <h4>Reserva do Baú (20%) 🛡️</h4>
         <div class="valor" id="resumo-reserva">R$ 0,00</div>
-        <small style="color: #666;" id="pct-reserva">0% da renda</small>
+        <small style="color: #a39274;" id="pct-reserva">0% da renda</small>
       </div>
 
       <div class="dash-card gastos">
         <h4>Compromissos 💸</h4>
         <div class="valor" id="resumo-compromissos">R$ 0,00</div>
-        <small style="color: #666;" id="pct-compromissos">0% da renda</small>
+        <small style="color: #a39274;" id="pct-compromissos">0% da renda</small>
       </div>
 
       <div class="dash-card livre">
-        <h4>Saldo Livre 🛒</h4>
+        <h4>Ouro Livre 🛒</h4>
         <div class="valor" id="resumo-livre">R$ 0,00</div>
-        <small style="color: #666;" id="pct-livre">0% da renda</small>
+        <small style="color: #a39274;" id="pct-livre">0% da renda</small>
       </div>
 
       <div class="dash-card">
         <h4>Rank Mercador 🎖️</h4>
-        <div id="badge-status" class="status-badge status-excelente">Aprendiz</div>
+        <div id="badge-status" class="status-badge status-excelente">Forasteiro</div>
       </div>
     </section>
 
     <!-- PAINEL 4: METAS & RESERVA DE EMERGÊNCIA -->
     <section class="card-painel">
-      <h3>🎯 Meta de Compra & Emergência</h3>
+      <h3>🎯 Armas & Equipamentos Desejados</h3>
       <div class="grid-inputs-renda">
         <div class="field-group">
-          <label for="input-nome-desejo">O que quer comprar?</label>
-          <input type="text" id="input-nome-desejo" placeholder="Ex: Notebook..." oninput="atualizarTudo()">
+          <label for="input-nome-desejo">O que deseja adquirir?</label>
+          <input type="text" id="input-nome-desejo" placeholder="Ex: Lança-Foguetes..." oninput="atualizarTudo()">
         </div>
         <div class="field-group">
-          <label for="input-valor-desejo">Preço da Meta (R$)</label>
+          <label for="input-valor-desejo">Preço em Pesetas (R$)</label>
           <input type="number" id="input-valor-desejo" placeholder="Ex: 1500" oninput="atualizarTudo()">
         </div>
       </div>
 
       <div class="meta-box">
         <h4>⏱️ Previsão de Conquista</h4>
-        <p id="texto-previsao-meta" style="font-size: 0.9rem; color: #ddd;">Insira um valor para calcular o tempo.</p>
+        <p id="texto-previsao-meta" style="font-size: 0.9rem; color: #d1c2a5;">Insira um valor para calcular o tempo.</p>
       </div>
 
-      <div style="margin-top: 15px; font-size: 0.85rem; color: #888; text-align: center;">
-        🛡️ Meta de Emergência (6 meses de gastos): <strong id="val-reserva-emergencia" style="color: #00ffcc;">R$ 0,00</strong>
+      <div style="margin-top: 15px; font-size: 0.85rem; color: #a39274; text-align: center;">
+        🛡️ Fundo de Emergência (6 meses de suprimentos): <strong id="val-reserva-emergencia" style="color: #e5b869;">R$ 0,00</strong>
       </div>
     </section>
 
     <!-- GRÁFICO VISUAL -->
     <section class="chart-box">
-      <h3 style="color: #fff; font-size: 1rem; margin-bottom: 15px;">Divisão do Ouro</h3>
+      <h3 style="color: #e5b869; font-family: 'Cinzel', serif; font-size: 1.1rem; margin-bottom: 15px;">Divisão do Baú</h3>
       <div class="chart-container">
         <canvas id="financeChart"></canvas>
       </div>
@@ -117,17 +127,21 @@
 
     <!-- HISTÓRICO -->
     <section class="card-painel">
-      <h3>📜 Histórico de Balanços</h3>
+      <h3>📜 Registro de Transações</h3>
       <ul id="lista-historico" class="historico-lista"></ul>
-      <button onclick="salvarNoHistorico()" class="btn-secundario" style="margin-top: 10px;">💾 Salvar Balanço no Histórico</button>
+      <button onclick="salvarNoHistorico()" class="btn-secundario" style="margin-top: 10px;">💾 Gravar Balanço no Paminho</button>
     </section>
 
     <!-- BOTÃO DE AÇÃO RPG -->
     <button onclick="finalizarBalanco()" class="btn-primary" style="margin-bottom: 30px;">
-      🏆 Finalizar Balanço & Ganhar +30 XP de Mercador
+      Heh Heh Heh... Thank You! (+30 XP Mercador)
     </button>
 
   </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
   <!-- Vinculação do JavaScript -->
   <script src="script.js"></script>
