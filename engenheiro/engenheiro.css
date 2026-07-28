@@ -274,3 +274,11 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 }
+
+/* Correção de responsividade absoluta para o Chart.js em mobile */
+.chart-wrapper canvas {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+}
