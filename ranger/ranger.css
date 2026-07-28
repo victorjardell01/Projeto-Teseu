@@ -1,114 +1,190 @@
 /* ==========================================
-   ESTILOS GLOBAIS - PROJETO TESEU
-   ================================---------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+   ESTILOS DO DIÁRIO DE CAMPO (RANGER)
+   ========================================== */
+
+:root {
+    --paper-bg: #f4ebd0;
+    --paper-card: #fcf8ec;
+    --leather-dark: #2c1d11;
+    --leather-medium: #4a3525;
+    --accent-rust: #8c4a2b;
+    --text-dark: #2b2218;
+    --text-muted: #6b533f;
+    --border-line: #d1bfa3;
 }
 
-body {
-  background-color: #0f0f13;
-  color: #e0e0e0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body.ranger-body {
+    background-color: #120e0a;
+    background-image: radial-gradient(circle, #2d231b 0%, #120e0a 100%);
+    color: var(--text-dark);
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
-.hidden {
-  display: none !important;
+.journal-container {
+    max-width: 900px;
+    width: 100%;
+    margin: 15px auto;
+    background-color: var(--paper-bg);
+    background-image: linear-gradient(to right, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 100%);
+    border: 3px solid var(--leather-medium);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 50px rgba(139, 90, 43, 0.15);
+    padding: 20px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    position: relative;
 }
 
-/* Container Principal das Telas */
-.container {
-  width: 100%;
-  max-width: 480px;
-  background: #1a1a24;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  border: 1px solid #2a2a3d;
+.btn-voltar {
+    background: var(--leather-medium);
+    color: var(--paper-bg);
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background 0.2s;
 }
 
-/* Títulos */
-h1, h2, h3 {
-  color: #00ffcc;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+.btn-voltar:hover {
+    background: var(--accent-rust);
 }
 
-/* Botões e Interações */
-button, .btn-acao-bencao {
-  background: #00ffcc;
-  color: #0b0b0e;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.2s, transform 0.1s;
+.journal-header-top {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-button:hover, .btn-acao-bencao:hover {
-  background: #00ccb8;
-  transform: translateY(-1px);
+.journal-container h1 {
+    font-family: 'Georgia', serif;
+    color: var(--leather-dark);
+    margin: 5px 0 8px 0;
+    font-size: 1.6rem;
+    border-bottom: 2px dashed var(--border-line);
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-button:active {
-  transform: translateY(0);
+.subtitle {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
-/* Inputs e Formulários */
-input[type="password"], input[type="text"], select {
-  width: 100%;
-  padding: 12px;
-  background: #121218;
-  border: 1px solid #33334d;
-  color: #fff;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  font-size: 1rem;
+.search-filter-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #00ffcc;
+.search-filter-box input, 
+.search-filter-box select {
+    padding: 10px 12px;
+    background: #e6dac2;
+    border: 1px solid var(--border-line);
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
 }
 
-/* Cards de Itens, Bênçãos e Missões */
-.card-bencao-item {
-  background: #222230;
-  border: 1px solid #33334d;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.search-filter-box input:focus, 
+.search-filter-box select:focus {
+    border-color: var(--accent-rust);
+    background: #f0e6d2;
 }
 
-.info-bencao h4 {
-  color: #fff;
-  margin-bottom: 4px;
-  font-size: 1rem;
-  text-align: left;
+.entry-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
-.info-bencao p {
-  color: #a0a0b0;
-  font-size: 0.85rem;
-  margin: 0;
-  text-align: left;
+.entry-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border-line);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
 }
 
-/* Utilitários de Moedas e Contadores */
-.contador-moedas-topo {
-  font-weight: bold;
-  color: #ffcc00;
-  text-align: right;
-  margin-bottom: 15px;
+.entry-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border: 1px solid var(--border-line);
+    border-radius: 2px;
+    filter: sepia(25%) contrast(1.05);
+}
+
+.entry-card h3 {
+    margin: 5px 0 0 0;
+    font-family: 'Georgia', serif;
+    color: var(--leather-dark);
+    font-size: 1.1rem;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--leather-medium);
+    color: var(--paper-bg);
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+    align-self: flex-start;
+    letter-spacing: 0.5px;
+}
+
+.entry-card p {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.entry-card p strong {
+    color: var(--leather-dark);
+}
+
+@media (min-width: 600px) {
+    body.ranger-body {
+        padding: 20px;
+    }
+    .journal-container {
+        padding: 35px;
+        margin: 30px auto;
+    }
+    .search-filter-box {
+        flex-direction: row;
+    }
+    .journal-container h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .entry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 }
