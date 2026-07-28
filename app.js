@@ -13,6 +13,7 @@ const estadoInicial = {
   poeta: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   madciest: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   ranger: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  engenheiro: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   moedas: 0,
   dataUltimasMissoes: null,
   missoesAtivas: [],
@@ -355,6 +356,9 @@ function renderizarNotificacoesColeta() {
     { id: "poeta", nome: "Poeta", emoji: "✍️" },
     { id: "madciest", nome: "Cientista Maluco", emoji: "🧪" },
     { id: "ranger", nome: "Ranger", emoji: "🏹" }
+    const classesInfo = [
+    // ... (demais classes)
+    { id: "engenheiro", nome: "Engenheiro", emoji: "📐" }
   ];
 
   container.innerHTML = "";
@@ -494,6 +498,9 @@ function entrarComoClasse(classe) {
         break;
       case "ranger":
         window.location.href = "ranger/ranger.html";
+        break;
+        case "engenheiro":
+        window.location.href = "engenheiro/engenheiro.html";
         break;
     }
   }, 200);
