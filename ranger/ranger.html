@@ -2,134 +2,195 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto Teseu // Diário de Campo (Ranger)</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Est específico para simular o Diário de Campo do Uncharted */
+        :root {
+            --paper-bg: #f4ebd0;
+            --paper-card: #fcf8ec;
+            --leather-dark: #2c1d11;
+            --leather-medium: #4a3525;
+            --accent-rust: #8c4a2b;
+            --text-dark: #2b2218;
+            --text-muted: #6b533f;
+            --border-line: #d1bfa3;
+        }
+
         body.ranger-body {
-            background-color: #1a140f;
+            background-color: #120e0a;
             background-image: radial-gradient(circle, #2d231b 0%, #120e0a 100%);
-            color: #2b2218;
-            font-family: 'Courier New', Courier, monospace; /* Estilo de texto de anotação */
+            color: var(--text-dark);
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 20px;
+            padding: 12px;
+            box-sizing: border-box;
         }
 
         .journal-container {
             max-width: 900px;
-            margin: 30px auto;
-            background-color: #f4ebd0; /* Cor de papel envelhecido */
-            background-image: linear-gradient(to right, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 100%);
-            border: 4px solid #4a3525;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 40px rgba(139, 90, 43, 0.2);
-            padding: 40px;
-            border-radius: 4px;
+            width: 100%;
+            margin: 15px auto;
+            background-color: var(--paper-bg);
+            background-image: linear-gradient(to right, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 100%);
+            border: 3px solid var(--leather-medium);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 50px rgba(139, 90, 43, 0.15);
+            padding: 20px;
+            border-radius: 6px;
+            box-sizing: border-box;
             position: relative;
         }
 
-        /* Efeito de fita adesiva / grampo opcional */
+        .btn-voltar {
+            background: var(--leather-medium);
+            color: var(--paper-bg);
+            border: none;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+
+        .btn-voltar:hover {
+            background: var(--accent-rust);
+        }
+
+        .journal-header-top {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
         .journal-container h1 {
             font-family: 'Georgia', serif;
-            color: #3b2b1e;
-            border-bottom: 2px dashed #8c6d53;
-            padding-bottom: 10px;
+            color: var(--leather-dark);
+            margin: 5px 0 8px 0;
+            font-size: 1.6rem;
+            border-bottom: 2px dashed var(--border-line);
+            padding-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .subtitle {
             font-style: italic;
-            color: #6b533f;
-            margin-bottom: 25px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         .search-filter-box {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
-        .search-filter-box input, .search-filter-box select {
-            padding: 10px;
+        .search-filter-box input, 
+        .search-filter-box select {
+            padding: 10px 12px;
             background: #e6dac2;
-            border: 1px solid #7c624a;
-            color: #2b2218;
+            border: 1px solid var(--border-line);
+            color: var(--text-dark);
             font-family: inherit;
+            font-size: 0.9rem;
             border-radius: 4px;
-            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .search-filter-box input:focus, 
+        .search-filter-box select:focus {
+            border-color: var(--accent-rust);
+            background: #f0e6d2;
         }
 
         .entry-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
         .entry-card {
-            background: #fcf8ec;
-            border: 1px solid #b59f84;
+            background: var(--paper-card);
+            border: 1px solid var(--border-line);
             padding: 15px;
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             position: relative;
-            transform: rotate(-0.5deg); /* Toque rústico */
-            transition: transform 0.2s;
-        }
-
-        .entry-card:nth-child(even) {
-            transform: rotate(0.5deg);
-        }
-
-        .entry-card:hover {
-            transform: scale(1.02) rotate(0deg);
-            box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
         }
 
         .entry-card img {
             width: 100%;
-            height: 160px;
+            height: 180px;
             object-fit: cover;
-            border: 1px solid #8c6d53;
-            filter: sepia(30%);
+            border: 1px solid var(--border-line);
+            border-radius: 2px;
+            filter: sepia(25%) contrast(1.05);
         }
 
         .entry-card h3 {
-            margin: 10px 0 5px 0;
+            margin: 5px 0 0 0;
             font-family: 'Georgia', serif;
-            color: #3b2b1e;
+            color: var(--leather-dark);
+            font-size: 1.1rem;
         }
 
         .badge {
             display: inline-block;
-            background: #5c4033;
-            color: #f4ebd0;
-            font-size: 0.75rem;
+            background: var(--leather-medium);
+            color: var(--paper-bg);
+            font-size: 0.7rem;
             padding: 3px 8px;
             border-radius: 3px;
-            margin-bottom: 8px;
+            align-self: flex-start;
+            letter-spacing: 0.5px;
         }
 
         .entry-card p {
-            font-size: 0.85rem;
-            line-height: 1.4;
-            color: #4a3b2c;
-            margin: 6px 0;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: var(--text-dark);
+            margin: 0;
         }
 
-        .btn-voltar {
-            background: #4a3525;
-            color: #f4ebd0;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        .entry-card p strong {
+            color: var(--leather-dark);
         }
 
-        .btn-voltar:hover {
-            background: #5c4033;
+        @media (min-width: 600px) {
+            body.ranger-body {
+                padding: 20px;
+            }
+            .journal-container {
+                padding: 35px;
+                margin: 30px auto;
+            }
+            .search-filter-box {
+                flex-direction: row;
+            }
+            .journal-container h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .entry-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -140,11 +201,10 @@
             ⬅️ Voltar ao Portal Teseu
         </button>
 
-        <div style="font-size: 0.8rem; letter-spacing: 3px; color: #7c624a; font-weight: bold;">PROJETO TESEU // ARQUIVO DE SOBREVIVÊNCIA</div>
+        <div class="journal-header-top">Projeto Teseu // Arquivo de Sobrevivência</div>
         <h1>Diário de Campo</h1>
         <p class="subtitle">"Notas de campo, espécimes botânicos, recursos silvestres e catalogação de fauna..." — N. Drake</p>
 
-        <!-- Filtros e Busca -->
         <div class="search-filter-box">
             <input type="text" id="searchInput" placeholder="Pesquisar espécime (ex: Capim-Santo)..." onkeyup="filtrarItensRanger()">
             <select id="categoryFilter" onchange="filtrarItensRanger()">
@@ -156,14 +216,10 @@
             </select>
         </div>
 
-        <!-- Grade de Anotações do Diário -->
-        <div class="entry-grid" id="entryGridRanger">
-            <!-- Injetado dinamicamente via script -->
-        </div>
+        <div class="entry-grid" id="entryGridRanger"></div>
     </div>
 
     <script>
-        // Base de Dados do Diário do Ranger
         const baseDeDadosRanger = [
             {
                 nome: "Capim-Santo",
@@ -172,7 +228,7 @@
                 tituloBadge: "Plantas para Infusões",
                 paraQueServe: "Excelente calmante natural, alivia dores musculares e estados de ansiedade leve na trilha.",
                 propriedades: "Antiespasmódico, bactericida e rico em mirceno.",
-                imagem: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80"
             },
             {
                 nome: "Hortelã-Comum",
@@ -181,7 +237,7 @@
                 tituloBadge: "Infusões / Comestíveis",
                 paraQueServe: "Auxilia na digestão pesada após longas caminhadas, combate náuseas e refresca.",
                 propriedades: "Rico em mentol, ação digestiva e antisséptica.",
-                imagem: "https://images.unsplash.com/photo-1628770495630-81e056801a4e?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=600&q=80"
             },
             {
                 nome: "Mangueira (Manga)",
@@ -190,7 +246,7 @@
                 tituloBadge: "Árvores Frutíferas",
                 paraQueServe: "Fornece frutos densos em energia e carboidratos de rápida absorção.",
                 propriedades: "Altíssima concentração de Vitamina A, C e fibras alimentares.",
-                imagem: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80"
             },
             {
                 nome: "Ovos Silvestres / Caipiras",
@@ -199,7 +255,7 @@
                 tituloBadge: "Carnes, Ovos e Afins",
                 paraQueServe: "Fonte primária e de altíssimo valor biológico para reconstrução muscular na selva.",
                 propriedades: "Rico em proteínas completas, colina e vitaminas do complexo B.",
-                imagem: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=600&q=80"
             }
         ];
 
@@ -209,7 +265,7 @@
             grid.innerHTML = '';
 
             if (itens.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-style: italic; color: #7c624a;">Nenhum espécime encontrado nas anotações...</p>';
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-style: italic; color: var(--text-muted); padding: 20px;">Nenhum espécime encontrado nas anotações...</p>';
                 return;
             }
 
@@ -240,7 +296,6 @@
             renderizarCatalogoRanger(itensFiltrados);
         }
 
-        // Inicializa a página carregando todos os itens
         window.onload = () => {
             renderizarCatalogoRanger(baseDeDadosRanger);
         };
