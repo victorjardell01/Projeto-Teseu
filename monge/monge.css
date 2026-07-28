@@ -1,0 +1,380 @@
+/* =========================================================
+   MONGE - MINIMALIST ZEN, VENTO & FOLHAS EDITION
+   Aesthetic: Letras de Paz, Bambu, Pedras & Névoa
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Shippori+Mincho:wght@400;600&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+  --bg-principal: #0b0d10;
+  --bg-card: #13171f;
+  --bg-input: #090b0e;
+  
+  --borda-suave: #1e242f;
+  --borda-zen: #2d3e34;
+  --cor-musgo: #8fa89b;   /* Verde Chá-Verde */
+  --cor-pedra: #a0a5a8;
+  --cor-destaque: #d1e2d0;
+  
+  --texto-principal: #f0f3f5;
+  --texto-suave: #838d99;
+
+  --fonte-titulo: 'Cinzel', serif;
+  --fonte-paz: 'Shippori Mincho', serif;
+  --fonte-corpo: 'Quicksand', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-principal);
+  /* Efeito de Névoa de Vento suave de fundo */
+  background-image: 
+    radial-gradient(circle at 50% 10%, rgba(45, 62, 52, 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(143, 168, 155, 0.05) 0%, transparent 50%);
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  padding: 25px 15px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ANIMACÃO DE VENTO & FOLHAS FLUTUANTES */
+@keyframes ventoFolhas {
+  0% {
+    transform: translateY(-30px) translateX(-20px) rotate(0deg);
+    opacity: 0;
+  }
+  15% { opacity: 0.6; }
+  85% { opacity: 0.6; }
+  100% {
+    transform: translateY(105vh) translateX(160px) rotate(420deg);
+    opacity: 0;
+  }
+}
+
+.folha-vento {
+  position: fixed;
+  top: -30px;
+  pointer-events: none;
+  font-size: 1.3rem;
+  color: var(--cor-musgo);
+  z-index: 999;
+  animation: ventoFolhas 14s infinite linear;
+  filter: drop-shadow(0 0 5px rgba(143, 168, 155, 0.3));
+}
+
+.f1 { left: 8%; animation-delay: 0s; }
+.f2 { left: 32%; animation-delay: 3.5s; }
+.f3 { left: 65%; animation-delay: 7s; }
+.f4 { left: 88%; animation-delay: 10.5s; }
+
+/* CONTAINER */
+.monge-container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* BANNER DE SABEDORIA (QUOTE) */
+.quote-banner {
+  text-align: center;
+  font-family: var(--fonte-paz);
+  font-size: 1rem;
+  color: var(--cor-musgo);
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* HEADER */
+.header-monge {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, #171b24 0%, #0e1015 100%);
+  border: 1px solid var(--borda-zen);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.header-icone {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.header-monge h2 {
+  font-family: var(--fonte-titulo);
+  color: var(--texto-principal);
+  font-size: 2.1rem;
+  letter-spacing: 2px;
+}
+
+.subtitulo-paz {
+  font-family: var(--fonte-paz);
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+/* VISUALIZADOR DE RESPIRAÇÃO (ANEL PULSANTE) */
+.anel-respiracao-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 0;
+}
+
+.anel-respiracao {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--cor-musgo);
+  background: rgba(143, 168, 155, 0.05);
+  box-shadow: 0 0 15px rgba(143, 168, 155, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulsarAnel 16s infinite ease-in-out;
+}
+
+.anel-respiracao span {
+  font-family: var(--fonte-paz);
+  font-size: 1rem;
+  color: var(--cor-destaque);
+  letter-spacing: 1px;
+}
+
+@keyframes pulsarAnel {
+  0%, 100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 10px rgba(143, 168, 155, 0.1);
+  }
+  25% {
+    transform: scale(1.35);
+    box-shadow: 0 0 35px rgba(143, 168, 155, 0.4);
+    background: rgba(143, 168, 155, 0.15);
+  }
+  50% {
+    transform: scale(1.35);
+    box-shadow: 0 0 35px rgba(143, 168, 155, 0.4);
+  }
+  75% {
+    transform: scale(0.9);
+    box-shadow: 0 0 10px rgba(143, 168, 155, 0.1);
+  }
+}
+
+/* DASHBOARD GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-suave);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+
+.dash-card h4 {
+  font-family: var(--fonte-titulo);
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.dash-card .valor {
+  font-family: var(--fonte-paz);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--cor-destaque);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: var(--fonte-paz);
+  font-size: 0.85rem;
+  background-color: #17221b;
+  color: var(--cor-musgo);
+  border: 1px solid var(--borda-zen);
+}
+
+/* CARDS E FORMULÁRIOS */
+.card-painel {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-suave);
+  border-radius: 6px;
+  padding: 22px;
+  margin-bottom: 25px;
+}
+
+.card-painel h3 {
+  font-family: var(--fonte-titulo);
+  color: var(--cor-musgo);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.pilar-desc {
+  font-family: var(--fonte-paz);
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--borda-suave);
+  padding-bottom: 8px;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, select {
+  background: var(--bg-input);
+  border: 1px solid var(--borda-suave);
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--cor-musgo);
+  box-shadow: 0 0 8px rgba(143, 168, 155, 0.2);
+}
+
+/* CHECKLIST DO SONO */
+.checklist-sono {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+  background: #0d1014;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--borda-suave);
+}
+
+.checklist-sono label {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* STREAK COUNTER */
+.streak-box {
+  background: #0d1014;
+  border: 1px solid var(--borda-zen);
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+}
+
+.streak-contador {
+  font-family: var(--fonte-paz);
+  font-size: 2.2rem;
+  color: var(--cor-destaque);
+  margin-bottom: 6px;
+}
+
+/* BOTÕES */
+.btn-primary {
+  background: #1a261f;
+  color: var(--cor-destaque);
+  border: 1px solid var(--borda-zen);
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--cor-musgo);
+  color: #0b0d10;
+}
+
+.btn-danger {
+  background: #2a1b1b;
+  color: #e08282;
+  border: 1px solid #4a2828;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background: #e08282;
+  color: #0b0d10;
+}
+
+.btn-secundario {
+  background: transparent;
+  color: var(--texto-suave);
+  border: 1px solid var(--borda-suave);
+  border-radius: 4px;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+  color: var(--texto-principal);
+  border-color: var(--cor-pedra);
+}
+
+/* HISTÓRICO */
+.lista-historico {
+  list-style: none;
+}
+
+.lista-historico li {
+  background: #0d1014;
+  border: 1px solid var(--borda-suave);
+  border-radius: 4px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
