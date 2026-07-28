@@ -1,0 +1,363 @@
+/* ==========================================
+   1. ESTILOS GERAIS E RESET (RE4 MEDIEVAL)
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #080605;
+  color: #d1c2a5;
+  font-family: 'Segoe UI', Georgia, serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  /* Fundo estilo tocha no escuro / interior do casaco */
+  background: radial-gradient(circle at center, #2e1a0e 0%, #0d0805 70%, #030202 100%);
+  padding: 20px 10px;
+  overflow-x: hidden;
+}
+
+/* ==========================================
+   EFEITO DO CASACO ABRINDO (RE4 ANIMATION)
+   ========================================== */
+.casaco-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+}
+
+.aba-casaco {
+  width: 50vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #120c0a 0%, #1a0f0b 50%, #0a0604 100%);
+  border-bottom: 8px solid #3a2312;
+  box-shadow: inset 0 0 50px #000;
+}
+
+.aba-casaco.esquerda {
+  border-right: 4px solid #5c3a1e;
+  animation: abrirEsquerda 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.aba-casaco.direita {
+  border-left: 4px solid #5c3a1e;
+  animation: abrirDireita 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes abrirEsquerda {
+  0% { transform: translateX(0); }
+  40% { transform: translateX(0); } /* Pausa rápida antes de abrir */
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes abrirDireita {
+  0% { transform: translateX(0); }
+  40% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* ==========================================
+   2. CONTAINER E CABEÇALHO
+   ========================================== */
+.comercio-container {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.header-selecao {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header-selecao h2 {
+  font-family: 'Cinzel', serif;
+  color: #e5b869; /* Dourado Antigo */
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(229, 184, 105, 0.3);
+}
+
+.header-selecao p {
+  color: #a39274;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* ==========================================
+   3. CARDS E PAINÉIS (ESTILO COURO E MADEIRA)
+   ========================================== */
+.card-painel {
+  background: linear-gradient(180deg, #17100b 0%, #0f0a07 100%);
+  border: 1px solid #422d1b;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-painel h3 {
+  font-family: 'Cinzel', serif;
+  color: #e5b869;
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #332112;
+  padding-bottom: 8px;
+}
+
+.grid-inputs-renda {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-group label {
+  font-size: 0.85rem;
+  color: #ba9e74;
+}
+
+.field-group input, .field-group select {
+  background: #080504;
+  border: 1px solid #5c4326;
+  color: #e5c158;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-group input:focus, .field-group select:focus {
+  border-color: #e5b869;
+  box-shadow: 0 0 8px rgba(229, 184, 105, 0.3);
+}
+
+/* ==========================================
+   4. LISTAS E DESPESAS
+   ========================================== */
+.form-inline-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.form-inline-item input {
+  background: #080504;
+  border: 1px solid #5c4326;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.lista-itens {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.item-despesa {
+  background: #0d0806;
+  border: 1px solid #2b1c11;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.item-despesa.divida { border-left: 4px solid #a82e2e; } /* Vermelho sangue */
+.item-despesa.gasto { border-left: 4px solid #d9822b; }  /* Laranja tocha */
+
+.btn-del {
+  background: transparent;
+  border: none;
+  color: #a82e2e;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+/* ==========================================
+   5. DASHBOARD E METRICAS
+   ========================================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dash-card {
+  background: linear-gradient(180deg, #17100b 0%, #0f0a07 100%);
+  border: 1px solid #422d1b;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.dash-card h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: #a39274;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.dash-card .valor {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.dash-card.reserva .valor { color: #e5b869; }
+.dash-card.livre .valor { color: #d9822b; }
+.dash-card.gastos .valor { color: #a82e2e; }
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+  margin-top: 4px;
+}
+
+.status-excelente { background: rgba(229, 184, 105, 0.15); color: #e5b869; border: 1px solid #e5b869; }
+.status-atencao { background: rgba(217, 130, 43, 0.15); color: #d9822b; border: 1px solid #d9822b; }
+.status-critico { background: rgba(168, 46, 46, 0.15); color: #a82e2e; border: 1px solid #a82e2e; }
+
+/* ==========================================
+   6. METAS & BOTÕES (CARMESIM E DOURADO)
+   ========================================== */
+.meta-box {
+  background: rgba(229, 184, 105, 0.05);
+  border: 1px dashed #e5b869;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.meta-box h4 {
+  color: #e5b869;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.chart-box {
+  background: #120c09;
+  border: 1px solid #3a2515;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-container {
+  position: relative;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(180deg, #8a1c1c 0%, #520f0f 100%); /* Carmesim RE4 */
+  color: #e5b869;
+  border: 1px solid #ba3838;
+  padding: 14px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+  box-shadow: 0 0 15px rgba(138, 28, 28, 0.6);
+}
+
+.btn-secundario {
+  width: 100%;
+  background: #1a110b;
+  color: #d1c2a5;
+  border: 1px solid #4a3321;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.btn-secundario:hover {
+  background: #2b1c11;
+  color: #e5b869;
+}
+
+.btn-acao-bencao {
+  background: linear-gradient(180deg, #e5b869 0%, #a37932 100%);
+  color: #000000;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.historico-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.historico-item {
+  background: #080504;
+  border: 1px solid #2b1c11;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  color: #a39274;
+}
