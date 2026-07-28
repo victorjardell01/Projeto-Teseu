@@ -1,236 +1,146 @@
 /* ==========================================
-   ESTILOS GLOBAIS - PROJETO TESEU
-   ========================================== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+   ESTILOS DO MÓDULO: ENGENHEIRO (PAINEL DE PILARES)
+   ================================---------- */
+
+:root {
+    --bg-engine: #12100e;
+    --panel-bg: #1c1815;
+    --border-engine: #8c5830;
+    --accent-orange: #d97706;
+    --accent-cyan: #06b6d4;
+    --text-main: #e7e2dc;
+    --text-muted: #a89f91;
 }
 
 body {
-  background-color: #0f0f13;
-  color: #e0e0e0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    background-color: var(--bg-engine);
+    background-image: radial-gradient(circle, #2d231b 0%, var(--bg-engine) 100%);
+    color: var(--text-main);
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
 }
 
-.hidden {
-  display: none !important;
+.engine-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: var(--panel-bg);
+    border: 3px solid var(--border-engine);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 30px rgba(217, 119, 6, 0.1);
+    padding: 30px;
+    border-radius: 6px;
 }
 
-/* Container Principal das Telas (Padrão do Portal) */
-.container {
-  width: 100%;
-  max-width: 480px;
-  background: #1a1a24;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  border: 1px solid #2a2a3d;
+.header-engine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--border-engine);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-/* Títulos */
-h1, h2, h3 {
-  color: #00ffcc;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+.header-engine h1 {
+    font-family: 'Georgia', serif;
+    color: var(--accent-orange);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Botões e Interações */
-button, .btn-acao-bencao {
-  background: #00ffcc;
-  color: #0b0b0e;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.2s, transform 0.1s;
+.status-badge {
+    background: #2a221c;
+    border: 1px solid var(--border-engine);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
 
-button:hover, .btn-acao-bencao:hover {
-  background: #00ccb8;
-  transform: translateY(-1px);
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
 }
 
-button:active {
-  transform: translateY(0);
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* Inputs e Formulários */
-input[type="password"], input[type="text"], select {
-  width: 100%;
-  padding: 12px;
-  background: #121218;
-  border: 1px solid #33334d;
-  color: #fff;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  font-size: 1rem;
+.pilares-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #00ffcc;
+.pilar-card {
+    background: #25201b;
+    border: 1px solid #4a382c;
+    padding: 12px 15px;
+    border-radius: 4px;
 }
 
-/* Cards de Itens, Bênçãos e Missões */
-.card-bencao-item {
-  background: #222230;
-  border: 1px solid #33334d;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.pilar-card label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #d4b59d;
 }
 
-.info-bencao h4 {
-  color: #fff;
-  margin-bottom: 4px;
-  font-size: 1rem;
-  text-align: left;
-}
-
-.info-bencao p {
-  color: #a0a0b0;
-  font-size: 0.85rem;
-  margin: 0;
-  text-align: left;
-}
-
-/* Utilitários de Moedas e Contadores */
-.contador-moedas-topo {
-  font-weight: bold;
-  color: #ffcc00;
-  text-align: right;
-  margin-bottom: 15px;
-}
-
-/* ==========================================
-   ESTILOS ESPECÍFICOS: TEMA RETROPUNK / ENGENHEIRO
-   ========================================== */
-body.engenheiro-body {
-  background-color: #16120f;
-  background-image: radial-gradient(circle, #2b211a 0%, #0d0a08 100%);
-  color: #d4c5b9;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.workshop-container {
-  max-width: 900px;
-  margin: 30px auto;
-  background-color: #1e1814;
-  border: 4px solid #8c5830;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 50px rgba(140, 88, 48, 0.15);
-  padding: 40px;
-  border-radius: 6px;
-  position: relative;
-}
-
-.workshop-container h1 {
-  font-family: 'Georgia', serif;
-  color: #e09f3e;
-  border-bottom: 2px dashed #8c5830;
-  padding-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: left;
-}
-
-.subtitle {
-  font-style: italic;
-  color: #a67c52;
-  margin-bottom: 25px;
-}
-
-.stats-hud {
-  display: flex;
-  justify-content: space-between;
-  background: #27201b;
-  border: 1px solid #593822;
-  padding: 12px 20px;
-  border-radius: 4px;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #e09f3e;
-}
-
-.blueprint-section {
-  background: #27201b;
-  border: 1px solid #593822;
-  padding: 20px;
-  border-radius: 4px;
-  margin-bottom: 25px;
-}
-
-.blueprint-section h3 {
-  color: #e09f3e;
-  text-align: left;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-}
-
-.input-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.input-group input {
-  flex: 1;
-  padding: 10px;
-  background: #16120f;
-  border: 1px solid #8c5830;
-  color: #d4c5b9;
-  font-family: inherit;
-  border-radius: 4px;
-}
-
-.btn-retropunk {
-  background: #8c5830;
-  color: #f4ebd0;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: bold;
-  border-radius: 4px;
-  transition: background 0.2s;
-  width: auto;
-}
-
-.btn-retropunk:hover {
-  background: #a67c52;
-}
-
-.btn-voltar {
-  background: #38291d;
-  color: #d4c5b9;
-  border: 1px solid #593822;
-  padding: 8px 15px;
-  cursor: pointer;
-  font-family: inherit;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  width: auto;
-}
-
-.btn-voltar:hover {
-  background: #593822;
+.pilar-card input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-orange);
+    cursor: pointer;
 }
 
 .chart-wrapper {
-  max-width: 400px;
-  margin: 0 auto;
-  background: #16120f;
-  padding: 15px;
-  border: 1px solid #593822;
-  border-radius: 4px;
+    background: #171311;
+    border: 1px solid #4a382c;
+    padding: 20px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 320px;
+}
+
+.btn-acao {
+    background: linear-gradient(90deg, #b45309, #d97706);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.btn-acao:hover {
+    opacity: 0.9;
+}
+
+.btn-voltar {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.btn-voltar:hover {
+    background: #2a221c;
+    color: var(--text-main);
 }
