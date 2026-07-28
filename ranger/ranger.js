@@ -1,93 +1,84 @@
 // ==========================================
-// 1. CARREGAMENTO E ESTADO DO ENGENHEIRO
+// MÓDULO RANGER // LÓGICA E FILTRAGEM
 // ==========================================
-let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {};
 
-// Garante que o objeto do engenheiro existe nos dados globais
-if (!dadosRPG.engenheiro) {
-    dadosRPG.engenheiro = { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 };
-}
-
-// Inicializa o Gráfico de Pizza via Chart.js
-const ctx = document.getElementById('graficoTempoDisposicao').getContext('2d');
-const graficoTempo = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['Foco / Trabalho', 'Descanso / Lazer', 'Estudos de Código', 'Indisposição / Pausas'],
-        datasets: [{
-            data: [40, 25, 20, 15], // Valores iniciais de exemplo
-            backgroundColor: ['#00ffcc', '#ff007f', '#ffcc00', '#444444']
-        }]
+const baseDeDadosRanger = [
+    {
+        nome: "Capim-Santo",
+        categorias: ["infusoes"],
+        termoBusca: "capim santo cidreira cha",
+        tituloBadge: "Plantas para Infusões",
+        paraQueServe: "Excelente calmante natural, alivia dores musculares e estados de ansiedade leve na trilha.",
+        propriedades: "Antiespasmódico, bactericida e rico em mirceno.",
+        imagem: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=600&q=80"
     },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: { color: '#fff' }
-            }
-        }
+    {
+        nome: "Hortelã-Comum",
+        categorias: ["infusoes", "comestiveis"],
+        termoBusca: "hortela menta cha tempero",
+        tituloBadge: "Infusões / Comestíveis",
+        paraQueServe: "Auxilia na digestão pesada após longas caminhadas, combate náuseas e refresca.",
+        propriedades: "Rico em mentol, ação digestiva e antisséptica.",
+        imagem: "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        nome: "Mangueira (Manga)",
+        categorias: ["frutiferas"],
+        termoBusca: "manga mangueira arvore fruta",
+        tituloBadge: "Árvores Frutíferas",
+        paraQueServe: "Fornece frutos densos em energia e carboidratos de rápida absorção.",
+        propriedades: "Altíssima concentração de Vitamina A, C e fibras alimentares.",
+        imagem: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        nome: "Ovos Silvestres / Caipiras",
+        categorias: ["carnes"],
+        termoBusca: "ovo ovos carnes proteina",
+        tituloBadge: "Carnes, Ovos e Afins",
+        paraQueServe: "Fonte primária e de altíssimo valor biológico para reconstrução muscular na selva.",
+        propriedades: "Rico em proteínas completas, colina e vitaminas do complexo B.",
+        imagem: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=600&q=80"
     }
-});
+];
 
-// ==========================================
-// 2. FUNÇÕES DE PROGRESSO E XP
-// ==========================================
-function ganharXPDoEngenheiro(quantidade) {
-    let eng = dadosRPG.engenheiro;
-    const LEVEL_MAX = 10;
+function renderizarCatalogoRanger(itens) {
+    const grid = document.getElementById('entryGridRanger');
+    if (!grid) return;
+    grid.innerHTML = '';
 
-    eng.xp += quantidade;
-
-    while (eng.xp >= eng.xpMax) {
-        eng.xp -= eng.xpMax;
-        eng.level += 1;
-
-        if (eng.level > LEVEL_MAX) {
-            eng.level = 1;
-            eng.xp = 0;
-            eng.xpMax = 100;
-            eng.ultimoNivelColetado = 0;
-            alert(`🏆 GLÓRIA! O seu ENGENHEIRO atingiu o ápice (Lvl ${LEVEL_MAX}) e completou o ciclo de maestria! Retornou ao Lvl 1 com poder renovado! 🎉`);
-        } else {
-            eng.xpMax = Math.floor(eng.xpMax * 1.2);
-            alert(`⚡ LEVEL UP! Seu Engenheiro subiu para o Nível ${eng.level}! 📐`);
-        }
+    if (itens.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-style: italic; color: var(--text-muted); padding: 20px;">Nenhum espécime encontrado nas anotações...</p>';
+        return;
     }
 
-    // Salva no localStorage principal do Projeto Teseu
-    localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
-    atualizarInterfaceEngenheiro();
+    itens.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'entry-card';
+        card.innerHTML = `
+            <img src="${item.imagem}" alt="${item.nome}">
+            <h3>${item.nome}</h3>
+            <span class="badge">${item.tituloBadge}</span>
+            <p><strong>Para que serve:</strong> ${item.paraQueServe}</p>
+            <p><strong>Propriedades:</strong> ${item.propriedades}</p>
+        `;
+        grid.appendChild(card);
+    });
 }
 
-function atualizarInterfaceEngenheiro() {
-    const eng = dadosRPG.engenheiro;
-    const elementoLvl = document.getElementById("engenheiro-lvl");
-    const elementoXp = document.getElementById("engenheiro-xp");
-    
-    if (elementoLvl) elementoLvl.textContent = `Lvl ${eng.level}`;
-    if (elementoXp) elementoXp.textContent = `XP: ${eng.xp} / ${eng.xpMax}`;
+function filtrarItensRanger() {
+    let input = document.getElementById('searchInput').value.toLowerCase().trim();
+    let categoriaSelecionada = document.getElementById('categoryFilter').value;
+
+    let itensFiltrados = baseDeDadosRanger.filter(item => {
+        let correspondeNome = item.nome.toLowerCase().includes(input) || item.termoBusca.includes(input);
+        let correspondeCategoria = (categoriaSelecionada === 'todos' || item.categorias.includes(categoriaSelecionada));
+        return correspondeNome && correspondeCategoria;
+    });
+
+    renderizarCatalogoRanger(itensFiltrados);
 }
 
-// ==========================================
-// 3. AÇÕES DO MÓDULO (PROJETOS E PILARES)
-// ==========================================
-function adicionarProjeto() {
-    const input = document.getElementById('inputProjeto');
-    const valor = input.value.trim();
-
-    if (valor !== "") {
-        // Concluir ou estruturar um projeto concede XP ao Engenheiro
-        ganharXPDoEngenheiro(35);
-        alert(`📐 Blueprint estruturado com sucesso: "${valor}"!\n+35 XP concedidos ao Engenheiro! 🚀`);
-        input.value = '';
-    } else {
-        alert("Insira o nome do projeto ou site que deseja estruturar.");
-    }
-}
-
-// Executa ao carregar a página
+// Inicializa a página carregando todos os itens do Ranger
 window.addEventListener("DOMContentLoaded", () => {
-    atualizarInterfaceEngenheiro();
+    renderizarCatalogoRanger(baseDeDadosRanger);
 });
-S
