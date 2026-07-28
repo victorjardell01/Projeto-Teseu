@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto Teseu // Diário de Campo (Ranger)</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Est específico para simular o Diário de Campo do Uncharted */
+        body.ranger-body {
+            background-color: #1a140f;
+            background-image: radial-gradient(circle, #2d231b 0%, #120e0a 100%);
+            color: #2b2218;
+            font-family: 'Courier New', Courier, monospace; /* Estilo de texto de anotação */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .journal-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #f4ebd0; /* Cor de papel envelhecido */
+            background-image: linear-gradient(to right, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 100%);
+            border: 4px solid #4a3525;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 40px rgba(139, 90, 43, 0.2);
+            padding: 40px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        /* Efeito de fita adesiva / grampo opcional */
+        .journal-container h1 {
+            font-family: 'Georgia', serif;
+            color: #3b2b1e;
+            border-bottom: 2px dashed #8c6d53;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: #6b533f;
+            margin-bottom: 25px;
+        }
+
+        .search-filter-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .search-filter-box input, .search-filter-box select {
+            padding: 10px;
+            background: #e6dac2;
+            border: 1px solid #7c624a;
+            color: #2b2218;
+            font-family: inherit;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .entry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .entry-card {
+            background: #fcf8ec;
+            border: 1px solid #b59f84;
+            padding: 15px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            transform: rotate(-0.5deg); /* Toque rústico */
+            transition: transform 0.2s;
+        }
+
+        .entry-card:nth-child(even) {
+            transform: rotate(0.5deg);
+        }
+
+        .entry-card:hover {
+            transform: scale(1.02) rotate(0deg);
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .entry-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border: 1px solid #8c6d53;
+            filter: sepia(30%);
+        }
+
+        .entry-card h3 {
+            margin: 10px 0 5px 0;
+            font-family: 'Georgia', serif;
+            color: #3b2b1e;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #5c4033;
+            color: #f4ebd0;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .entry-card p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #4a3b2c;
+            margin: 6px 0;
+        }
+
+        .btn-voltar {
+            background: #4a3525;
+            color: #f4ebd0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .btn-voltar:hover {
+            background: #5c4033;
+        }
+    </style>
+</head>
+<body class="ranger-body">
+
+    <div class="journal-container">
+        <button onclick="window.location.href='../index.html'" class="btn-voltar">
+            ⬅️ Voltar ao Portal Teseu
+        </button>
+
+        <div style="font-size: 0.8rem; letter-spacing: 3px; color: #7c624a; font-weight: bold;">PROJETO TESEU // ARQUIVO DE SOBREVIVÊNCIA</div>
+        <h1>Diário de Campo</h1>
+        <p class="subtitle">"Notas de campo, espécimes botânicos, recursos silvestres e catalogação de fauna..." — N. Drake</p>
+
+        <!-- Filtros e Busca -->
+        <div class="search-filter-box">
+            <input type="text" id="searchInput" placeholder="Pesquisar espécime (ex: Capim-Santo)..." onkeyup="filtrarItensRanger()">
+            <select id="categoryFilter" onchange="filtrarItensRanger()">
+                <option value="todos">-- Todas as Divisões --</option>
+                <option value="infusoes">Plantas para Infusões</option>
+                <option value="comestiveis">Plantas Comestíveis</option>
+                <option value="frutiferas">Árvores Frutíferas</option>
+                <option value="carnes">Carnes, Ovos e Afins</option>
+            </select>
+        </div>
+
+        <!-- Grade de Anotações do Diário -->
+        <div class="entry-grid" id="entryGridRanger">
+            <!-- Injetado dinamicamente via script -->
+        </div>
+    </div>
+
+    <script>
+        // Base de Dados do Diário do Ranger
+        const baseDeDadosRanger = [
+            {
+                nome: "Capim-Santo",
+                categorias: ["infusoes"],
+                termoBusca: "capim santo cidreira cha",
+                tituloBadge: "Plantas para Infusões",
+                paraQueServe: "Excelente calmante natural, alivia dores musculares e estados de ansiedade leve na trilha.",
+                propriedades: "Antiespasmódico, bactericida e rico em mirceno.",
+                imagem: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                nome: "Hortelã-Comum",
+                categorias: ["infusoes", "comestiveis"],
+                termoBusca: "hortela menta cha tempero",
+                tituloBadge: "Infusões / Comestíveis",
+                paraQueServe: "Auxilia na digestão pesada após longas caminhadas, combate náuseas e refresca.",
+                propriedades: "Rico em mentol, ação digestiva e antisséptica.",
+                imagem: "https://images.unsplash.com/photo-1628770495630-81e056801a4e?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                nome: "Mangueira (Manga)",
+                categorias: ["frutiferas"],
+                termoBusca: "manga mangueira arvore fruta",
+                tituloBadge: "Árvores Frutíferas",
+                paraQueServe: "Fornece frutos densos em energia e carboidratos de rápida absorção.",
+                propriedades: "Altíssima concentração de Vitamina A, C e fibras alimentares.",
+                imagem: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                nome: "Ovos Silvestres / Caipiras",
+                categorias: ["carnes"],
+                termoBusca: "ovo ovos carnes proteina",
+                tituloBadge: "Carnes, Ovos e Afins",
+                paraQueServe: "Fonte primária e de altíssimo valor biológico para reconstrução muscular na selva.",
+                propriedades: "Rico em proteínas completas, colina e vitaminas do complexo B.",
+                imagem: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=500&q=80"
+            }
+        ];
+
+        function renderizarCatalogoRanger(itens) {
+            const grid = document.getElementById('entryGridRanger');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (itens.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-style: italic; color: #7c624a;">Nenhum espécime encontrado nas anotações...</p>';
+                return;
+            }
+
+            itens.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.innerHTML = `
+                    <img src="${item.imagem}" alt="${item.nome}">
+                    <h3>${item.nome}</h3>
+                    <span class="badge">${item.tituloBadge}</span>
+                    <p><strong>Para que serve:</strong> ${item.paraQueServe}</p>
+                    <p><strong>Propriedades:</strong> ${item.propriedades}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filtrarItensRanger() {
+            let input = document.getElementById('searchInput').value.toLowerCase().trim();
+            let categoriaSelecionada = document.getElementById('categoryFilter').value;
+
+            let itensFiltrados = baseDeDadosRanger.filter(item => {
+                let correspondeNome = item.nome.toLowerCase().includes(input) || item.termoBusca.includes(input);
+                let correspondeCategoria = (categoriaSelecionada === 'todos' || item.categorias.includes(categoriaSelecionada));
+                return correspondeNome && correspondeCategoria;
+            });
+
+            renderizarCatalogoRanger(itensFiltrados);
+        }
+
+        // Inicializa a página carregando todos os itens
+        window.onload = () => {
+            renderizarCatalogoRanger(baseDeDadosRanger);
+        };
+    </script>
+</body>
+</html>
