@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Engenharia de Sistemas</title>
+    <link rel="stylesheet" href="../style.css">
+    <!-- Importando Chart.js para os gráficos em pizza -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilo Retropunk / Industrial para o Engenheiro */
+        body.engenheiro-body {
+            background-color: #16120f;
+            background-image: radial-gradient(circle, #2b211a 0%, #0d0a08 100%);
+            color: #d4c5b9;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .workshop-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #1e1814;
+            border: 4px solid #8c5830; /* Tom de cobre/ferro */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 50px rgba(140, 88, 48, 0.15);
+            padding: 40px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .workshop-container h1 {
+            font-family: 'Georgia', serif;
+            color: #e09f3e; /* Cor de bronze brilhante */
+            border-bottom: 2px dashed #8c5830;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: left;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: #a67c52;
+            margin-bottom: 25px;
+        }
+
+        .stats-hud {
+            display: flex;
+            justify-content: space-between;
+            background: #27201b;
+            border: 1px solid #593822;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #e09f3e;
+        }
+
+        .blueprint-section {
+            background: #27201b;
+            border: 1px solid #593822;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+
+        .blueprint-section h3 {
+            color: #e09f3e;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            background: #16120f;
+            border: 1px solid #8c5830;
+            color: #d4c5b9;
+            font-family: inherit;
+            border-radius: 4px;
+        }
+
+        .btn-retropunk {
+            background: #8c5830;
+            color: #f4ebd0;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .btn-retropunk:hover {
+            background: #a67c52;
+        }
+
+        .btn-voltar {
+            background: #38291d;
+            color: #d4c5b9;
+            border: 1px solid #593822;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .btn-voltar:hover {
+            background: #593822;
+        }
+
+        .chart-wrapper {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #16120f;
+            padding: 15px;
+            border: 1px solid #593822;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="engenheiro-body">
+
+    <div class="workshop-container">
+        <button onclick="window.location.href='../index.html'" class="btn-voltar">
+            ⬅️ Voltar ao Portal
+        </button>
+
+        <div style="font-size: 0.8rem; letter-spacing: 3px; color: #a67c52; font-weight: bold;">⚙️ OFICINA MECÂNICA & SISTEMAS // PROJETO TESEU</div>
+        <h1>Módulo: Engenheiro 📐</h1>
+        <p class="subtitle">"Engrenando o tempo, medindo a disposição e forjando a arquitetura de códigos e sites..."</p>
+
+        <!-- HUD de Status da Classe -->
+        <div class="stats-hud">
+            <span id="engenheiro-lvl">Lvl 1</span>
+            <span id="engenheiro-xp">XP: 0 / 100</span>
+        </div>
+
+        <!-- Seção do Gráfico de Pizza (Pilares de Tempo e Disposição) -->
+        <div class="blueprint-section">
+            <h3>📊 Pilares de Tempo & Disposição</h3>
+            <p style="font-size: 0.85rem; color: #a67c52; margin-bottom: 15px;">Monitoramento estrutural da sua energia diária e horas dedicadas:</p>
+            <div class="chart-wrapper">
+                <canvas id="graficoTempoDisposicao"></canvas>
+            </div>
+        </div>
+
+        <!-- Seção de Criação de Sites e Projetos -->
+        <div class="blueprint-section">
+            <h3>💻 Blueprint de Arquitetura & Sites</h3>
+            <p style="font-size: 0.85rem; color: #a67c52; margin-bottom: 15px;">Insira uma nova meta de desenvolvimento ou estrutura de código para processamento:</p>
+            <div class="input-group">
+                <input type="text" id="inputProjeto" placeholder="Ex: Desenvolver Landing Page em JS...">
+                <button onclick="adicionarProjeto()" class="btn-retropunk">Forjar Projeto</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. DADOS E ESTADO DO ENGENHEIRO
+        // ==========================================
+        let dadosRPG = JSON.parse(localStorage.getItem("rpg_dados_completos")) || {};
+
+        if (!dadosRPG.engenheiro) {
+            dadosRPG.engenheiro = { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 };
+        }
+
+        // ==========================================
+        // 2. CONFIGURAÇÃO DO GRÁFICO EM PIZZA (CHART.JS)
+        // ==========================================
+        const ctx = document.getElementById('graficoTempoDisposicao').getContext('2d');
+        const graficoTempo = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Foco / Código', 'Descanso', 'Planejamento', 'Indisposição'],
+                datasets: [{
+                    data: [45, 25, 20, 10],
+                    backgroundColor: ['#e09f3e', '#8c5830', '#d4c5b9', '#38291d'],
+                    borderColor: '#16120f',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            color: '#d4c5b9',
+                            font: { family: 'Courier New', size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // ==========================================
+        // 3. SISTEMA DE XP E INTERFACE
+        // ==========================================
+        function atualizarInterfaceEngenheiro() {
+            const eng = dadosRPG.engenheiro;
+            document.getElementById("engenheiro-lvl").textContent = `Lvl ${eng.level}`;
+            document.getElementById("engenheiro-xp").textContent = `XP: ${eng.xp} / ${eng.xpMax}`;
+        }
+
+        function ganharXPDoEngenheiro(quantidade) {
+            let eng = dadosRPG.engenheiro;
+            const LEVEL_MAX = 10;
+
+            eng.xp += quantidade;
+
+            while (eng.xp >= eng.xpMax) {
+                eng.xp -= eng.xpMax;
+                eng.level += 1;
+
+                if (eng.level > LEVEL_MAX) {
+                    eng.level = 1;
+                    eng.xp = 0;
+                    eng.xpMax = 100;
+                    eng.ultimoNivelColetado = 0;
+                    alert(`🏆 GLÓRIA MECÂNICA! O seu ENGENHEIRO atingiu o ápice (Lvl ${LEVEL_MAX}) e completou o ciclo de maestria! Retornou ao Lvl 1 com caldeiras renovadas! ⚙️🎉`);
+                } else {
+                    eng.xpMax = Math.floor(eng.xpMax * 1.2);
+                    alert(`⚙️ LEVEL UP! Seu Engenheiro avançou para o Nível ${eng.level}! 📐`);
+                }
+            }
+
+            localStorage.setItem("rpg_dados_completos", JSON.stringify(dadosRPG));
+            atualizarInterfaceEngenheiro();
+        }
+
+        function adicionarProjeto() {
+            const input = document.getElementById('inputProjeto');
+            const valor = input.value.trim();
+
+            if (valor !== "") {
+                ganharXPDoEngenheiro(40);
+                alert(`⚙️ Blueprint compilado com sucesso: "${valor}"!\n+40 XP adicionados à oficina do Engenheiro! 🚀`);
+                input.value = '';
+            } else {
+                alert("Insira os parâmetros corretos do projeto ou site.");
+            }
+        }
+
+        // Inicializa a tela ao carregar
+        window.addEventListener("DOMContentLoaded", () => {
+            atualizarInterfaceEngenheiro();
+        });
+    </script>
+</body>
+</html>
