@@ -1,67 +1,165 @@
 // ==========================================
-// MÓDULO DA CLASSE: ENGENHEIRO
-// Foco: Mecanismos / Sistema / Projetos
+// MÓDULO DO ENGENHEIRO - LÓGICA E GRÁFICOS
 // ==========================================
 
-const ENGENHEIRO_KEY = "rpg_engenheiro_dados";
+const ENGENHEIRO_KEY = "rpg_engenheiro_dados_v2";
 
-// Estado inicial do Engenheiro
-let dadosEngenheiro = carregarDadosEngenheiro();
+let dadosEngenheiro = carregarDados();
+let meuGrafico = null;
 
-function carregarDadosEngenheiro() {
-  const salvo = localStorage.getItem(ENGENHEIRO_KEY);
-  if (salvo) {
-    return JSON.parse(salvo);
-  }
-  return {
-    nivel: 1,
-    xp: 0,
-    xpProximoNivel: 100,
-    projetosCriados: 0
-  };
+function carregarDados() {
+    const salvo = localStorage.getItem(ENGENHEIRO_KEY);
+    if (salvo) {
+        return JSON.parse(salvo);
+    }
+    return {
+        nivel: 1,
+        xp: 0,
+        xpProximoNivel: 100,
+        pilares: [50, 50, 50, 50, 50] // Valores iniciais para P1 a P5
+    };
 }
 
-function salvarDadosEngenheiro() {
-  localStorage.setItem(ENGENHEROL_KEY = ENGENHEIRO_KEY, JSON.stringify(dadosEngenheiro));
+function salvarNoStorage() {
+    localStorage.setItem(ENGENHEIRO_KEY, JSON.stringify(dadosEngenheiro));
 }
 
-// Função para registrar a conclusão de uma tarefa de engenharia/código
-function concluirProjetoEngenheiro(nomeProjeto) {
-  const ganhoXp = 45;
-  const ganhoMoedas = 30;
-
-  dadosEngenheiro.xp += ganhoXp;
-  dadosEngenheiro.projetosCriados++;
-
-  // Verifica se upou de nível
-  if (dadosEngenheiro.xp >= dadosEngenheiro.xpProximoNivel) {
-    dadosEngenheiro.nivel++;
-    dadosEngenheiro.xp -= dadosEngenheiro.xpProximoNivel;
-    dadosEngenheiro.xpProximoNivel = Math.floor(dadosEngenheiro.xpProximoNivel * 1.3);
-    
-    alert(`⚡ SISTEMA ATUALIZADO: O Engenheiro alcançou o Nível ${dadosEngenheiro.nivel}!`);
-  }
-
-  salvarDadosEngenheiro();
-  
-  // Atualiza as moedas globais do sistema (se houver a função global)
-  if (typeof adicionarMoedas === "function") {
-    adicionarMoedas(ganhoMoedas);
-  }
-
-  atualizarInterfaceEngenheiro();
-  console.log(`Projeto "${nomeProjeto}" compilado com sucesso! +${ganhoXp} XP`);
-}
-
-function atualizarInterfaceEngenheiro() {
-  // Atualiza o badge de nível na tela de seleção, se o elemento existir
-  const badgeLvl = document.getElementById("lvl-engenheiro");
-  if (badgeLvl) {
-    badgeLvl.textContent = `Lvl ${dadosEngenheiro.nivel}`;
-  }
-}
-
-// Executa a verificação visual ao carregar a página
+// Inicializa os inputs e o gráfico ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-  atualizarInterfaceEngenheiro();
+    for (let i = 1; i <= 5; i++) {
+        const slider = document.getElementById(`pilar${i}`);
+        if (slider) {
+            slider.value = dadosEngenheiro.pilares[i - 1];
+        }
+    }
+    atualizarValoresVisuais();
+    inicializarGrafico();
+    atualizarInterfaceTexto();
 });
+
+function atualizarValoresVisuais() {
+    for (let i = 1; i <= 5; i++) {
+        const inputVal = document.getElementById(`pilar${i}`).value;
+        const spanVal = document.getElementById(`val-p${i}`);
+        if (spanVal) {
+            spanVal.textContent = inputVal;
+        }
+    }
+    
+    // Atualiza os dados em tempo real no gráfico se ele já existir
+    if (meuGrafico) {
+        meuGrafico.data.datasets[0].data = [
+            parseInt(document.getElementById('pilar1').value),
+            parseInt(document.getElementById('pilar2').value),
+            parseInt(document.getElementById('pilar3').value),
+            parseInt(document.getElementById('pilar4').value),
+            parseInt(document.getElementById('pilar5').value)
+        ];
+        meuGrafico.update();
+    }
+}
+
+function inicializarGrafico() {
+    const ctx = document.getElementById('graficoPilares').getContext('2d');
+    
+    meuGrafico = new Chart(ctx, {
+        type: 'radar', // Gráfico de radar ideal para equilibrar os pilares de vida
+        data: {
+            labels: [
+                '1. Autoconhecimento (O Eu)', 
+                '2. Relações (A Tribo)', 
+                '3. Trabalho (Produtividade)', 
+                '4. Vitalidade (O Veículo)', 
+                '5. Propósito (O Legado)'
+            ],
+            datasets: [{
+                label: 'Sintonia dos Pilares',
+                data: dadosEngenheiro.pilares,
+                backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                borderColor: '#d97706',
+                borderWidth: 2,
+                pointBackgroundColor: '#06b6d4',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#06b6d4'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    pointLabels: {
+                        color: '#e7e2dc',
+                        font: {
+                            family: 'Courier New',
+                            size: 11
+                        }
+                    },
+                    ticks: {
+                        display: false,
+                        max: 100,
+                        min: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+// Ação de manutenção: recolhe os valores dos sliders, bonifica com XP e atualiza o sistema
+function salvarManutencaoPilares() {
+    for (let i = 1; i <= 5; i++) {
+        dadosEngenheiro.pilares[i - 1] = parseInt(document.getElementById(`pilar${i}`).value);
+    }
+
+    const ganhoXp = 35;
+    const ganhoMoedas = 20;
+
+    dadosEngenheiro.xp += ganhoXp;
+
+    // Verificação de Level Up
+    if (dadosEngenheiro.xp >= dadosEngenheiro.xpProximoNivel) {
+        dadosEngenheiro.nivel++;
+        dadosEngenheiro.xp -= dadosEngenheiro.xpProximoNivel;
+        dadosEngenheiro.xpProximoNivel = Math.floor(dadosEngenheiro.xpProximoNivel * 1.3);
+        alert(`⚡ SISTEMA RECALIBRADO: O Engenheiro atingiu o Nível ${dadosEngenheiro.nivel}!`);
+    }
+
+    salvarNoStorage();
+    atualizarInterfaceTexto();
+
+    // Integração com o saldo global de moedas, caso exista na aplicação principal
+    if (typeof adicionarMoedas === "function") {
+        adicionarMoedas(ganhoMoedas);
+    }
+
+    alert(`⚙️ Manutenção de pilares concluída com sucesso! +${ganhoXp} XP gerados.`);
+}
+
+function atualizarInterfaceTexto() {
+    const lblNivel = document.getElementById("label-nivel");
+    const lblXp = document.getElementById("label-xp");
+    const lblProximoXp = document.getElementById("label-proximo-xp");
+
+    if (lblNivel) lblNivel.textContent = `Lvl ${dadosEngenheiro.nivel}`;
+    if (lblXp) lblXp.textContent = dadosEngenheiro.xp;
+    if (lblProximoXp) lblProximoXp.textContent = dadosEngenheiro.xpProximoNivel;
+
+    // Atualiza o badge na tela principal de seleção de avatares (se aplicável)
+    const badgeLvlIndex = document.getElementById("lvl-engenheiro");
+    if (badgeLvlIndex) {
+        badgeLvlIndex.textContent = `Lvl ${dadosEngenheiro.nivel}`;
+    }
+}
