@@ -8,6 +8,10 @@ const estadoInicial = {
   druida: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   ladino: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   mercador: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  bardo: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  monge: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  poeta: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
+  madciest: { level: 1, xp: 0, xpMax: 100, ultimoNivelColetado: 0 },
   moedas: 0,
   dataUltimasMissoes: null,
   missoesAtivas: [],
@@ -84,7 +88,11 @@ function mostrarTelaAvatares() {
 }
 
 function atualizarNiveisNaTela() {
-  const classes = ["guerreiro", "mago", "clerigo", "druida", "ladino", "mercador"];
+  const classes = [
+    "guerreiro", "mago", "clerigo", "druida", 
+    "ladino", "mercador", "bardo", "monge", 
+    "poeta", "madciest"
+  ];
   
   classes.forEach(classe => {
     const elementoLevel = document.getElementById(`lvl-${classe}`);
@@ -153,24 +161,27 @@ const POOL_MISSOES = [
 
   // --- MERCADOR / LADINO / DRUIDA ---
   { id: 'rot9', titulo: '💼 Gestão Financeira', desc: 'Registre as entradas e saídas do dia', recompensa: 30, classe: 'mercador' },
-  { id: 'rot10', titulo: '⚡ Agilidade de Metas', desc: 'Finalize a tarefa mais importante da sua lista', recompensa: 35, classe: 'ladino' }
+  { id: 'rot10', titulo: '⚡ Agilidade de Metas', desc: 'Finalize a tarefa mais importante da sua lista', recompensa: 35, classe: 'ladino' },
+
+  // --- BARDO / MONGE / POETA / MADCIEST ---
+  { id: 'rot11', titulo: '🎵 Expressão Verbal', desc: 'Pratique oratória, conversação ou escute algo inspirador', recompensa: 30, classe: 'bardo' },
+  { id: 'rot12', titulo: '🧘 Controle Mental', desc: 'Realize 10 minutos de meditação ou respiração guiada', recompensa: 35, classe: 'monge' },
+  { id: 'rot13', titulo: '✍️ Escrita Criativa', desc: 'Escreva pelo menos um parágrafo ou reflexão do dia', recompensa: 30, classe: 'poeta' },
+  { id: 'rot14', titulo: '🧪 Experimento / Projeto', desc: 'Avance uma etapa prática de um projeto pessoal', recompensa: 45, classe: 'madciest' }
 ];
 
 function gerarMissoesDoDia() {
-  const hoje = new Date().toISOString().split('T')[0]; // Ex: "2026-07-27"
+  const hoje = new Date().toISOString().split('T')[0];
   const classeAtiva = localStorage.getItem("rpg_classe_ativa") || 'guerreiro';
 
-  // Se já gerou hoje e possui missões salvas, mantém a lista
   if (dadosRPG.dataUltimasMissoes === hoje && dadosRPG.missoesAtivas && dadosRPG.missoesAtivas.length > 0) {
     return dadosRPG.missoesAtivas;
   }
 
-  // Filtra missões gerais ou específicas da última classe selecionada
   const disponiveis = POOL_MISSOES.filter(m => 
     m.tipo === 'diaria' || m.classe === classeAtiva
   );
 
-  // Sorteia 3 missões diárias
   const embaralhadas = [...disponiveis].sort(() => 0.5 - Math.random());
   const sorteadas = embaralhadas.slice(0, 3).map(m => ({
     id: m.id,
@@ -337,13 +348,19 @@ function renderizarNotificacoesColeta() {
     { id: "clerigo", nome: "Clérigo", emoji: "✨" },
     { id: "druida", nome: "Druida", emoji: "🍃" },
     { id: "ladino", nome: "Ladino", emoji: "🏃" },
-    { id: "mercador", nome: "Mercador", emoji: "💼" }
+    { id: "mercador", nome: "Mercador", emoji: "💼" },
+    { id: "bardo", nome: "Bardo", emoji: "🎵" },
+    { id: "monge", nome: "Monge", emoji: "🧘" },
+    { id: "poeta", nome: "Poeta", emoji: "✍️" },
+    { id: "madciest", nome: "Cientista Maluco", emoji: "🧪" }
   ];
 
   container.innerHTML = "";
 
   classesInfo.forEach(c => {
     const dadosClasse = dadosRPG[c.id];
+    if (!dadosClasse) return;
+
     const nivel = dadosClasse.level;
     const jaColetouNivelAtual = dadosClasse.ultimoNivelColetado >= nivel;
     const premio = nivel * 15;
@@ -407,6 +424,8 @@ function comprarRecompensa(item, custo) {
 // ==========================================
 function adicionarXP(classe, quantidadeXP) {
   const dadosClasse = dadosRPG[classe];
+  if (!dadosClasse) return;
+
   const LEVEL_MAX = 10; 
 
   dadosClasse.xp += quantidadeXP;
@@ -458,6 +477,18 @@ function entrarComoClasse(classe) {
         break;
       case "mercador":
         window.location.href = "comercio/comercio.html";
+        break;
+      case "bardo":
+        window.location.href = "bardo/bardo.html";
+        break;
+      case "monge":
+        window.location.href = "monge/monge.html";
+        break;
+      case "poeta":
+        window.location.href = "poeta/poeta.html";
+        break;
+      case "madciest":
+        window.location.href = "madciest/madciest.html";
         break;
     }
   }, 200);
