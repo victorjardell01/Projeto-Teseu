@@ -1,5 +1,5 @@
 // ==========================================
-// MÓDULO DO ENGENHEIRO - LÓGICA E GRÁFICOS
+// MÓDULO DO ENGENHEIRO - LÓGICA E GRÁFICOS (ESCALA 1-10)
 // ==========================================
 
 const ENGENHEIRO_KEY = "rpg_engenheiro_dados_v2";
@@ -16,7 +16,7 @@ function carregarDados() {
         nivel: 1,
         xp: 0,
         xpProximoNivel: 100,
-        pilares: [50, 50, 50, 50, 50] // Valores iniciais para P1 a P5
+        pilares: [5, 5, 5, 5, 5] // Valores iniciais na escala de 1 a 10
     };
 }
 
@@ -63,7 +63,7 @@ function inicializarGrafico() {
     const ctx = document.getElementById('graficoPilares').getContext('2d');
     
     meuGrafico = new Chart(ctx, {
-        type: 'radar', // Gráfico de radar ideal para equilibrar os pilares de vida
+        type: 'radar',
         data: {
             labels: [
                 '1. Autoconhecimento (O Eu)', 
@@ -104,8 +104,9 @@ function inicializarGrafico() {
                     },
                     ticks: {
                         display: false,
-                        max: 100,
-                        min: 0
+                        max: 10,   // Limite máximo alterado para 10
+                        min: 0,    // Mínimo mantido em 0 para proporção correta do radar
+                        stepSize: 2
                     }
                 }
             },
@@ -140,7 +141,6 @@ function salvarManutencaoPilares() {
     salvarNoStorage();
     atualizarInterfaceTexto();
 
-    // Integração com o saldo global de moedas, caso exista na aplicação principal
     if (typeof adicionarMoedas === "function") {
         adicionarMoedas(ganhoMoedas);
     }
@@ -157,7 +157,6 @@ function atualizarInterfaceTexto() {
     if (lblXp) lblXp.textContent = dadosEngenheiro.xp;
     if (lblProximoXp) lblProximoXp.textContent = dadosEngenheiro.xpProximoNivel;
 
-    // Atualiza o badge na tela principal de seleção de avatares (se aplicável)
     const badgeLvlIndex = document.getElementById("lvl-engenheiro");
     if (badgeLvlIndex) {
         badgeLvlIndex.textContent = `Lvl ${dadosEngenheiro.nivel}`;
