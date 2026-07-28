@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Templo do Monge - Autocontrole & Disciplina</title>
+
+  <!-- Google Fonts: Noto Serif (Sereno/Zen) e Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilo do Monge (Estética Zen / Slate / Bambu) -->
+  <link rel="stylesheet" href="monge.css">
+</head>
+<body>
+
+  <main class="monge-container">
+    
+    <!-- HEADER ZEN DO MONGE -->
+    <header class="header-monge">
+      <div class="header-icone">🧘‍♂️</div>
+      <h2>Templo do Monge</h2>
+      <p><em>"A mente mestre governa o corpo. O corpo forte abriga a mente em paz."</em></p>
+    </header>
+
+    <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
+      ⬅️ Voltar ao Hub do RPG
+    </a>
+
+    <!-- PAINEL DE STATS MONÁSTICO -->
+    <section class="dashboard-grid">
+      <div class="dash-card">
+        <h4>🔥 Dias Limpo (Streak)</h4>
+        <div class="valor" id="stat-dias-limpo">0</div>
+        <small>Domínio de Vícios</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>😴 Média de Sono</h4>
+        <div class="valor" id="stat-media-sono">0h</div>
+        <small>Regeneração & Foco</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🧘 Minutos de Prática</h4>
+        <div class="valor" id="stat-minutos-zen">0</div>
+        <small>Meditação & Alongamento</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🎖️ Rank do Monge</h4>
+        <div id="badge-nivel-monge" class="status-badge">Nível 1 - Mente Silenciosa</div>
+      </div>
+    </section>
+
+    <!-- PILAR 1: CONTROLE DO SONO PERFEITO -->
+    <section class="card-painel pilar-sono">
+      <h3>🌙 Pilar I: Controle do Sono Perfeito</h3>
+      <p class="pilar-desc">Regeneração do sistema nervoso, síntese muscular e clareza mental.</p>
+      
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="input-horas-sono">Horas Dormidas (Ex: 7.5)</label>
+          <input type="number" id="input-horas-sono" step="0.5" placeholder="8.0" min="0" max="16">
+        </div>
+        <div class="field-group">
+          <label for="select-qualidade-sono">Qualidade do Sono</label>
+          <select id="select-qualidade-sono">
+            <option value="5">⭐⭐⭐⭐⭐ Profundo / Renovador</option>
+            <option value="4">⭐⭐⭐⭐ Bom / Descansado</option>
+            <option value="3">⭐⭐⭐ Razoável / Acordou poucas vezes</option>
+            <option value="2">⭐⭐ Leve / Inquieto</option>
+            <option value="1">⭐ Ruim / Insônia ou Interrompido</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checklist-sono">
+        <label><input type="checkbox" id="chk-sem-telas"> 📵 Sem telas 1h antes de deitar</label>
+        <label><input type="checkbox" id="chk-quarto-escuro"> 🌙 Quarto 100% escuro e fresco</label>
+        <label><input type="checkbox" id="chk-cafeina-corte"> ☕ Sem cafeína após as 14h</label>
+      </div>
+
+      <button onclick="registrarSono()" class="btn-primary" style="margin-top: 15px; width: 100%;">
+        🛌 Registrar Noite de Sono (+20 XP)
+      </button>
+    </section>
+
+    <!-- PILAR 2: MEDITAÇÃO & RESPIRAÇÃO (RESPIRAÇÃO / ZAZEN) -->
+    <section class="card-painel pilar-meditacao">
+      <h3>🌬️ Pilar II: Respiração & Meditação (Zazen)</h3>
+      <p class="pilar-desc">Acalme o sistema simpático e recupere o foco através da respiração consciente.</p>
+
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="select-tipo-respiracao">Técnica de Prática</label>
+          <select id="select-tipo-respiracao">
+            <option value="Box Breathing (4-4-4-4)">Box Breathing (Inspira 4s, Segura 4s, Expira 4s, Segura 4s)</option>
+            <option value="Respiração 4-7-8 (Ansiolítica)">Respiração 4-7-8 (Desligamento de Ansiedade)</option>
+            <option value="Meditação Zazen (Foco na Ancoragem)">Meditação Zazen (Silêncio & Observação)</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="input-minutos-meditacao">Tempo Praticado (Minutos)</label>
+          <input type="number" id="input-minutos-meditacao" placeholder="Ex: 10" min="1" value="10">
+        </div>
+      </div>
+
+      <button onclick="registrarMeditacao()" class="btn-primary" style="margin-top: 15px; width: 100%;">
+        🧘 Concluir Sessão Zen (+15 XP)
+      </button>
+    </section>
+
+    <!-- PILAR 3: CONTROLE DE VÍCIOS & IMPULSOS (STREAK TRACKER) -->
+    <section class="card-painel pilar-vicios">
+      <h3>🛡️ Pilar III: Domínio de Vícios & Impulsos</h3>
+      <p class="pilar-desc">Fortaleça o córtex pré-frontal mantendo dias limpos de hábitos nocivos.</p>
+
+      <div class="streak-box">
+        <div class="streak-contador" id="display-streak-dias">0 DIAS LIMPO</div>
+        <p style="font-size: 0.85rem; color: var(--texto-suave);">Cada dia limpo concede +20 XP de Monge (+5 XP bônus/dia de streak).</p>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button onclick="registrarDiaLimpo()" class="btn-primary" style="flex: 2;">
+          ✅ Concluir +1 Dia Limpo (+XP)
+        </button>
+        <button onclick="resetarStreakVicios()" class="btn-danger" style="flex: 1;">
+          ⚠️ Recaída (Resetar)
+        </button>
+      </div>
+    </section>
+
+    <!-- PILAR 4: ALONGAMENTO & MOBILIDADE -->
+    <section class="card-painel pilar-alongamento">
+      <h3>🧘‍♀️ Pilar IV: Alongamento & Mobilidade</h3>
+      <p class="pilar-desc">Descompressão articular e flexibilidade pós-treino ou longas horas sentado.</p>
+
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="input-foco-alongamento">Foco do Alongamento</label>
+          <input type="text" id="input-foco-alongamento" placeholder="Ex: Posterior de coxa, Ombros, Cervical, Quadril...">
+        </div>
+        <div class="field-group">
+          <label for="input-minutos-alongamento">Duração (Minutos)</label>
+          <input type="number" id="input-minutos-alongamento" placeholder="Ex: 15" min="5" value="15">
+        </div>
+      </div>
+
+      <button onclick="registrarAlongamento()" class="btn-primary" style="margin-top: 15px; width: 100%;">
+        🌾 Finalizar Mobilidade (+15 XP)
+      </button>
+    </section>
+
+    <!-- PILAR 5: CONTROLE DE DOR & DETOX DE DOPAMINA -->
+    <section class="card-painel pilar-resiliencia">
+      <h3>🧊 Pilar V: Resiliência, Dor & Detox Digital</h3>
+
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="select-tipo-resiliencia">Ação Monástica</label>
+          <select id="select-tipo-resiliencia">
+            <option value="Banho Frio / Contraste">🧊 Banho Frio (Resiliência & Alívio)</option>
+            <option value="Liberação Miofascial">🪵 Liberação Miofascial (Recuperação Muscular)</option>
+            <option value="Detox de Dopamina (2h Sem Telas)">🧠 Detox Digital (2h sem redes/telas)</option>
+            <option value="Tolerância à Dor de Treino">💪 Recuperação Muscular Ativa</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="input-observacao-resiliencia">Nota ou Sensação (Opcional)</label>
+          <input type="text" id="input-observacao-resiliencia" placeholder="Ex: Sensação de alívio muscular pós-treino.">
+        </div>
+      </div>
+
+      <button onclick="registrarResiliencia()" class="btn-primary" style="margin-top: 15px; width: 100%;">
+        🥋 Registrar Ato de Controle (+15 XP)
+      </button>
+    </section>
+
+    <!-- ARCHIVE: HISTÓRICO DE PRÁTICAS -->
+    <section class="card-painel">
+      <h3>📜 Histórico de Práticas Monásticas</h3>
+      <ul id="lista-historico-monge" class="lista-historico">
+        <!-- Injetado dinamicamente via JS -->
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Vinculação do JavaScript -->
+  <script src="monge.js"></script>
+</body>
+</html>
