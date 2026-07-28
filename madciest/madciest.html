@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laboratório Secreto - Mad Scientist</title>
+  <title>Laboratório Secreto de Gadgets - Mad Scientist</title>
 
-  <!-- Google Fonts: VT323 (Terminal Retro/Divergence Meter), Orbitron e Share Tech Mono -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&family=VT323&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Estilo do Mad Scientist (Lab Retro-SciFi Green) -->
   <link rel="stylesheet" href="madscientist.css">
 </head>
 <body>
@@ -23,7 +22,7 @@
 
   <main class="lab-container">
     
-    <!-- DIVERGENCE METER / CITACÃO DE KYOUMA -->
+    <!-- DIVERGENCE METER / CITACÃO -->
     <div class="divergence-box">
       <span class="divergence-meter" id="display-divergence">1.048596%</span>
       <p class="quote-kyouma" id="texto-quote-mad">"Eu sou o Mad Scientist Hououin Kyouma! O caos e o conhecimento são minhas armas!"</p>
@@ -32,15 +31,20 @@
     <!-- HEADER DO MAD SCIENTIST -->
     <header class="header-mad">
       <div class="header-icone">🥼</div>
-      <h2>MAD SCIENTIST LAB</h2>
-      <p class="subtitulo-lab">Experimentos Biológicos, Química Botânica, Micologia & Fermentação Orgânica.</p>
+      <h2>FUTURE GADGET LABORATORY</h2>
+      <p class="subtitulo-lab">Bem-vindo ao Laboratório de Gadgets Futuros & Química Botânica.</p>
+      
+      <!-- REGISTRO OFICIAL DE MEMBRO #015 -->
+      <div class="membro-badge" id="card-membro-lab">
+        ☣️ <strong>Membro do Laboratório #015:</strong> Ativo na Linha de Divergência
+      </div>
     </header>
 
     <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
       ⬅️ Voltar ao Hub do RPG
     </a>
 
-    <!-- PAINEL DE STATS DO LABORATÓRIO -->
+    <!-- PAINEL DE STATS -->
     <section class="dashboard-grid">
       <div class="dash-card">
         <h4>🧪 Experimentos Realizados</h4>
@@ -60,7 +64,7 @@
       </div>
     </section>
 
-    <!-- FORMULÁRIO: REGISTRAR EXPERIMENTO BIOLÓGICO -->
+    <!-- FORMULÁRIO: REGISTRAR EXPERIMENTO -->
     <section class="card-painel pilar-lab">
       <h3>☣️ Novo Experimento de Laboratório</h3>
       <p class="pilar-desc">Documente suas observações físico-químicas, botânicas ou micológicas para expandir o conhecimento proibido.</p>
@@ -68,7 +72,7 @@
       <div class="grid-form">
         <div class="field-group">
           <label for="input-nome-experimento">Código / Nome do Experimento</label>
-          <input type="text" id="input-nome-experimento" placeholder="Ex: Operação Verdanth - Fermentação de Cold Brew">
+          <input type="text" id="input-nome-experimento" placeholder="Ex: Future Gadget #015 - Fermentação Experimental">
         </div>
 
         <div class="field-group">
@@ -78,7 +82,7 @@
             <option value="Fermentação & Bioquímica">🧪 Fermentação (Kombucha, Iogurte, Chás, Pães)</option>
             <option value="Botânica & Extração Físico-Química">🌱 Botânica & Extração (Infusões, Oleolatos, Germinação)</option>
             <option value="Extração Físico-Química de Café">☕ Física/Química do Café (Extração, TDS, Moagem)</option>
-            <option value="Biotecnologia Experimental">🧬 Biotecnologia & Experimentos Gerais</option>
+            <option value="Biotecnologia Experimental">🧬 Biotecnologia & Gadgets Futuros</option>
           </select>
         </div>
       </div>
@@ -102,7 +106,7 @@
 
       <div class="field-group" style="margin-top: 15px;">
         <label for="textarea-notas-lab">Diário de Observação (Notas Físico-Químicas)</label>
-        <textarea id="textarea-notas-lab" rows="6" placeholder="Descreva a reação, textura, aroma, densidade ou comportamento da cultura...&#10;&#10;Observação #001: A atividade das leveduras acelerou após a adição de açúcar não refinado. Formação de bolhas de CO2 constante."></textarea>
+        <textarea id="textarea-notas-lab" rows="6" placeholder="Descreva a reação, textura, aroma, densidade ou comportamento da cultura..."></textarea>
       </div>
 
       <button onclick="registrarExperimento()" class="btn-primary" style="margin-top: 18px; width: 100%;">
@@ -110,7 +114,7 @@
       </button>
     </section>
 
-    <!-- REGISTRO / ARCHIVE DE EXPERIMENTOS -->
+    <!-- HISTÓRICO -->
     <section class="card-painel">
       <h3>📁 Arquivos Confidenciais do Laboratório</h3>
       <div id="container-experimentos" class="lista-experimentos">
