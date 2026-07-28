@@ -12,6 +12,69 @@
 
   <!-- Estilo do Poeta (Sombrio, Melancólico & Ébano) -->
   <link rel="stylesheet" href="poeta.css">
+
+  <style>
+    /* Estilo adicional exclusivo para o Codex do Andarilho */
+    .codex-container {
+      margin-top: 30px;
+      border: 1px dashed rgba(217, 119, 6, 0.3);
+      background: rgba(18, 16, 14, 0.7);
+      border-radius: 6px;
+      padding: 15px;
+    }
+    .btn-codex {
+      background: linear-gradient(90deg, #1f1a16, #2a221c);
+      color: #d4b59d;
+      border: 1px solid #4a382c;
+      padding: 12px 20px;
+      font-family: 'Special Elite', monospace;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    .btn-codex:hover {
+      border-color: #d97706;
+      color: #fff;
+      background: #25201b;
+    }
+    .codex-conteudo {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out, padding 0.3s ease;
+      padding: 0 10px;
+    }
+    .codex-conteudo.ativo {
+      max-height: 2500px; /* Altura suficiente para exibir todas as leis */
+      padding: 20px 10px 10px 10px;
+      transition: max-height 0.8s ease-in;
+    }
+    .codex-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      color: #c5bbb1;
+    }
+    .codex-item {
+      background: rgba(25, 21, 18, 0.9);
+      border-left: 3px solid #d97706;
+      padding: 10px 14px;
+      border-radius: 2px;
+      line-height: 1.4;
+    }
+    .codex-item strong {
+      color: #e7e2dc;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,7 +86,7 @@
 
   <main class="poeta-container">
     
-    <!-- CITACÃO SOMBRIA -->
+    <!-- CITAÇÃO SOMBRIA -->
     <div class="quote-goth">
       <span id="texto-quote-poeta">"A escuridão não é a ausência de luz, é a presença do que não pode ser dito."</span>
     </div>
@@ -92,8 +155,46 @@
       </button>
     </section>
 
+    <!-- SECÇÃO OCULTA: CODEX DO ANDARILHO SOLITÁRIO -->
+    <section class="codex-container">
+      <button onclick="toggleCodex()" class="btn-codex">
+        <span>📖 Acessar Codex do Andarilho Solitário (Leis e Diretrizes)</span>
+        <span id="codex-icone-toggle">[ + ]</span>
+      </button>
+      
+      <div id="codex-conteudo" class="codex-conteudo">
+        <div class="codex-lista">
+          <div class="codex-item"><strong>1. Evolução Diária:</strong> Buscar a evolução constante, seja física, mental ou espiritual. Parar é retroceder.</div>
+          <div class="codex-item"><strong>2. Controle Emocional:</strong> A emoção cega; a razão guia. Nunca decida nada no calor do momento.</div>
+          <div class="codex-item"><strong>3. Autossuficiência:</strong> Não dependa emocionalmente de ninguém. Sua felicidade e seu progresso são responsabilidades exclusivamente suas.</div>
+          <div class="codex-item"><strong>4. Proteção da Família:</strong> Sempre proteger, amar e, se necessário, dar a vida pela família. Eles são o pilar central.</div>
+          <div class="codex-item"><strong>5. Silêncio Estratégico:</strong> Fale menos do que o necessário. O silêncio observa, aprende e planeja; a exposição desnecessária gera vulnerabilidade.</div>
+          <div class="codex-item"><strong>6. Evitar Conflitos Inúteis:</strong> Não gaste energia com discussões tolas ou provocações. O leão não se importa com a opinião das ovelhas.</div>
+          <div class="codex-item"><strong>7. Verdade Nua e Crua:</strong> Buscar sempre a verdade, por mais desconfortável ou dolorosa que ela seja. A ilusão é uma fraqueza.</div>
+          <div class="codex-item"><strong>8. Rejeição à Aprovação Alheia:</strong> Nunca busque a validação ou aprovação de terceiros. O único julgamento que importa é o seu próprio, diante do espelho.</div>
+          <div class="codex-item"><strong>9. Disciplina Inabalável:</strong> Fazer o que precisa ser feito, independentemente de estar motivado ou não. A rotina e o dever superam o sentimento.</div>
+          <div class="codex-item"><strong>10. Resiliência Estoica:</strong> Aceitar o que não pode ser controlado e focar absolutamente toda a energia no que pode ser mudado.</div>
+          <div class="codex-item"><strong>11. Lealdade Absoluta:</strong> Ser leal aos poucos que provaram merecer. A traição é uma quebra definitiva e sem retorno.</div>
+          <div class="codex-item"><strong>12. Foco no Objetivo:</strong> Manter os olhos fixos nas metas de longo prazo, ignorando as distrações efêmeras do presente.</div>
+          <div class="codex-item"><strong>13. Desconforto Voluntário:</strong> Buscar o desconforto de vez em quando para cimentar a mente e o corpo contra a fraqueza do conforto excessivo.</div>
+          <div class="codex-item"><strong>14. Honrar a Palavra:</strong> Se foi dito, será feito. Sua palavra é seu maior ativo de respeito.</div>
+          <div class="codex-item"><strong>15. Não Vitimização:</strong> Nunca reclamar das circunstâncias. Assuma a responsabilidade por tudo o que acontece na sua vida.</div>
+          <div class="codex-item"><strong>16. Mente Analítica:</strong> Observar os padrões do ambiente e das pessoas. Antecipar cenários é a chave da estratégia.</div>
+          <div class="codex-item"><strong>17. Cuidado com o Templo:</strong> Treinar o corpo com máxima intensidade e densidade. Um espírito forte precisa de uma armadura forte.</div>
+          <div class="codex-item"><strong>18. Humildade no Aprendizado:</strong> Sentar-se como estudante para poder levantar-se como mestre. Sempre há algo a aprender.</div>
+          <div class="codex-item"><strong>19. Desapego ao Ego:</strong> O ego inflado é o primeiro passo para a queda. Mantenha os pés no chão, mesmo no topo.</div>
+          <div class="codex-item"><strong>20. Justiça Fria:</strong> Ser justo, mas não hesitar em ser firme e implacável quando a situação exigir o estabelecimento de limites.</div>
+          <div class="codex-item"><strong>21. Postura de Respeito:</strong> Tratar a todos com educação e neutralidade, até que provem o oposto. O respeito diz mais sobre quem o dá do que sobre quem o recebe.</div>
+          <div class="codex-item"><strong>22. Privacidade Absoluta:</strong> Seus planos, suas conquistas e suas fraquezas pertencem apenas a você. Quem muito mostra, muito vira alvo.</div>
+          <div class="codex-item"><strong>23. Adaptação ao Caos:</strong> O mundo é imprevisível. Seja como a água: molde-se às dificuldades sem perder a sua essência.</div>
+          <div class="codex-item"><strong>24. Gratidão Real:</strong> Reconhecer e valorizar o que foi conquistado e quem caminhou ao seu lado, sem se deixar cegar pela ganância.</div>
+          <div class="codex-item"><strong>25. Legado e Honra:</strong> Viver de forma que suas ações ecoem com honra. Cada passo dado deve construir o caminho do andarilho.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ANTOLOGIA: HISTÓRICO DE POEMAS -->
-    <section class="card-painel">
+    <section class="card-painel" style="margin-top: 25px;">
       <h3>🕯️ Antologia do Abismo</h3>
       <div id="container-antologia-poemas" class="lista-poemas">
         <!-- Injetado dinamicamente via JS -->
@@ -103,5 +204,19 @@
   </main>
 
   <script src="poeta.js"></script>
+  <script>
+    // Função simples para controlar a abertura/fechamento do Codex com animação
+    function toggleCodex() {
+      const conteudo = document.getElementById('codex-conteudo');
+      const icone = document.getElementById('codex-icone-toggle');
+      
+      conteudo.classList.toggle('ativo');
+      if (conteudo.classList.contains('ativo')) {
+        icone.textContent = '[ - ]';
+      } else {
+        icone.textContent = '[ + ]';
+      }
+    }
+  </script>
 </body>
 </html>
