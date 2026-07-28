@@ -353,7 +353,7 @@ function renderizarNotificacoesColeta() {
     { id: "bardo", nome: "Bardo", emoji: "🎵" },
     { id: "monge", nome: "Monge", emoji: "🧘" },
     { id: "poeta", nome: "Poeta", emoji: "✍️" },
-    { id: "madciest", nome: "Cientista Maluco", emoji: "🧪" }
+    { id: "madciest", nome: "Cientista Maluco", emoji: "🧪" },
     { id: "ranger", nome: "Ranger", emoji: "🏹" }
   ];
 
@@ -492,9 +492,9 @@ function entrarComoClasse(classe) {
       case "madciest":
         window.location.href = "madciest/madciest.html";
         break;
-        case "ranger":
-          window.location.href = "ranger/ranger.html";
-          break;
+      case "ranger":
+        window.location.href = "ranger/ranger.html";
+        break;
     }
   }, 200);
 }
