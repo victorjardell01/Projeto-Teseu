@@ -15,6 +15,11 @@
             <p>Espaço de Oração, Palavra e Fortalecimento Espiritual</p>
         </header>
 
+        <!-- Navegação / Voltar ao Hub -->
+        <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
+            ⬅️ Voltar ao Hub do RPG
+        </a>
+
         <!-- Painel de Progressão / XP do Clérigo -->
         <section class="painel-xp">
             <div class="status-nivel">
@@ -23,6 +28,10 @@
             </div>
             <div class="barra-progresso-container">
                 <div id="barra-progresso" style="width: 0%;"></div>
+            </div>
+            <!-- Indicador do Buff Ativo -->
+            <div id="buff-ativo-display" style="margin-top: 10px; font-size: 0.85rem; color: #ffd700; text-align: center;">
+                ✨ Nenhuma Bênção Ativa no Momento
             </div>
         </section>
 
@@ -41,92 +50,140 @@
             <blockquote>
                 "Senhor, guia meus passos neste dia. Dá-me sabedoria para fazer escolhas justas, força para perseverar e paz para o coração. Que minhas ações reflitam a Tua vontade. Amém."
             </blockquote>
-            <!-- Botão para acionar a função no clerigo.js e ganhar XP -->
-            <button id="btn-oracao" onclick="concluirOracao()">Concluir Oração (Amém)</button>
+            <button id="btn-oracao" onclick="concluirOracao()" class="btn-primary">Concluir Oração (Amém) [+25 XP]</button>
+        </section>
+
+        <!-- NOVO: Altar de Bênçãos (Buffs Diários) -->
+        <section class="card-painel" style="margin-top: 25px;">
+            <h2>✨ Altar de Bênçãos (Consagração do Dia)</h2>
+            <p class="subtitulo-meditacao">Escolha uma graça divina para consagrar suas atividades de hoje e canalizar foco espiritual.</p>
+            
+            <div class="grid-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px;">
+                <button onclick="ativarBencao('Sabedoria', '📚 Foco Total em Estudos e Resolução de Problemas')" class="btn-secundario" id="btn-bencao-sabedoria" style="padding: 12px; text-align: left;">
+                    <strong>Bênção da Sabedoria</strong><br><small>+Foco Acadêmico e Clareza</small>
+                </button>
+                <button onclick="ativarBencao('Vigor', '💪 Força, Resiliência Física e Disciplina')" class="btn-secundario" id="btn-bencao-vigor" style="padding: 12px; text-align: left;">
+                    <strong>Bênção do Vigor</strong><br><small>+Disciplina e Energia (Treino)</small>
+                </button>
+                <button onclick="ativarBencao('Paz', '🕊️ Serenidade e Domínio Próprio contra a Ansiedade')" class="btn-secundario" id="btn-bencao-paz" style="padding: 12px; text-align: left;">
+                    <strong>Bênção da Paz</strong><br><small>+Paz de Espírito e Calma</small>
+                </button>
+            </div>
+        </section>
+
+        <!-- NOVO: Liturgia das Horas (Ciclo Diário) -->
+        <section class="card-painel" style="margin-top: 25px;">
+            <h2>⏳ Liturgia das Horas</h2>
+            <p class="subtitulo-meditacao">Os ciclos sagrados do dia. Cumpra os ritos nos períodos corretos para colher sabedoria.</p>
+            
+            <ul class="lista-aventurancas" style="list-style: none; padding: 0;">
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div>
+                        <strong>Laudes (Oração da Manhã):</strong><br>
+                        <small style="color: #aaa;">Entrega do dia ao Criador e alinhamento de propósito.</small>
+                    </div>
+                    <button id="btn-liturgia-manha" onclick="concluirLiturgia('manha')" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">Cumprir [+20 XP]</button>
+                </li>
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div>
+                        <strong>Vésperas (Oração da Tarde):</strong><br>
+                        <small style="color: #aaa;">Pausa no meio da jornada para renovar as forças e agradecer.</small>
+                    </div>
+                    <button id="btn-liturgia-tarde" onclick="concluirLiturgia('tarde')" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">Cumprir [+20 XP]</button>
+                </li>
+                <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                    <div>
+                        <strong>Completas (Oração da Noite):</strong><br>
+                        <small style="color: #aaa;">Exame de consciência, gratidão e entrega do descanso.</small>
+                    </div>
+                    <button id="btn-liturgia-noite" onclick="concluirLiturgia('noite')" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">Cumprir [+20 XP]</button>
+                </li>
+            </ul>
         </section>
 
         <!-- As Bem-Aventuranças -->
-        <section class="secao-bem-aventurancas">
+        <section class="secao-bem-aventurancas" style="margin-top: 25px;">
             <h2>As Bem-Aventuranças</h2>
             <p class="subtitulo-meditacao">Medite nas palavras do Mestre e marque ao concluir sua reflexão diária.</p>
             
             <ul class="lista-aventurancas">
                 <li>
-                    <input type="checkbox" id="aventuranca-1" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-1" onclick="meditarAventuranca(this, 'aventuranca-1')">
                     <label for="aventuranca-1">
                         <strong>Os Pobres em Espírito:</strong> "Bem-aventurados os pobres em espírito, porque deles é o reino dos céus."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-2" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-2" onclick="meditarAventuranca(this, 'aventuranca-2')">
                     <label for="aventuranca-2">
                         <strong>Os que Choram:</strong> "Bem-aventurados os que choram, porque serão consolados."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-3" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-3" onclick="meditarAventuranca(this, 'aventuranca-3')">
                     <label for="aventuranca-3">
                         <strong>Os Mansos:</strong> "Bem-aventurados os mansos, porque herdarão a terra."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-4" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-4" onclick="meditarAventuranca(this, 'aventuranca-4')">
                     <label for="aventuranca-4">
                         <strong>Fome e Sede de Justiça:</strong> "Bem-aventurados os que têm fome e sede de justiça, porque serão saciados."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-5" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-5" onclick="meditarAventuranca(this, 'aventuranca-5')">
                     <label for="aventuranca-5">
                         <strong>Os Misericordiosos:</strong> "Bem-aventurados os misericordiosos, porque alcançarão misericórdia."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-6" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-6" onclick="meditarAventuranca(this, 'aventuranca-6')">
                     <label for="aventuranca-6">
                         <strong>Os Limpos de Coração:</strong> "Bem-aventurados os limpos de coração, porque verão a Deus."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-7" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-7" onclick="meditarAventuranca(this, 'aventuranca-7')">
                     <label for="aventuranca-7">
                         <strong>Os Pacificadores:</strong> "Bem-aventurados os pacificadores, porque serão chamados filhos de Deus."
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="aventuranca-8" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="aventuranca-8" onclick="meditarAventuranca(this, 'aventuranca-8')">
                     <label for="aventuranca-8">
                         <strong>Os Perseguidos:</strong> "Bem-aventurados os perseguidos por causa da justiça, porque deles é o reino dos céus."
                     </label>
                 </li>
             </ul>
         </section>
+
         <!-- Práticas e Penitências (Disciplinas Espirituais) -->
-        <section class="secao-penitencias">
+        <section class="secao-penitencias" style="margin-top: 25px;">
             <h2>Práticas e Penitências</h2>
             <p class="subtitulo-meditacao">Exercite virtudes práticas no seu dia a dia para fortalecer o espírito.</p>
             
             <ul class="lista-aventurancas">
                 <li>
-                    <input type="checkbox" id="penitencia-1" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="penitencia-1" onclick="meditarAventuranca(this, 'penitencia-1')">
                     <label for="penitencia-1">
                         <strong>Praticar o Perdão:</strong> Liberar alguém de uma ofensa ou buscar reconciliação.
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="penitencia-2" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="penitencia-2" onclick="meditarAventuranca(this, 'penitencia-2')">
                     <label for="penitencia-2">
                         <strong>Praticar a Empatia:</strong> Ouvir ativamente e se colocar no lugar do próximo, sem julgamentos.
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="penitencia-3" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="penitencia-3" onclick="meditarAventuranca(this, 'penitencia-3')">
                     <label for="penitencia-3">
                         <strong>Doação e Caridade:</strong> Realizar um ato genuíno de generosidade (tempo, atenção ou recursos).
                     </label>
                 </li>
                 <li>
-                    <input type="checkbox" id="penitencia-4" onclick="meditarAventuranca(this)">
+                    <input type="checkbox" id="penitencia-4" onclick="meditarAventuranca(this, 'penitencia-4')">
                     <label for="penitencia-4">
                         <strong>Domínio Próprio / Jejum:</strong> Exercitar o autocontrole abrindo mão de algo supérfluo por hoje.
                     </label>
@@ -134,9 +191,8 @@
             </ul>
         </section>
     </div>
-    </div>
 
-    <!-- Script de lógica do clérigo (onde ficará o sistema de XP) -->
+    <!-- Script de lógica do clérigo -->
     <script src="santuario.js"></script>
 </body>
 </html>
