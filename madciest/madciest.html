@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratório Secreto - Mad Scientist</title>
+
+  <!-- Google Fonts: VT323 (Terminal Retro/Divergence Meter), Orbitron e Share Tech Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&family=VT323&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Estilo do Mad Scientist (Lab Retro-SciFi Green) -->
+  <link rel="stylesheet" href="madscientist.css">
+</head>
+<body>
+
+  <!-- PARTÍCULAS DE ESPOROS & FUMAÇA TÓXICA -->
+  <div class="esporo e1">🧪</div>
+  <div class="esporo e2">🍄</div>
+  <div class="esporo e3">🧬</div>
+  <div class="esporo e4">☣️</div>
+
+  <main class="lab-container">
+    
+    <!-- DIVERGENCE METER / CITACÃO DE KYOUMA -->
+    <div class="divergence-box">
+      <span class="divergence-meter" id="display-divergence">1.048596%</span>
+      <p class="quote-kyouma" id="texto-quote-mad">"Eu sou o Mad Scientist Hououin Kyouma! O caos e o conhecimento são minhas armas!"</p>
+    </div>
+
+    <!-- HEADER DO MAD SCIENTIST -->
+    <header class="header-mad">
+      <div class="header-icone">🥼</div>
+      <h2>MAD SCIENTIST LAB</h2>
+      <p class="subtitulo-lab">Experimentos Biológicos, Química Botânica, Micologia & Fermentação Orgânica.</p>
+    </header>
+
+    <a href="../index.html" class="btn-secundario" style="margin-bottom: 20px; display: inline-block;">
+      ⬅️ Voltar ao Hub do RPG
+    </a>
+
+    <!-- PAINEL DE STATS DO LABORATÓRIO -->
+    <section class="dashboard-grid">
+      <div class="dash-card">
+        <h4>🧪 Experimentos Realizados</h4>
+        <div class="valor" id="stat-total-experimentos">0</div>
+        <small>Registros no Lab</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🍄 Cultivos & Culturas</h4>
+        <div class="valor" id="stat-total-cultivos">0</div>
+        <small>Fungos, Plantas & Kombuchas</small>
+      </div>
+
+      <div class="dash-card">
+        <h4>🎖️ Credencial Acadêmica</h4>
+        <div id="badge-nivel-mad" class="status-badge">Nível 1 - Pesquisador do Caos</div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO: REGISTRAR EXPERIMENTO BIOLÓGICO -->
+    <section class="card-painel pilar-lab">
+      <h3>☣️ Novo Experimento de Laboratório</h3>
+      <p class="pilar-desc">Documente suas observações físico-químicas, botânicas ou micológicas para expandir o conhecimento proibido.</p>
+      
+      <div class="grid-form">
+        <div class="field-group">
+          <label for="input-nome-experimento">Código / Nome do Experimento</label>
+          <input type="text" id="input-nome-experimento" placeholder="Ex: Operação Verdanth - Fermentação de Cold Brew">
+        </div>
+
+        <div class="field-group">
+          <label for="select-categoria-exp">Ramo da Ciência</label>
+          <select id="select-categoria-exp">
+            <option value="Micologia (Fungos & Esporos)">🍄 Micologia (Fungos, Esporos & Cogumelos)</option>
+            <option value="Fermentação & Bioquímica">🧪 Fermentação (Kombucha, Iogurte, Chás, Pães)</option>
+            <option value="Botânica & Extração Físico-Química">🌱 Botânica & Extração (Infusões, Oleolatos, Germinação)</option>
+            <option value="Extração Físico-Química de Café">☕ Física/Química do Café (Extração, TDS, Moagem)</option>
+            <option value="Biotecnologia Experimental">🧬 Biotecnologia & Experimentos Gerais</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-form" style="margin-top: 15px;">
+        <div class="field-group">
+          <label for="input-variaveis">Variáveis (Temperatura, pH, Proporção, Umidade)</label>
+          <input type="text" id="input-variaveis" placeholder="Ex: Temp: 24°C, Proporção 1:15, pH 4.2">
+        </div>
+
+        <div class="field-group">
+          <label for="select-resultado">Status do Experimento</label>
+          <select id="select-resultado">
+            <option value="Sucesso Absoluto (Hipótese Confirmada)">✅ Sucesso Absoluto (Hipótese Confirmada)</option>
+            <option value="Mutação / Reação Inesperada">⚡ Mutação / Reação Inesperada</option>
+            <option value="Em Incubação / Processamento">⏳ Em Incubação / Processamento</option>
+            <option value="Falha de Contaminação / Explosão">💥 Falha / Contaminação (Lição Aprendida)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-top: 15px;">
+        <label for="textarea-notas-lab">Diário de Observação (Notas Físico-Químicas)</label>
+        <textarea id="textarea-notas-lab" rows="6" placeholder="Descreva a reação, textura, aroma, densidade ou comportamento da cultura...&#10;&#10;Observação #001: A atividade das leveduras acelerou após a adição de açúcar não refinado. Formação de bolhas de CO2 constante."></textarea>
+      </div>
+
+      <button onclick="registrarExperimento()" class="btn-primary" style="margin-top: 18px; width: 100%;">
+        ☢️ Injetar Dados no Servidor Central (+35 XP)
+      </button>
+    </section>
+
+    <!-- REGISTRO / ARCHIVE DE EXPERIMENTOS -->
+    <section class="card-painel">
+      <h3>📁 Arquivos Confidenciais do Laboratório</h3>
+      <div id="container-experimentos" class="lista-experimentos">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <script src="madscientist.js"></script>
+</body>
+</html>
