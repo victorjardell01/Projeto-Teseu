@@ -93,7 +93,7 @@ function atualizarNiveisNaTela() {
   const classes = [
     "guerreiro", "mago", "clerigo", "druida", 
     "ladino", "mercador", "bardo", "monge", 
-    "poeta", "madciest", "ranger"
+    "poeta", "madciest", "ranger", "engenheiro"
   ];
   
   classes.forEach(classe => {
@@ -165,11 +165,12 @@ const POOL_MISSOES = [
   { id: 'rot9', titulo: '💼 Gestão Financeira', desc: 'Registre as entradas e saídas do dia', recompensa: 30, classe: 'mercador' },
   { id: 'rot10', titulo: '⚡ Agilidade de Metas', desc: 'Finalize a tarefa mais importante da sua lista', recompensa: 35, classe: 'ladino' },
 
-  // --- BARDO / MONGE / POETA / MADCIEST ---
+  // --- BARDO / MONGE / POETA / MADCIEST / ENGENHEIRO ---
   { id: 'rot11', titulo: '🎵 Expressão Verbal', desc: 'Pratique oratória, conversação ou escute algo inspirador', recompensa: 30, classe: 'bardo' },
   { id: 'rot12', titulo: '🧘 Controle Mental', desc: 'Realize 10 minutos de meditação ou respiração guiada', recompensa: 35, classe: 'monge' },
   { id: 'rot13', titulo: '✍️ Escrita Criativa', desc: 'Escreva pelo menos um parágrafo ou reflexão do dia', recompensa: 30, classe: 'poeta' },
-  { id: 'rot14', titulo: '🧪 Experimento / Projeto', desc: 'Avance uma etapa prática de um projeto pessoal', recompensa: 45, classe: 'madciest' }
+  { id: 'rot14', titulo: '🧪 Experimento / Projeto', desc: 'Avance uma etapa prática de um projeto pessoal', recompensa: 45, classe: 'madciest' },
+  { id: 'rot15', titulo: '📐 Otimização de Sistemas', desc: 'Resolva um problema estrutural ou lógico do dia', recompensa: 45, classe: 'engenheiro' }
 ];
 
 function gerarMissoesDoDia() {
@@ -355,9 +356,7 @@ function renderizarNotificacoesColeta() {
     { id: "monge", nome: "Monge", emoji: "🧘" },
     { id: "poeta", nome: "Poeta", emoji: "✍️" },
     { id: "madciest", nome: "Cientista Maluco", emoji: "🧪" },
-    { id: "ranger", nome: "Ranger", emoji: "🏹" }
-    const classesInfo = [
-    // ... (demais classes)
+    { id: "ranger", nome: "Ranger", emoji: "🏹" },
     { id: "engenheiro", nome: "Engenheiro", emoji: "📐" }
   ];
 
@@ -499,7 +498,7 @@ function entrarComoClasse(classe) {
       case "ranger":
         window.location.href = "ranger/ranger.html";
         break;
-        case "engenheiro":
+      case "engenheiro":
         window.location.href = "engenheiro/engenheiro.html";
         break;
     }
