@@ -110,15 +110,15 @@ header p {
     line-height: 1.4;
 }
 
-/* Oração Diária */
-.secao-oracao {
+/* Seções e Painéis */
+.secao-oracao, .secao-bem-aventurancas, .card-painel {
     background-color: #25252d;
     border-radius: 6px;
     padding: 16px;
     margin-bottom: 20px;
 }
 
-.secao-oracao h2 {
+.secao-oracao h2, .secao-bem-aventurancas h2, .card-painel h2 {
     font-size: 1.1rem;
     margin-bottom: 10px;
     color: #dfdfe6;
@@ -134,7 +134,8 @@ header p {
     padding-left: 10px;
 }
 
-#btn-oracao {
+/* Estilos de Botões */
+.btn-primary {
     background-color: #b30000;
     color: white;
     border: none;
@@ -146,29 +147,52 @@ header p {
     transition: background-color 0.2s;
 }
 
-#btn-oracao:hover {
+.btn-primary:hover {
     background-color: #d90000;
 }
 
-#btn-oracao:disabled {
+.btn-primary:disabled {
     background-color: #3f3f46;
     color: #71717a;
     cursor: not-allowed;
 }
 
-/* As Bem-Aventuranças */
-.secao-bem-aventurancas {
+.btn-secundario {
+    background-color: #1a1a1e;
+    color: #e1e1e6;
+    border: 1px solid #3f3f46;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-secundario:hover {
     background-color: #25252d;
-    border-radius: 6px;
-    padding: 16px;
+    border-color: #b30000;
 }
 
-.secao-bem-aventurancas h2 {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-    color: #dfdfe6;
+/* Campos de Formulário (Inputs e Textareas) */
+input[type="text"], textarea {
+    background-color: #121214;
+    border: 1px solid #3f3f46;
+    border-radius: 4px;
+    color: #e1e1e6;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
+input[type="text"]:focus, textarea:focus {
+    border-color: #b30000;
+}
+
+/* As Bem-Aventuranças e Listas */
 .subtitulo-meditacao {
     font-size: 0.85rem;
     color: #90909c;
