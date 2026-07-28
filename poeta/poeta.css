@@ -1,0 +1,330 @@
+/* =========================================================
+   POETA - DARK GOTHIC & MELANCHOLY EDITION
+   Aesthetic: Obsidiana, Rubi Escuro, Cinzas e Chuva
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Special+Elite&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+  --bg-principal: #070609;
+  --bg-card: #0f0d14;
+  --bg-input: #08070a;
+  
+  --borda-sombria: #1c1824;
+  --borda-rubi: #4a1521;
+  --cor-sangue: #8a1f33;    /* Destaque Rubi Escuro */
+  --cor-cinza-sombra: #6a6373;
+  --cor-palida: #d1cdd6;     /* Texto suave estilo luar */
+  
+  --texto-principal: #e8e5ec;
+  --texto-suave: #7d7587;
+
+  --fonte-poetica: 'Playfair Display', serif;
+  --fonte-maquina: 'Special Elite', monospace;
+  --fonte-corpo: 'Quicksand', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-principal);
+  /* Efeito de abismo e névoa purpúrea suave */
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(74, 21, 33, 0.25) 0%, transparent 70%),
+    radial-gradient(circle at 20% 90%, rgba(20, 15, 30, 0.4) 0%, transparent 50%);
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  padding: 25px 15px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ANIMACÃO DE PINGOS DE CHUVA / GOTAS CAINDO */
+@keyframes quedaChuva {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  30% { opacity: 0.4; }
+  80% { opacity: 0.4; }
+  100% {
+    transform: translateY(105vh);
+    opacity: 0;
+  }
+}
+
+.pingo-chuva {
+  position: fixed;
+  top: -10px;
+  width: 1px;
+  height: 25px;
+  background: linear-gradient(180deg, transparent, var(--cor-sangue));
+  pointer-events: none;
+  z-index: 999;
+  animation: quedaChuva 4s infinite linear;
+}
+
+.c1 { left: 15%; animation-delay: 0s; }
+.c2 { left: 45%; animation-delay: 1.5s; }
+.c3 { left: 75%; animation-delay: 0.7s; }
+.c4 { left: 92%; animation-delay: 2.8s; }
+
+/* CONTAINER */
+.poeta-container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* BANNER DE CITACÃO SOMBRIA */
+.quote-goth {
+  text-align: center;
+  font-family: var(--fonte-poetica);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--cor-sangue);
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(138, 31, 51, 0.3);
+}
+
+/* HEADER */
+.header-poeta {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, #130f1a 0%, #08060a 100%);
+  border: 1px solid var(--borda-rubi);
+  border-radius: 6px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.9);
+}
+
+.header-icone {
+  font-size: 2.3rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 8px rgba(138, 31, 51, 0.5));
+}
+
+.header-poeta h2 {
+  font-family: var(--fonte-poetica);
+  color: var(--texto-principal);
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+}
+
+.subtitulo-depre {
+  font-family: var(--fonte-poetica);
+  font-style: italic;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+/* DASHBOARD GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-sombria);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+
+.dash-card h4 {
+  font-family: var(--fonte-poetica);
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.dash-card .valor {
+  font-family: var(--fonte-maquina);
+  font-size: 1.8rem;
+  color: var(--cor-palida);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: var(--fonte-poetica);
+  font-size: 0.85rem;
+  background-color: #1a0a10;
+  color: var(--cor-sangue);
+  border: 1px solid var(--borda-rubi);
+}
+
+/* CARDS E FORMULÁRIOS */
+.card-painel {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-sombria);
+  border-radius: 6px;
+  padding: 22px;
+  margin-bottom: 25px;
+}
+
+.card-painel h3 {
+  font-family: var(--fonte-poetica);
+  color: var(--cor-sangue);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.pilar-desc {
+  font-family: var(--fonte-poetica);
+  font-style: italic;
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--borda-sombria);
+  padding-bottom: 8px;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, select, textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--borda-sombria);
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: var(--texto-principal);
+  font-family: var(--fonte-corpo);
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+textarea {
+  font-family: var(--fonte-maquina);
+  line-height: 1.6;
+  resize: vertical;
+  color: #d8d3df;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--borda-rubi);
+  box-shadow: 0 0 10px rgba(138, 31, 51, 0.25);
+}
+
+/* BOTÕES */
+.btn-primary {
+  background: #2b0b12;
+  color: var(--cor-palida);
+  border: 1px solid var(--borda-rubi);
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-family: var(--fonte-poetica);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: var(--cor-sangue);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(138, 31, 51, 0.4);
+}
+
+.btn-secundario {
+  background: transparent;
+  color: var(--texto-suave);
+  border: 1px solid var(--borda-sombria);
+  border-radius: 4px;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+  color: var(--texto-principal);
+  border-color: var(--cor-cinza-sombra);
+}
+
+/* ANTOLOGIA DE POEMAS */
+.lista-poemas {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.poema-card {
+  background: #0a080d;
+  border: 1px solid var(--borda-sombria);
+  border-left: 3px solid var(--cor-sangue);
+  border-radius: 4px;
+  padding: 20px;
+  position: relative;
+}
+
+.poema-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed #1a1524;
+  padding-bottom: 8px;
+}
+
+.poema-titulo {
+  font-family: var(--fonte-poetica);
+  font-size: 1.15rem;
+  color: var(--cor-palida);
+}
+
+.poema-tag {
+  font-size: 0.75rem;
+  color: var(--cor-sangue);
+  background: #18090e;
+  border: 1px solid var(--borda-rubi);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-family: var(--fonte-corpo);
+}
+
+.poema-corpo {
+  font-family: var(--fonte-maquina);
+  font-size: 0.88rem;
+  color: #b8b2c2;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.poema-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
