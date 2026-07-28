@@ -1,0 +1,236 @@
+/* ==========================================
+   ESTILOS GLOBAIS - PROJETO TESEU
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0f0f13;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Container Principal das Telas (Padrão do Portal) */
+.container {
+  width: 100%;
+  max-width: 480px;
+  background: #1a1a24;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 1px solid #2a2a3d;
+}
+
+/* Títulos */
+h1, h2, h3 {
+  color: #00ffcc;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* Botões e Interações */
+button, .btn-acao-bencao {
+  background: #00ffcc;
+  color: #0b0b0e;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover, .btn-acao-bencao:hover {
+  background: #00ccb8;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Inputs e Formulários */
+input[type="password"], input[type="text"], select {
+  width: 100%;
+  padding: 12px;
+  background: #121218;
+  border: 1px solid #33334d;
+  color: #fff;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #00ffcc;
+}
+
+/* Cards de Itens, Bênçãos e Missões */
+.card-bencao-item {
+  background: #222230;
+  border: 1px solid #33334d;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-bencao h4 {
+  color: #fff;
+  margin-bottom: 4px;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.info-bencao p {
+  color: #a0a0b0;
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: left;
+}
+
+/* Utilitários de Moedas e Contadores */
+.contador-moedas-topo {
+  font-weight: bold;
+  color: #ffcc00;
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+/* ==========================================
+   ESTILOS ESPECÍFICOS: TEMA RETROPUNK / ENGENHEIRO
+   ========================================== */
+body.engenheiro-body {
+  background-color: #16120f;
+  background-image: radial-gradient(circle, #2b211a 0%, #0d0a08 100%);
+  color: #d4c5b9;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.workshop-container {
+  max-width: 900px;
+  margin: 30px auto;
+  background-color: #1e1814;
+  border: 4px solid #8c5830;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 50px rgba(140, 88, 48, 0.15);
+  padding: 40px;
+  border-radius: 6px;
+  position: relative;
+}
+
+.workshop-container h1 {
+  font-family: 'Georgia', serif;
+  color: #e09f3e;
+  border-bottom: 2px dashed #8c5830;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: left;
+}
+
+.subtitle {
+  font-style: italic;
+  color: #a67c52;
+  margin-bottom: 25px;
+}
+
+.stats-hud {
+  display: flex;
+  justify-content: space-between;
+  background: #27201b;
+  border: 1px solid #593822;
+  padding: 12px 20px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #e09f3e;
+}
+
+.blueprint-section {
+  background: #27201b;
+  border: 1px solid #593822;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+.blueprint-section h3 {
+  color: #e09f3e;
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  background: #16120f;
+  border: 1px solid #8c5830;
+  color: #d4c5b9;
+  font-family: inherit;
+  border-radius: 4px;
+}
+
+.btn-retropunk {
+  background: #8c5830;
+  color: #f4ebd0;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background 0.2s;
+  width: auto;
+}
+
+.btn-retropunk:hover {
+  background: #a67c52;
+}
+
+.btn-voltar {
+  background: #38291d;
+  color: #d4c5b9;
+  border: 1px solid #593822;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  width: auto;
+}
+
+.btn-voltar:hover {
+  background: #593822;
+}
+
+.chart-wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #16120f;
+  padding: 15px;
+  border: 1px solid #593822;
+  border-radius: 4px;
+}
