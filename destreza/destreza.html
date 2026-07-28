@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Rota e Manutenção</title>
+</head>
+<body>
+
+    <!-- Cabeçalho Principal -->
+    <header>
+        <h1>Painel do Condutor</h1>
+        <p>Mapeamento de rotas, controle de manutenção e regras de trânsito</p>
+    </header>
+
+    <!-- Navegação -->
+    <nav>
+        <ul>
+            <li><a href="#percurso">Mapeamento & Rota</a></li>
+            <li><a href="#manutencao">Manutenção</a></li>
+            <li><a href="#regras">Regras de Trânsito</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- SEÇÃO 1: MAPEAMENTO E CÁLCULO DE PERCURSO -->
+        <section id="percurso">
+            <h2>Mapeamento e Percurso</h2>
+            
+            <form id="form-rota">
+                <div>
+                    <label for="origem">Ponto de Partida:</label>
+                    <input type="text" id="origem" placeholder="Ex: Av. Paulista, 1000" required>
+                </div>
+                
+                <div>
+                    <label for="destino">Destino:</label>
+                    <input type="text" id="destino" placeholder="Ex: Rua Augusta, 500" required>
+                </div>
+
+                <button type="submit" id="btn-calcular">Calcular Rota</button>
+            </form>
+
+            <!-- Exibição de Resultados (Distância e Tempo) -->
+            <div id="resultado-percurso">
+                <h3>Resumo do Percurso</h3>
+                <p><strong>Distância estimada:</strong> <span id="distancia-val">-- km</span></p>
+                <p><strong>Tempo estimado:</strong> <span id="tempo-val">-- min</span></p>
+            </div>
+
+            <!-- Área reservada para renderização do Mapa futuro (ex: Leaflet / Google Maps API) -->
+            <div id="container-mapa">
+                <p>[Área do Mapa Div]</p>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: MANUTENÇÃO DO VEÍCULO -->
+        <section id="manutencao">
+            <h2>Gestão de Manutenção</h2>
+            
+            <form id="form-manutencao">
+                <div>
+                    <label for="tipo-manutencao">Serviço / Peça:</label>
+                    <input type="text" id="tipo-manutencao" placeholder="Ex: Troca de Óleo, Pneus" required>
+                </div>
+
+                <div>
+                    <label for="km-atual">KM Atual do Veículo:</label>
+                    <input type="number" id="km-atual" placeholder="Ex: 45000" required>
+                </div>
+
+                <div>
+                    <label for="proxima-revisao">Próxima Revisão (KM ou Data):</label>
+                    <input type="text" id="proxima-revisao" placeholder="Ex: 55000 km ou 10/12/2026" required>
+                </div>
+
+                <button type="submit">Registrar Manutenção</button>
+            </form>
+
+            <!-- Tabela de Histórico de Manutenções -->
+            <h3>Histórico de Manutenções</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item / Serviço</th>
+                        <th>KM Registro</th>
+                        <th>Próxima Manutenção</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-manutencao">
+                    <tr>
+                        <td>Troca de Óleo e Filtro</td>
+                        <td>40.000 km</td>
+                        <td>50.000 km</td>
+                        <td>Ok</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SEÇÃO 3: REGRAS BÁSICAS DE TRÂNSITO -->
+        <section id="regras">
+            <h2>Regras Básicas de Trânsito</h2>
+            
+            <article>
+                <h3>Limites de Velocidade Gerais</h3>
+                <ul>
+                    <li><strong>Vias urbanas de trânsito rápido:</strong> Até 80 km/h (salvo sinalização em contrário).</li>
+                    <li><strong>Vias coletoras:</strong> Até 40 km/h.</li>
+                    <li><strong>Vias locais:</strong> Até 30 km/h.</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>Direção Defensiva & Segurança</h3>
+                <ul>
+                    <li>Mantenha sempre a distância de segurança do veículo à frente (regra dos 2 segundos).</li>
+                    <li>O uso do cinto de segurança é obrigatório para todos os ocupantes do veículo.</li>
+                    <li>Proibido o uso de celular ao volante, mesmo parado no sinal vermelho.</li>
+                    <li>Dê sempre a preferência aos pedestres na faixa de travessia não semaforizada.</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>Ultrapassagem e Sinalização</h3>
+                <ul>
+                    <li>Ultrapasse sempre pela esquerda e sinalize a manobra com antecedência usando a seta.</li>
+                    <li>Respeite a sinalização de linha contínua amarela (proibido ultrapassar).</li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 - Sistema de Navegação e Manutenção</p>
+    </footer>
+
+</body>
+</html>
